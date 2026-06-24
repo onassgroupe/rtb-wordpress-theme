@@ -1,0 +1,175 @@
+/* RTB Search — recherche instantanée. Tokens du thème → clair & sombre. */
+
+.rtb-instant {
+	position: absolute;
+	top: calc( 100% + 8px );
+	left: 0;
+	right: 0;
+	z-index: 120;
+	background: var( --surface, #fff );
+	border: 1px solid var( --border, rgba(0,0,0,.12) );
+	border-radius: 14px;
+	box-shadow: 0 24px 60px rgba( 0, 0, 0, .22 );
+	overflow: hidden;
+	display: none;
+	max-height: min( 70vh, 540px );
+	overflow-y: auto;
+}
+.rtb-instant.is-open { display: block; }
+
+.rtb-instant-state,
+.rtb-instant-label {
+	padding: 12px 16px;
+	font-size: 12px;
+	font-weight: 800;
+	letter-spacing: .6px;
+	text-transform: uppercase;
+	color: var( --text-soft, #8A8175 );
+}
+.rtb-instant-state { font-weight: 600; text-transform: none; letter-spacing: 0; color: var( --text-muted, #5E574C ); }
+
+/* Skeletons (chargement instantané) */
+.rtb-sk { pointer-events: none; }
+.rtb-sk-box,
+.rtb-sk-line {
+	position: relative;
+	overflow: hidden;
+	background: var( --surface-2, #ece8df );
+	border-radius: 6px;
+}
+.rtb-sk-line { height: 10px; margin: 3px 0; }
+.rtb-sk-line--xs { width: 38%; height: 8px; }
+.rtb-sk-line--lg { width: 88%; height: 13px; }
+.rtb-sk-line--sm { width: 60%; }
+.rtb-sk-box::after,
+.rtb-sk-line::after {
+	content: '';
+	position: absolute;
+	inset: 0;
+	transform: translateX( -100% );
+	background: linear-gradient( 90deg, transparent, rgba( 255, 255, 255, .35 ), transparent );
+	animation: rtb-sk-shimmer 1.15s infinite;
+}
+[data-theme="dark"] .rtb-sk-box::after,
+[data-theme="dark"] .rtb-sk-line::after {
+	background: linear-gradient( 90deg, transparent, rgba( 255, 255, 255, .08 ), transparent );
+}
+@keyframes rtb-sk-shimmer { 100% { transform: translateX( 100% ); } }
+
+/* Transition skeleton → résultats : fondu + légère cascade */
+@keyframes rtb-fade-in { from { opacity: 0; transform: translateY( 5px ); } to { opacity: 1; transform: none; } }
+.rtb-instant-list,
+.rtb-instant-chips,
+.rtb-instant-state,
+.rtb-instant-all { animation: rtb-fade-in .22s ease both; }
+.rtb-instant-list .rtb-instant-item:not(.rtb-sk) { animation: rtb-fade-in .26s ease both; }
+.rtb-instant-list .rtb-instant-item:not(.rtb-sk):nth-child(1) { animation-delay: .02s; }
+.rtb-instant-list .rtb-instant-item:not(.rtb-sk):nth-child(2) { animation-delay: .06s; }
+.rtb-instant-list .rtb-instant-item:not(.rtb-sk):nth-child(3) { animation-delay: .10s; }
+.rtb-instant-list .rtb-instant-item:not(.rtb-sk):nth-child(4) { animation-delay: .14s; }
+.rtb-instant-list .rtb-instant-item:not(.rtb-sk):nth-child(5) { animation-delay: .18s; }
+.rtb-instant-list .rtb-instant-item:not(.rtb-sk):nth-child(6) { animation-delay: .22s; }
+
+/* Affinement : anciens résultats estompés pendant le rechargement (pas de flash) */
+.rtb-instant.is-loading .rtb-instant-list,
+.rtb-instant.is-loading .rtb-instant-chips { opacity: .4; transition: opacity .15s ease; }
+
+@media ( prefers-reduced-motion: reduce ) {
+	.rtb-sk-box::after, .rtb-sk-line::after { animation: none; }
+	.rtb-instant-list, .rtb-instant-chips, .rtb-instant-state, .rtb-instant-all,
+	.rtb-instant-list .rtb-instant-item { animation: none; }
+}
+
+.rtb-instant-chips { display: flex; flex-wrap: wrap; gap: 8px; padding: 0 16px 16px; }
+.rtb-instant-chip {
+	display: inline-flex;
+	padding: 7px 13px;
+	border-radius: 999px;
+	font-size: 13.5px;
+	font-weight: 600;
+	color: var( --text, #161310 );
+	background: var( --surface-2, #F4F1EA );
+	border: 1px solid var( --border, rgba(0,0,0,.08) );
+	transition: background .15s, color .15s;
+}
+.rtb-instant-chip:hover { background: var( --rtb-red, #E70C2F ); color: #fff; border-color: transparent; }
+
+.rtb-instant-list { padding: 6px; }
+.rtb-instant-item {
+	display: flex;
+	gap: 12px;
+	align-items: center;
+	padding: 9px 10px;
+	border-radius: 10px;
+	color: var( --text, #161310 );
+	transition: background .12s;
+}
+.rtb-instant-item:hover,
+.rtb-instant-item.is-active { background: var( --surface-2, #F4F1EA ); }
+
+.rtb-instant-thumb {
+	flex: 0 0 auto;
+	width: 64px;
+	height: 44px;
+	border-radius: 7px;
+	background: var( --surface-2, #eee ) center/cover no-repeat;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	color: var( --text-soft, #8A8175 );
+}
+.rtb-instant-thumb--ph i { font-size: 15px; }
+
+.rtb-instant-body { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+.rtb-instant-kind {
+	font-size: 10.5px;
+	font-weight: 800;
+	letter-spacing: .5px;
+	text-transform: uppercase;
+	color: var( --rtb-red, #E70C2F );
+}
+.rtb-instant-kind--emission { color: var( --rtb-green, #10A653 ); }
+.rtb-instant-title {
+	font-family: var( --font-head, sans-serif );
+	font-weight: 700;
+	font-size: 14.5px;
+	line-height: 1.3;
+	color: var( --text, #161310 );
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+.rtb-instant-title mark { background: rgba( 245, 222, 0, .45 ); color: inherit; padding: 0 1px; border-radius: 2px; }
+.rtb-instant-meta { font-size: 12px; color: var( --text-muted, #5E574C ); }
+
+.rtb-instant-all {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	gap: 8px;
+	padding: 13px;
+	font-weight: 700;
+	font-size: 13.5px;
+	color: var( --rtb-red, #E70C2F );
+	border-top: 1px solid var( --border, rgba(0,0,0,.08) );
+	transition: background .12s;
+}
+.rtb-instant-all:hover,
+.rtb-instant-all.is-active { background: var( --surface-2, #F4F1EA ); }
+
+/* Filtres de la page de résultats */
+.rtb-search-filters { display: flex; flex-wrap: wrap; gap: 18px; align-items: center; margin: 18px 0 4px; }
+.rtb-sf-group { display: inline-flex; gap: 6px; flex-wrap: wrap; align-items: center; }
+.rtb-sf-label { font-size: 12px; font-weight: 800; letter-spacing: .5px; text-transform: uppercase; color: var( --text-soft, #8A8175 ); margin-right: 2px; }
+.rtb-sf-chip {
+	padding: 7px 14px;
+	border-radius: 999px;
+	font-size: 13.5px;
+	font-weight: 600;
+	color: var( --text, #161310 );
+	background: var( --surface, #fff );
+	border: 1px solid var( --border, rgba(0,0,0,.12) );
+	transition: all .15s;
+}
+.rtb-sf-chip:hover { border-color: var( --rtb-red, #E70C2F ); }
+.rtb-sf-chip.is-active { background: var( --rtb-red, #E70C2F ); color: #fff; border-color: transparent; }
