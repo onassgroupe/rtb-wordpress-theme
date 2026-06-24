@@ -1,0 +1,17 @@
+/*
+Theme Name: RTB
+Theme URI: https://www.rtb.bf
+Author: Onass Groupe
+Author URI: https://onassgroupe.com
+Description: Thème WordPress pour la Radiodiffusion Télévision du Burkina (RTB) — information, télévision, radio et proximité. Design éditorial broadcast, live-edit via le plugin Onass Live Edit.
+Version: 1.0.0
+Requires at least: 6.3
+Tested up to: 6.9
+Requires PHP: 8.1
+License: GNU General Public License v2 or later
+License URI: http://www.gnu.org/licenses/gpl-2.0.html
+Text Domain: rtb
+Tags: news, broadcast, television, radio, magazine, media
+*/
+
+/* La feuille de style réelle est assets/css/rtb.css (chargée via functions.php). */

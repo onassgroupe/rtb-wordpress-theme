@@ -1,0 +1,73 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/theme.json",
+  "version": 2,
+  "settings": {
+    "appearanceTools": true,
+    "layout": {
+      "contentSize": "780px",
+      "wideSize": "1240px"
+    },
+    "color": {
+      "defaultPalette": false,
+      "defaultGradients": false,
+      "defaultDuotone": false,
+      "palette": [
+        { "name": "Rouge RTB",   "slug": "red",        "color": "#E70C2F" },
+        { "name": "Vert RTB",    "slug": "green",       "color": "#10A653" },
+        { "name": "Vert Foncé",  "slug": "green-dark",  "color": "#0B7A3B" },
+        { "name": "Jaune RTB",   "slug": "yellow",      "color": "#F5DE00" },
+        { "name": "Encre",       "slug": "ink",         "color": "#161310" },
+        { "name": "Noir",        "slug": "black",       "color": "#0C0A08" },
+        { "name": "Crème",       "slug": "cream",       "color": "#F7F4ED" },
+        { "name": "Crème 2",     "slug": "cream-2",     "color": "#F4F1EA" },
+        { "name": "Gris",        "slug": "gray",        "color": "#5E574C" },
+        { "name": "Gris Clair",  "slug": "gray-light",  "color": "#8A8175" },
+        { "name": "Blanc",       "slug": "white",       "color": "#FFFFFF" }
+      ]
+    },
+    "typography": {
+      "defaultFontSizes": false,
+      "customFontSize": true,
+      "fontFamilies": [
+        {
+          "name": "Archivo",
+          "slug": "archivo",
+          "fontFamily": "'Archivo', system-ui, sans-serif"
+        },
+        {
+          "name": "Libre Franklin",
+          "slug": "franklin",
+          "fontFamily": "'Libre Franklin', system-ui, sans-serif"
+        }
+      ],
+      "fontSizes": [
+        { "name": "Petit",   "slug": "small",  "size": "0.8125rem" },
+        { "name": "Normal",  "slug": "medium", "size": "1rem" },
+        { "name": "Grand",   "slug": "large",  "size": "1.25rem" },
+        { "name": "Titre 3", "slug": "h3",     "size": "1.625rem" },
+        { "name": "Titre 2", "slug": "h2",     "size": "2.125rem" },
+        { "name": "Titre 1", "slug": "h1",     "size": "3rem" }
+      ]
+    },
+    "spacing": {
+      "units": ["px", "em", "rem", "%", "vh", "vw"]
+    }
+  },
+  "styles": {
+    "color": {
+      "background": "#F7F4ED",
+      "text": "#161310"
+    },
+    "typography": {
+      "fontFamily": "'Libre Franklin', system-ui, sans-serif",
+      "fontSize": "1rem",
+      "lineHeight": "1.6"
+    },
+    "elements": {
+      "link": { "color": { "text": "#E70C2F" } },
+      "h1": { "typography": { "fontFamily": "'Archivo', sans-serif", "fontWeight": "800" } },
+      "h2": { "typography": { "fontFamily": "'Archivo', sans-serif", "fontWeight": "800" } },
+      "h3": { "typography": { "fontFamily": "'Archivo', sans-serif", "fontWeight": "700" } }
+    }
+  }
+}
