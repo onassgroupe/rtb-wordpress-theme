@@ -1,0 +1,15 @@
+{
+  "name": "onassgroupe/onass-live-edit",
+  "description": "Customizer inline editing engine for ONASS agency WordPress themes",
+  "type": "wordpress-plugin",
+  "license": "GPL-2.0-or-later",
+  "authors": [
+    {
+      "name": "ONASS Groupe",
+      "homepage": "https://onassgroupe.com"
+    }
+  ],
+  "require": {
+    "composer/installers": "^2.0"
+  }
+}
