@@ -1,0 +1,52 @@
+# RTB — stack Coolify : WordPress (image custom, thème + plugins) + MariaDB.
+#
+# Coolify : "New Resource" → Docker Compose → coller/pointer ce fichier.
+#   - SERVICE_FQDN_WORDPRESS_80  : Coolify génère le domaine et route vers le port 80.
+#   - SERVICE_URL_WORDPRESS      : URL https complète (utilisée pour WP_HOME/WP_SITEURL).
+#   - SERVICE_USER_* / SERVICE_PASSWORD_* : identifiants générés automatiquement par Coolify.
+#   - RTB_RECOVERY_TOKEN         : à définir DANS COOLIFY pour activer la récupération admin,
+#                                   puis à SUPPRIMER (cf. mu-plugins/rtb-admin-recovery.php).
+#
+# Hors Coolify (VPS nu) : `cp .env.example .env`, renseigner les SERVICE_* / FQDN, puis
+#   `docker compose up -d --build`.
+
+services:
+  wordpress:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      - SERVICE_FQDN_WORDPRESS_80
+      - WORDPRESS_DB_HOST=db:3306
+      - WORDPRESS_DB_NAME=${MYSQL_DATABASE:-rtb_wp}
+      - WORDPRESS_DB_USER=${SERVICE_USER_WORDPRESS:-rtb}
+      - WORDPRESS_DB_PASSWORD=${SERVICE_PASSWORD_WORDPRESS:-changeme}
+      - RTB_RECOVERY_TOKEN=${RTB_RECOVERY_TOKEN:-}
+      - 'WORDPRESS_CONFIG_EXTRA=define("WP_ENVIRONMENT_TYPE","production");'
+    volumes:
+      # Médias persistés hors image (les uploads ne sont pas dans l'image)
+      - uploads:/var/www/html/wp-content/uploads
+
+  db:
+    image: mariadb:11
+    restart: unless-stopped
+    environment:
+      - MYSQL_DATABASE=${MYSQL_DATABASE:-rtb_wp}
+      - MYSQL_USER=${SERVICE_USER_WORDPRESS:-rtb}
+      - MYSQL_PASSWORD=${SERVICE_PASSWORD_WORDPRESS:-changeme}
+      - MYSQL_ROOT_PASSWORD=${SERVICE_PASSWORD_MYSQLROOT:-changeme-root}
+    volumes:
+      - db_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "healthcheck.sh", "--connect", "--innodb_initialized"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+
+volumes:
+  db_data:
+  uploads:

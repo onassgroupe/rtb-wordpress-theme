@@ -1,0 +1,93 @@
+# RTB — Démarrage rapide « tout inclus » (cœur WordPress compris).
+#
+#   docker compose up -d
+#   → http://localhost:8080   (admin / admin)
+#
+# L'image `wordpress` embarque le CŒUR WordPress ; notre code (thème + extensions) est
+# monté depuis ce dépôt. Le service `wpcli` installe et active tout automatiquement
+# (site, thème, extensions, Polylang + langues, lexique de l'assistant).
+#
+# Pour la PRODUCTION (Coolify, image construite + poppler-utils), voir deploy/.
+
+services:
+  db:
+    image: mariadb:11
+    restart: unless-stopped
+    environment:
+      MARIADB_DATABASE: rtb_wp
+      MARIADB_USER: rtb
+      MARIADB_PASSWORD: rtb
+      MARIADB_ROOT_PASSWORD: root
+    volumes:
+      - db_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "healthcheck.sh", "--connect", "--innodb_initialized"]
+      interval: 10s
+      timeout: 5s
+      retries: 12
+
+  wordpress:
+    image: wordpress:php8.3-apache
+    restart: unless-stopped
+    depends_on:
+      db:
+        condition: service_healthy
+    ports:
+      - "8080:80"
+    environment:
+      WORDPRESS_DB_HOST: db
+      WORDPRESS_DB_NAME: rtb_wp
+      WORDPRESS_DB_USER: rtb
+      WORDPRESS_DB_PASSWORD: rtb
+    volumes:
+      - wp_app:/var/www/html
+      # Notre code, monté depuis le dépôt :
+      - ./wp-content/themes/rtb:/var/www/html/wp-content/themes/rtb
+      - ./wp-content/plugins/rtb-search:/var/www/html/wp-content/plugins/rtb-search
+      - ./wp-content/plugins/rtb-chat:/var/www/html/wp-content/plugins/rtb-chat
+      - ./wp-content/plugins/rtb-seo:/var/www/html/wp-content/plugins/rtb-seo
+      - ./wp-content/plugins/onass-live-edit:/var/www/html/wp-content/plugins/onass-live-edit
+      - ./wp-content/mu-plugins:/var/www/html/wp-content/mu-plugins
+
+  # Installation automatique (s'exécute une fois, puis s'arrête).
+  wpcli:
+    image: wordpress:cli-php8.3
+    depends_on:
+      wordpress:
+        condition: service_started
+      db:
+        condition: service_healthy
+    user: "33:33"
+    environment:
+      WORDPRESS_DB_HOST: db
+      WORDPRESS_DB_NAME: rtb_wp
+      WORDPRESS_DB_USER: rtb
+      WORDPRESS_DB_PASSWORD: rtb
+    volumes:
+      - wp_app:/var/www/html
+      - ./wp-content/themes/rtb:/var/www/html/wp-content/themes/rtb
+      - ./wp-content/plugins/rtb-search:/var/www/html/wp-content/plugins/rtb-search
+      - ./wp-content/plugins/rtb-chat:/var/www/html/wp-content/plugins/rtb-chat
+      - ./wp-content/plugins/rtb-seo:/var/www/html/wp-content/plugins/rtb-seo
+      - ./wp-content/plugins/onass-live-edit:/var/www/html/wp-content/plugins/onass-live-edit
+      - ./wp-content/mu-plugins:/var/www/html/wp-content/mu-plugins
+    entrypoint: ["sh", "-c"]
+    command:
+      - >
+        echo "Attente du cœur WordPress…";
+        until wp core version >/dev/null 2>&1; do sleep 3; done;
+        wp config set WP_HOME http://localhost:8080 --type=constant 2>/dev/null || true;
+        wp config set WP_SITEURL http://localhost:8080 --type=constant 2>/dev/null || true;
+        wp core is-installed 2>/dev/null ||
+          wp core install --url=http://localhost:8080 --title="RTB"
+            --admin_user=admin --admin_password=admin --admin_email=admin@example.com --skip-email;
+        wp theme activate rtb;
+        wp plugin activate rtb-search rtb-chat rtb-seo onass-live-edit;
+        wp plugin is-active polylang || wp plugin install polylang --activate;
+        wp rewrite flush;
+        wp rtb-chat learn || true;
+        echo "✅ Prêt : http://localhost:8080 (admin / admin)";
+
+volumes:
+  db_data:
+  wp_app:
