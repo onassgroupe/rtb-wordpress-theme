@@ -7,6 +7,8 @@ SEO, édition en direct).
 > Ce dépôt contient le **thème et les extensions** — pas le cœur de WordPress
 > (déjà open source). Voir [Démarrage rapide](#démarrage-rapide-tout-inclus-cœur-wordpress-compris).
 
+![Page d'accueil du site RTB](docs/img/home.png)
+
 ---
 
 ## Sommaire
