@@ -1,0 +1,19 @@
+# Secrets / runtime — ne jamais committer
+.env
+wp-config.php
+.wp-admin-pass
+
+# Uploads & cache générés
+wp-content/uploads/
+wp-content/cache/
+
+# Dépendances / build
+node_modules/
+vendor/
+*.log
+
+# OS / éditeurs
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
