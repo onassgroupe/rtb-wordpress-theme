@@ -42,6 +42,28 @@ final class RestController {
 		register_rest_route( $ns, '/assistant',  [ 'methods' => 'POST', 'callback' => [ $this, 'assistant' ], 'permission_callback' => $auth, 'args' => [
 			'message' => [ 'required' => true, 'sanitize_callback' => 'sanitize_textarea_field' ],
 		] ] );
+		register_rest_route( $ns, '/push/register', [ 'methods' => 'POST', 'callback' => [ $this, 'pushRegister' ], 'permission_callback' => $auth, 'args' => [
+			'token'    => [ 'required' => true, 'sanitize_callback' => 'sanitize_text_field' ],
+			'platform' => [ 'sanitize_callback' => 'sanitize_key' ],
+			'locale'   => [ 'sanitize_callback' => 'sanitize_key' ],
+		] ] );
+		register_rest_route( $ns, '/push/unregister', [ 'methods' => 'POST', 'callback' => [ $this, 'pushUnregister' ], 'permission_callback' => $auth, 'args' => [
+			'token' => [ 'required' => true, 'sanitize_callback' => 'sanitize_text_field' ],
+		] ] );
+	}
+
+	public function pushRegister( WP_REST_Request $req ): WP_REST_Response {
+		$ok = Push\TokenStore::add(
+			(string) $req->get_param( 'token' ),
+			(string) $req->get_param( 'platform' ),
+			(string) ( $req->get_param( 'locale' ) ?: 'fr' )
+		);
+		return $this->ok( [ 'ok' => $ok ] );
+	}
+
+	public function pushUnregister( WP_REST_Request $req ): WP_REST_Response {
+		Push\TokenStore::remove( (string) $req->get_param( 'token' ) );
+		return $this->ok( [ 'ok' => true ] );
 	}
 
 	public function assistant( WP_REST_Request $req ) {
