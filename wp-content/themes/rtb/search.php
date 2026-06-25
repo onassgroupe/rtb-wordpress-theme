@@ -11,13 +11,13 @@ $total = (int) $wp_query->found_posts;
 ?>
 <div class="rtb-page-head">
 	<div class="rtb-container">
-		<div class="rtb-eyebrow rtb-eyebrow--red"><i></i><span>RECHERCHE</span></div>
-		<h1>Résultats pour «&nbsp;<?php echo esc_html( get_search_query() ); ?>&nbsp;»</h1>
+		<div class="rtb-eyebrow rtb-eyebrow--red"><i></i><span><?php echo esc_html( rtb_t( 'RECHERCHE' ) ); ?></span></div>
+		<h1><?php echo esc_html( rtb_t( 'Résultats pour' ) ); ?> «&nbsp;<?php echo esc_html( get_search_query() ); ?>&nbsp;»</h1>
 		<p class="rtb-page-lead">
 			<?php
 			echo $total > 0
 				? esc_html( sprintf( _n( '%s résultat trouvé', '%s résultats trouvés', $total, 'rtb' ), number_format_i18n( $total ) ) )
-				: 'Aucun résultat. Essayez d’autres mots-clés.';
+				: esc_html( rtb_t( "Aucun résultat. Essayez d’autres mots-clés." ) );
 			?>
 		</p>
 	</div>
@@ -31,19 +31,19 @@ if ( '' !== $rtb_q ) :
 	$rtb_link  = static function ( array $args ) use ( $rtb_q ) {
 		return esc_url( add_query_arg( array_merge( [ 's' => $rtb_q ], $args ), rtb_lurl( '/' ) ) );
 	};
-	$rtb_types = [ 'all' => 'Tout', 'post' => 'Articles', 'rtb_emission' => 'Émissions' ];
-	$rtb_sorts = [ 'relevant' => 'Pertinence', 'recent' => 'Récents', 'oldest' => 'Anciens' ];
+	$rtb_types = [ 'all' => rtb_t( 'Tout' ), 'post' => rtb_t( 'Articles' ), 'rtb_emission' => rtb_t( 'Émissions' ) ];
+	$rtb_sorts = [ 'relevant' => rtb_t( 'Pertinence' ), 'recent' => rtb_t( 'Récents' ), 'oldest' => rtb_t( 'Anciens' ) ];
 	?>
 	<div class="rtb-container">
 		<div class="rtb-search-filters">
 			<div class="rtb-sf-group">
-				<span class="rtb-sf-label">Type</span>
+				<span class="rtb-sf-label"><?php echo esc_html( rtb_t( 'Type' ) ); ?></span>
 				<?php foreach ( $rtb_types as $k => $lbl ) : ?>
 					<a class="rtb-sf-chip <?php echo $rtb_type === $k ? 'is-active' : ''; ?>" href="<?php echo $rtb_link( [ 'type' => $k, 'sort' => $rtb_sort ] ); ?>"><?php echo esc_html( $lbl ); ?></a>
 				<?php endforeach; ?>
 			</div>
 			<div class="rtb-sf-group">
-				<span class="rtb-sf-label">Trier</span>
+				<span class="rtb-sf-label"><?php echo esc_html( rtb_t( 'Trier' ) ); ?></span>
 				<?php foreach ( $rtb_sorts as $k => $lbl ) : ?>
 					<a class="rtb-sf-chip <?php echo $rtb_sort === $k ? 'is-active' : ''; ?>" href="<?php echo $rtb_link( [ 'type' => $rtb_type, 'sort' => $k ] ); ?>"><?php echo esc_html( $lbl ); ?></a>
 				<?php endforeach; ?>
@@ -54,7 +54,7 @@ if ( '' !== $rtb_q ) :
 
 <?php if ( have_posts() ) : ?>
 	<div class="rtb-archive-grid">
-		<h2 class="rtb-visually-hidden">Résultats de recherche</h2>
+		<h2 class="rtb-visually-hidden"><?php echo esc_html( rtb_t( 'Résultats de recherche' ) ); ?></h2>
 		<?php
 		while ( have_posts() ) :
 			the_post();
@@ -66,8 +66,8 @@ if ( '' !== $rtb_q ) :
 <?php else : ?>
 	<div class="rtb-container" style="padding:40px 28px 70px">
 		<div class="rtb-emptystate">
-			<h2>Relancer une recherche</h2>
-			<p>Vérifiez l’orthographe ou utilisez des termes plus généraux.</p>
+			<h2><?php echo esc_html( rtb_t( 'Relancer une recherche' ) ); ?></h2>
+			<p><?php echo esc_html( rtb_t( "Vérifiez l’orthographe ou utilisez des termes plus généraux." ) ); ?></p>
 			<?php get_search_form(); ?>
 			<div class="rtb-emptystate-links">
 				<?php foreach ( [ 'Actualités' => '/category/infos', 'Le Journal' => '/emissions', 'Sport' => '/category/sport' ] as $label => $url ) : ?>

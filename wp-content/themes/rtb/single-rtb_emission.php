@@ -32,8 +32,8 @@ while ( have_posts() ) :
 	<div class="rtb-page-head" style="border-bottom:3px solid <?php echo esc_attr( $accent ); ?>">
 		<div class="rtb-container">
 			<div class="rtb-breadcrumb">
-				<a href="<?php echo esc_url( rtb_lurl( '/' ) ); ?>">Accueil</a> &rsaquo;
-				<a href="<?php echo esc_url( get_post_type_archive_link( 'rtb_emission' ) ); ?>">Émissions</a>
+				<a href="<?php echo esc_url( rtb_lurl( '/' ) ); ?>"><?php echo esc_html( rtb_t( 'Accueil' ) ); ?></a> &rsaquo;
+				<a href="<?php echo esc_url( get_post_type_archive_link( 'rtb_emission' ) ); ?>"><?php echo esc_html( rtb_t( 'Émissions' ) ); ?></a>
 				<?php if ( $catterm ) : ?> &rsaquo; <a href="<?php echo esc_url( get_term_link( $catterm ) ); ?>"><?php echo esc_html( $cat ); ?></a><?php endif; ?>
 			</div>
 			<div class="rtb-eyebrow"><i style="background:<?php echo esc_attr( $accent ); ?>"></i><span style="color:<?php echo esc_attr( $accent ); ?>"><?php echo esc_html( mb_strtoupper( $type, 'UTF-8' ) ); ?></span></div>
@@ -44,9 +44,9 @@ while ( have_posts() ) :
 	<article class="rtb-article">
 		<?php if ( $video ) : ?>
 			<div class="rtb-video" x-data="{ play: false }">
-				<button type="button" class="rtb-video-facade" :class="{ 'is-playing': play }" @click="play = true" style="background-image:url('<?php echo esc_url( $cover ); ?>')" aria-label="Regarder la vidéo">
+				<button type="button" class="rtb-video-facade" :class="{ 'is-playing': play }" @click="play = true" style="background-image:url('<?php echo esc_url( $cover ); ?>')" aria-label="<?php echo esc_attr( rtb_t( 'Regarder la vidéo' ) ); ?>">
 					<span class="rtb-play rtb-play--lg" style="background:<?php echo esc_attr( $accent ); ?>;border-color:rgba(255,255,255,.7)"><i></i></span>
-					<span class="rtb-video-yt"><i class="fa-brands fa-youtube" aria-hidden="true"></i> Regarder la vidéo</span>
+					<span class="rtb-video-yt"><i class="fa-brands fa-youtube" aria-hidden="true"></i> <?php echo esc_html( rtb_t( 'Regarder la vidéo' ) ); ?></span>
 				</button>
 				<template x-if="play">
 					<iframe class="rtb-video-iframe" src="https://www.youtube-nocookie.com/embed/<?php echo esc_attr( $video ); ?>?autoplay=1&rel=0&modestbranding=1" title="<?php echo esc_attr( get_the_title() ); ?>" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen loading="lazy"></iframe>
@@ -62,7 +62,7 @@ while ( have_posts() ) :
 			<span style="color:var(--green-text);font-weight:600"><?php echo esc_html( $by ); ?></span>
 			· <?php echo esc_html( $date ); ?>
 			<?php if ( $dur ) : ?> · <?php echo esc_html( $dur ); ?><?php endif; ?>
-			<?php if ( $prog ) : ?> · Programme : <a href="<?php echo esc_url( get_term_link( $prog ) ); ?>"><strong><?php echo esc_html( $prog->name ); ?></strong></a><?php endif; ?>
+			<?php if ( $prog ) : ?> · <?php echo esc_html( rtb_t( 'Programme :' ) ); ?> <a href="<?php echo esc_url( get_term_link( $prog ) ); ?>"><strong><?php echo esc_html( $prog->name ); ?></strong></a><?php endif; ?>
 		</div>
 		<div class="rtb-article-body"><?php the_content(); ?></div>
 	</article>
@@ -72,18 +72,18 @@ while ( have_posts() ) :
 	$rel_args = [ 'post_type' => 'rtb_emission', 'posts_per_page' => 3, 'post__not_in' => [ $pid ] ];
 	if ( $prog ) {
 		$rel_args['tax_query'] = [ [ 'taxonomy' => 'rtb_programme', 'field' => 'term_id', 'terms' => $prog->term_id ] ];
-		$rel_title = 'Dans le même programme';
+		$rel_title = rtb_t( 'Dans le même programme' );
 	} elseif ( $catterm ) {
 		$rel_args['tax_query'] = [ [ 'taxonomy' => 'rtb_emission_cat', 'field' => 'term_id', 'terms' => $catterm->term_id ] ];
-		$rel_title = $is_jt ? 'Autres éditions' : 'À voir aussi';
+		$rel_title = $is_jt ? rtb_t( 'Autres éditions' ) : rtb_t( 'À voir aussi' );
 	} else {
-		$rel_title = 'À voir aussi';
+		$rel_title = rtb_t( 'À voir aussi' );
 	}
 	$rtb_related = new WP_Query( $rel_args );
 	if ( ! $rtb_related->have_posts() ) {
 		wp_reset_postdata();
 		$rtb_related = new WP_Query( [ 'post_type' => 'rtb_emission', 'posts_per_page' => 3, 'post__not_in' => [ $pid ] ] );
-		$rel_title = 'À voir aussi';
+		$rel_title = rtb_t( 'À voir aussi' );
 	}
 	if ( $rtb_related->have_posts() ) :
 		?>

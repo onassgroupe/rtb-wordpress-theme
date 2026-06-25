@@ -9,14 +9,14 @@ get_header();
 $schedule = rtb_get_schedule();
 
 // Jours de la semaine (aujourd'hui actif).
-$days    = [ 'Lun', 'Mar', 'Mer', 'Jeu', 'Ven', 'Sam', 'Dim' ];
+$days    = [ rtb_t( 'Lun' ), rtb_t( 'Mar' ), rtb_t( 'Mer' ), rtb_t( 'Jeu' ), rtb_t( 'Ven' ), rtb_t( 'Sam' ), rtb_t( 'Dim' ) ];
 $today_i = (int) ( new DateTime( 'now', new DateTimeZone( 'Africa/Ouagadougou' ) ) )->format( 'N' ) - 1;
 ?>
 <div class="rtb-page-head">
 	<div class="rtb-container">
-		<div class="rtb-eyebrow rtb-eyebrow--green"><i></i><span>PROGRAMMES</span></div>
-		<h1>Grille des programmes</h1>
-		<p class="rtb-page-lead">Retrouvez les programmes TV et radio de toutes les antennes de la RTB, et ce qui passe en ce moment.</p>
+		<div class="rtb-eyebrow rtb-eyebrow--green"><i></i><span><?php echo esc_html( rtb_t( 'PROGRAMMES' ) ); ?></span></div>
+		<h1><?php echo esc_html( rtb_t( 'Grille des programmes' ) ); ?></h1>
+		<p class="rtb-page-lead"><?php echo esc_html( rtb_t( 'Retrouvez les programmes TV et radio de toutes les antennes de la RTB, et ce qui passe en ce moment.' ) ); ?></p>
 	</div>
 </div>
 
@@ -27,7 +27,7 @@ $today_i = (int) ( new DateTime( 'now', new DateTimeZone( 'Africa/Ouagadougou' )
 		<?php foreach ( $days as $i => $d ) : ?>
 			<button type="button" class="rtb-grid-day<?php echo $i === $today_i ? ' is-today' : ''; ?>"
 				:class="{ 'is-on': day === <?php echo (int) $i; ?> }" @click="day = <?php echo (int) $i; ?>">
-				<?php echo esc_html( $d ); ?><?php echo $i === $today_i ? '<span>·  Auj.</span>' : ''; ?>
+				<?php echo esc_html( $d ); ?><?php echo $i === $today_i ? '<span>·  ' . esc_html( rtb_t( 'Auj.' ) ) . '</span>' : ''; ?>
 			</button>
 		<?php endforeach; ?>
 	</div>
@@ -46,7 +46,7 @@ $today_i = (int) ( new DateTime( 'now', new DateTimeZone( 'Africa/Ouagadougou' )
 	<!-- Timeline -->
 	<div class="rtb-grid-now-note" x-show="day === <?php echo (int) $today_i; ?>">
 		<span class="rtb-live-dot" style="background:var(--rtb-red)"></span>
-		En ce moment sur <strong x-text="data[chan].name"></strong> · <span x-text="nowLabel"></span>
+		<?php echo esc_html( rtb_t( 'En ce moment sur' ) ); ?> <strong x-text="data[chan].name"></strong> · <span x-text="nowLabel"></span>
 	</div>
 
 	<div class="rtb-grid-timeline">
@@ -58,15 +58,15 @@ $today_i = (int) ( new DateTime( 'now', new DateTimeZone( 'Africa/Ouagadougou' )
 					<div class="rtb-slot-title" x-text="s[1]"></div>
 					<div class="rtb-slot-cat">
 						<span class="rtb-slot-tag" x-text="s[2]"></span>
-						<span class="rtb-slot-badge" x-show="isNow(i)">EN COURS</span>
-						<span class="rtb-slot-upnext" x-show="isNext(i)">À SUIVRE</span>
+						<span class="rtb-slot-badge" x-show="isNow(i)"><?php echo esc_html( rtb_t( 'EN COURS' ) ); ?></span>
+						<span class="rtb-slot-upnext" x-show="isNext(i)"><?php echo esc_html( rtb_t( 'À SUIVRE' ) ); ?></span>
 					</div>
 				</div>
 			</div>
 		</template>
 	</div>
 
-	<p class="rtb-grid-foot">Les horaires sont donnés à titre indicatif et peuvent être modifiés.</p>
+	<p class="rtb-grid-foot"><?php echo esc_html( rtb_t( 'Les horaires sont donnés à titre indicatif et peuvent être modifiés.' ) ); ?></p>
 </section>
 
 <script>

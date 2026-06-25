@@ -18,12 +18,12 @@ get_header();
 
 <?php if ( have_posts() ) : ?>
 	<div class="rtb-archive-grid">
-		<h2 class="rtb-visually-hidden">Articles de la rubrique</h2>
+		<h2 class="rtb-visually-hidden"><?php echo esc_html( rtb_t( 'Articles de la rubrique' ) ); ?></h2>
 		<?php while ( have_posts() ) : the_post(); get_template_part( 'parts/card', 'post' ); endwhile; ?>
 	</div>
 	<div class="rtb-pagination"><?php echo paginate_links( [ 'mid_size' => 1 ] ); ?></div>
 <?php else : ?>
-	<div class="rtb-archive-grid"><p>Aucun contenu dans cette rubrique pour le moment.</p></div>
+	<div class="rtb-archive-grid"><p><?php echo esc_html( rtb_t( 'Aucun contenu dans cette rubrique pour le moment.' ) ); ?></p></div>
 <?php endif; ?>
 
 <?php

@@ -12,8 +12,8 @@ $payload  = [ 'channels' => [], 'editions' => [], 'cats' => [], 'stations' => $s
 <div class="rtb-page-head">
 	<div class="rtb-container">
 		<div class="rtb-eyebrow rtb-eyebrow--yellow"><i></i><span><?php pll_e( 'RADIO EN DIRECT' ); ?></span></div>
-		<h1>Radio en direct</h1>
-		<p class="rtb-page-lead">Écoutez les stations de la RTB en direct, où que vous soyez.</p>
+		<h1><?php echo esc_html( rtb_t( 'Radio en direct' ) ); ?></h1>
+		<p class="rtb-page-lead"><?php echo esc_html( rtb_t( 'Écoutez les stations de la RTB en direct, où que vous soyez.' ) ); ?></p>
 	</div>
 </div>
 
@@ -54,9 +54,9 @@ $payload  = [ 'channels' => [], 'editions' => [], 'cats' => [], 'stations' => $s
 </section>
 
 <section class="rtb-container rtb-section">
-	<div class="rtb-eyebrow rtb-eyebrow--green"><i></i><span>PROGRAMMES RADIO</span></div>
-	<p class="rtb-page-lead" style="margin-bottom:22px">Retrouvez la grille complète des programmes radio de la RTB.</p>
-	<a class="rtb-btn-watch" href="<?php echo esc_url( rtb_lurl( '/grille' ) ); ?>" style="text-decoration:none"><i class="fa-solid fa-calendar-days" style="margin-right:4px"></i> Voir la grille des programmes</a>
+	<div class="rtb-eyebrow rtb-eyebrow--green"><i></i><span><?php echo esc_html( rtb_t( 'PROGRAMMES RADIO' ) ); ?></span></div>
+	<p class="rtb-page-lead" style="margin-bottom:22px"><?php echo esc_html( rtb_t( 'Retrouvez la grille complète des programmes radio de la RTB.' ) ); ?></p>
+	<a class="rtb-btn-watch" href="<?php echo esc_url( rtb_lurl( '/grille' ) ); ?>" style="text-decoration:none"><i class="fa-solid fa-calendar-days" style="margin-right:4px"></i> <?php echo esc_html( rtb_t( 'Voir la grille des programmes' ) ); ?></a>
 </section>
 
 <?php
