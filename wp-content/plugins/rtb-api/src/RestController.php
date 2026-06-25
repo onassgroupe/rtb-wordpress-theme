@@ -82,7 +82,7 @@ final class RestController {
 
 	public function categories(): WP_REST_Response {
 		$terms = get_categories( [ 'hide_empty' => true ] );
-		return $this->ok( [ 'items' => array_map( [ Transformer::class, 'category' ], $terms ) ] );
+		return $this->ok( [ 'items' => array_values( array_map( [ Transformer::class, 'category' ], $terms ) ) ] );
 	}
 
 	public function articles( WP_REST_Request $req ): WP_REST_Response {
