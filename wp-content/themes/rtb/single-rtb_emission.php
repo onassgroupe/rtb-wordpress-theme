@@ -32,7 +32,7 @@ while ( have_posts() ) :
 	<div class="rtb-page-head" style="border-bottom:3px solid <?php echo esc_attr( $accent ); ?>">
 		<div class="rtb-container">
 			<div class="rtb-breadcrumb">
-				<a href="<?php echo esc_url( home_url( '/' ) ); ?>">Accueil</a> &rsaquo;
+				<a href="<?php echo esc_url( rtb_lurl( '/' ) ); ?>">Accueil</a> &rsaquo;
 				<a href="<?php echo esc_url( get_post_type_archive_link( 'rtb_emission' ) ); ?>">Émissions</a>
 				<?php if ( $catterm ) : ?> &rsaquo; <a href="<?php echo esc_url( get_term_link( $catterm ) ); ?>"><?php echo esc_html( $cat ); ?></a><?php endif; ?>
 			</div>

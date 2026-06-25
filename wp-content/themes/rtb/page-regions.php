@@ -9,7 +9,7 @@ get_header();
 $regions = rtb_get_regions();
 
 // Lien vers la chaîne RTB Guiriko si disponible.
-$guiriko = home_url( '/direct' );
+$guiriko = rtb_lurl( '/direct' );
 foreach ( rtb_get_antennes() as $a ) {
 	if ( false !== mb_stripos( $a['name'], 'Guiriko' ) ) {
 		$guiriko = $a['permalink'] ?? $guiriko;
@@ -27,7 +27,7 @@ foreach ( rtb_get_antennes() as $a ) {
 <section class="rtb-container rtb-section">
 	<div class="rtb-regions">
 		<?php foreach ( $regions as $r ) : ?>
-			<a class="rtb-region" href="<?php echo esc_url( $r['permalink'] ?? home_url( '/regions' ) ); ?>" style="border-left-color:<?php echo esc_attr( $r['accent'] ?? 'var(--rtb-green)' ); ?>">
+			<a class="rtb-region" href="<?php echo esc_url( $r['permalink'] ?? rtb_lurl( '/regions' ) ); ?>" style="border-left-color:<?php echo esc_attr( $r['accent'] ?? 'var(--rtb-green)' ); ?>">
 				<span class="rtb-region-name"><?php echo esc_html( $r['name'] ); ?></span>
 				<span class="rtb-region-city"><?php echo esc_html( $r['city'] ); ?></span>
 				<span class="rtb-region-role"><?php echo esc_html( $r['role'] ); ?></span>

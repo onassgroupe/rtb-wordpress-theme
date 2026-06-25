@@ -135,7 +135,7 @@ $rtb_team    = rtb_about_lines( 'rtb_about_team', $rtb_def['team'] ?? '' );
 		<div class="rtb-eyebrow rtb-eyebrow--red"><i></i><span>NOS ANTENNES</span></div>
 		<div class="rtb-grid-5 rtb-channels">
 			<?php foreach ( $antennes as $c ) : ?>
-				<a class="rtb-chcard" href="<?php echo esc_url( $c['permalink'] ?? home_url( '/direct' ) ); ?>" style="--ch:<?php echo esc_attr( $c['accent'] ); ?>">
+				<a class="rtb-chcard" href="<?php echo esc_url( $c['permalink'] ?? rtb_lurl( '/direct' ) ); ?>" style="--ch:<?php echo esc_attr( $c['accent'] ); ?>">
 					<span class="rtb-media" style="background-image:url('<?php echo esc_url( $c['cover'] ); ?>')"></span>
 					<span class="rtb-chcard-grad"></span>
 					<span class="rtb-chcard-head">
@@ -155,7 +155,7 @@ $rtb_team    = rtb_about_lines( 'rtb_about_team', $rtb_def['team'] ?? '' );
 <section class="rtb-container rtb-section" style="text-align:center">
 	<h2 style="font-size:28px;margin-bottom:12px">Une question, un partenariat ?</h2>
 	<p class="rtb-page-lead" style="margin:0 auto 24px">La rédaction et les services de la RTB sont à votre écoute.</p>
-	<a class="rtb-btn-watch" href="<?php echo esc_url( home_url( '/contact' ) ); ?>" style="text-decoration:none"><i class="fa-solid fa-envelope" style="margin-right:4px"></i> Nous contacter</a>
+	<a class="rtb-btn-watch" href="<?php echo esc_url( rtb_lurl( '/contact' ) ); ?>" style="text-decoration:none"><i class="fa-solid fa-envelope" style="margin-right:4px"></i> Nous contacter</a>
 </section>
 
 <?php

@@ -26,12 +26,22 @@ add_action( 'init', static function (): void {
 		'rtb-chat/rtb-chat.php',
 		'rtb-seo/rtb-seo.php',
 		'rtb-api/rtb-api.php',
+		'rtb-i18n/rtb-i18n.php',
 		'onass-live-edit/onass-live-edit.php',
-		'polylang/polylang.php',
+		// Polylang retiré : remplacé par le plugin maison rtb-i18n (préfixe d'URL).
 	];
 	foreach ( $plugins as $plugin ) {
 		if ( file_exists( WP_PLUGIN_DIR . '/' . $plugin ) && ! is_plugin_active( $plugin ) ) {
 			activate_plugin( $plugin ); // déclenche les hooks d'activation (tables, etc.)
+		}
+	}
+
+	// Polylang est remplacé par le plugin maison rtb-i18n : le désactiver pour
+	// éviter tout conflit d'URL (idempotent).
+	if ( is_plugin_active( 'polylang/polylang.php' ) ) {
+		deactivate_plugins( 'polylang/polylang.php' );
+		if ( function_exists( 'flush_rewrite_rules' ) ) {
+			flush_rewrite_rules();
 		}
 	}
 

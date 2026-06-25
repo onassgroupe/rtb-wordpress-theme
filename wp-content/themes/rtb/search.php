@@ -29,7 +29,7 @@ if ( '' !== $rtb_q ) :
 	$rtb_type  = isset( $_GET['type'] ) ? sanitize_key( wp_unslash( $_GET['type'] ) ) : 'all';
 	$rtb_sort  = isset( $_GET['sort'] ) ? sanitize_key( wp_unslash( $_GET['sort'] ) ) : 'relevant';
 	$rtb_link  = static function ( array $args ) use ( $rtb_q ) {
-		return esc_url( add_query_arg( array_merge( [ 's' => $rtb_q ], $args ), home_url( '/' ) ) );
+		return esc_url( add_query_arg( array_merge( [ 's' => $rtb_q ], $args ), rtb_lurl( '/' ) ) );
 	};
 	$rtb_types = [ 'all' => 'Tout', 'post' => 'Articles', 'rtb_emission' => 'Émissions' ];
 	$rtb_sorts = [ 'relevant' => 'Pertinence', 'recent' => 'Récents', 'oldest' => 'Anciens' ];
@@ -71,7 +71,7 @@ if ( '' !== $rtb_q ) :
 			<?php get_search_form(); ?>
 			<div class="rtb-emptystate-links">
 				<?php foreach ( [ 'Actualités' => '/category/infos', 'Le Journal' => '/emissions', 'Sport' => '/category/sport' ] as $label => $url ) : ?>
-					<a class="rtb-tab" href="<?php echo esc_url( home_url( $url ) ); ?>"><?php echo esc_html( rtb_t( $label ) ); ?></a>
+					<a class="rtb-tab" href="<?php echo esc_url( rtb_lurl( $url ) ); ?>"><?php echo esc_html( rtb_t( $label ) ); ?></a>
 				<?php endforeach; ?>
 			</div>
 		</div>

@@ -56,7 +56,7 @@ $payload  = [ 'channels' => [], 'editions' => [], 'cats' => [], 'stations' => $s
 <section class="rtb-container rtb-section">
 	<div class="rtb-eyebrow rtb-eyebrow--green"><i></i><span>PROGRAMMES RADIO</span></div>
 	<p class="rtb-page-lead" style="margin-bottom:22px">Retrouvez la grille complète des programmes radio de la RTB.</p>
-	<a class="rtb-btn-watch" href="<?php echo esc_url( home_url( '/grille' ) ); ?>" style="text-decoration:none"><i class="fa-solid fa-calendar-days" style="margin-right:4px"></i> Voir la grille des programmes</a>
+	<a class="rtb-btn-watch" href="<?php echo esc_url( rtb_lurl( '/grille' ) ); ?>" style="text-decoration:none"><i class="fa-solid fa-calendar-days" style="margin-right:4px"></i> Voir la grille des programmes</a>
 </section>
 
 <?php
