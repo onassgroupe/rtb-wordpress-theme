@@ -25,6 +25,7 @@ add_action( 'init', static function (): void {
 		'rtb-search/rtb-search.php',
 		'rtb-chat/rtb-chat.php',
 		'rtb-seo/rtb-seo.php',
+		'rtb-api/rtb-api.php',
 		'onass-live-edit/onass-live-edit.php',
 		'polylang/polylang.php',
 	];
