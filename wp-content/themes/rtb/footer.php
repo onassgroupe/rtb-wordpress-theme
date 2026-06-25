@@ -93,16 +93,16 @@ $rtb_footer_cats = array_slice( $rtb_footer_cats, 0, 8 );
 		<div class="rtb-container">
 			<span>&copy; <?php echo esc_html( date( 'Y' ) ); ?> — Radiodiffusion Télévision du Burkina</span>
 			<nav>
-				<a href="<?php echo esc_url( home_url( '/a-propos' ) ); ?>">À propos</a>
-				<a href="<?php echo esc_url( home_url( '/direct' ) ); ?>">Le Direct</a>
-				<a href="<?php echo esc_url( home_url( '/radio' ) ); ?>">Radio</a>
-				<a href="<?php echo esc_url( home_url( '/grille' ) ); ?>">Grille</a>
-				<a href="<?php echo esc_url( home_url( '/contact' ) ); ?>">Contact</a>
-				<a href="<?php echo esc_url( home_url( '/mentions-legales' ) ); ?>">Mentions légales</a>
-				<a href="<?php echo esc_url( home_url( '/politique-de-confidentialite' ) ); ?>">Confidentialité</a>
-				<a href="<?php echo esc_url( home_url( '/conditions-utilisation' ) ); ?>">CGU</a>
-				<a href="<?php echo esc_url( home_url( '/accessibilite' ) ); ?>">Accessibilité</a>
-				<a href="<?php echo esc_url( home_url( '/plan-du-site' ) ); ?>">Plan du site</a>
+				<a href="<?php echo esc_url( rtb_lurl( '/a-propos' ) ); ?>">À propos</a>
+				<a href="<?php echo esc_url( rtb_lurl( '/direct' ) ); ?>">Le Direct</a>
+				<a href="<?php echo esc_url( rtb_lurl( '/radio' ) ); ?>">Radio</a>
+				<a href="<?php echo esc_url( rtb_lurl( '/grille' ) ); ?>">Grille</a>
+				<a href="<?php echo esc_url( rtb_lurl( '/contact' ) ); ?>">Contact</a>
+				<a href="<?php echo esc_url( rtb_lurl( '/mentions-legales' ) ); ?>">Mentions légales</a>
+				<a href="<?php echo esc_url( rtb_lurl( '/politique-de-confidentialite' ) ); ?>">Confidentialité</a>
+				<a href="<?php echo esc_url( rtb_lurl( '/conditions-utilisation' ) ); ?>">CGU</a>
+				<a href="<?php echo esc_url( rtb_lurl( '/accessibilite' ) ); ?>">Accessibilité</a>
+				<a href="<?php echo esc_url( rtb_lurl( '/plan-du-site' ) ); ?>">Plan du site</a>
 			</nav>
 		</div>
 	</div>
@@ -118,7 +118,7 @@ $rtb_footer_cats = array_slice( $rtb_footer_cats, 0, 8 );
 			<span class="rtb-cookie-ico"><i class="fa-solid fa-cookie-bite"></i></span>
 			<h2 id="rtb-cookie-title">Cookies &amp; confidentialité</h2>
 		</div>
-		<p class="rtb-cookie-intro">La RTB utilise des cookies pour assurer le bon fonctionnement du site, mesurer son audience et améliorer votre expérience. Vous pouvez tout accepter, tout refuser ou choisir par catégorie. <a href="<?php echo esc_url( home_url( '/politique-de-confidentialite' ) ); ?>">En savoir plus</a>.</p>
+		<p class="rtb-cookie-intro">La RTB utilise des cookies pour assurer le bon fonctionnement du site, mesurer son audience et améliorer votre expérience. Vous pouvez tout accepter, tout refuser ou choisir par catégorie. <a href="<?php echo esc_url( rtb_lurl( '/politique-de-confidentialite' ) ); ?>">En savoir plus</a>.</p>
 
 		<!-- Panneau de personnalisation (dépliable) -->
 		<div class="rtb-cookie-opts" x-show="custom" x-transition.opacity>

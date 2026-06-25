@@ -83,7 +83,7 @@ $payload = [
 					<i class="fa-solid fa-play rtb-live-row-ico"></i>
 				</button>
 			</template>
-			<a class="rtb-live-radio-link" href="<?php echo esc_url( home_url( '/radio' ) ); ?>"><i class="fa-solid fa-radio"></i> Écouter la radio en direct</a>
+			<a class="rtb-live-radio-link" href="<?php echo esc_url( rtb_lurl( '/radio' ) ); ?>"><i class="fa-solid fa-radio"></i> Écouter la radio en direct</a>
 		</aside>
 	</div>
 </section>

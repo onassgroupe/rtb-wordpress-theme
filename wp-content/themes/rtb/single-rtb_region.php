@@ -14,7 +14,7 @@ while ( have_posts() ) :
 	$accent = get_post_meta( $pid, 'rtb_accent', true ) ?: '#10A653';
 
 	// Antenne liée (RTB Guiriko pour l'Ouest, sinon RTB Télévision).
-	$ant_url = home_url( '/direct' );
+	$ant_url = rtb_lurl( '/direct' );
 	$ant_name = 'RTB Télévision';
 	foreach ( rtb_get_antennes() as $a ) {
 		if ( false !== mb_stripos( get_the_title(), 'Hauts-Bassins' ) && false !== mb_stripos( $a['name'], 'Guiriko' ) ) {
@@ -26,8 +26,8 @@ while ( have_posts() ) :
 		<div class="rtb-chero-bg"><span class="rtb-media" style="background-image:url('<?php echo esc_url( rtb_cdnize( 'https://www.rtb.bf/wp-content/uploads/2026/06/vlcsnap-2026-06-20-21h18m47s439.png' ) ); ?>')"></span></div>
 		<div class="rtb-container rtb-chero-inner">
 			<div class="rtb-breadcrumb rtb-chero-crumb">
-				<a href="<?php echo esc_url( home_url( '/' ) ); ?>">Accueil</a> &rsaquo;
-				<a href="<?php echo esc_url( home_url( '/regions' ) ); ?>">Régions</a>
+				<a href="<?php echo esc_url( rtb_lurl( '/' ) ); ?>">Accueil</a> &rsaquo;
+				<a href="<?php echo esc_url( rtb_lurl( '/regions' ) ); ?>">Régions</a>
 			</div>
 			<div class="rtb-chero-badges">
 				<span class="rtb-chero-kind"><i class="fa-solid fa-location-dot" aria-hidden="true"></i> RÉGION</span>
@@ -36,7 +36,7 @@ while ( have_posts() ) :
 			<p class="rtb-chero-desc"><strong>Chef-lieu : <?php echo esc_html( $city ); ?></strong> — <?php echo esc_html( $role ); ?></p>
 			<div class="rtb-chero-actions">
 				<a class="rtb-btn-watch" href="<?php echo esc_url( $ant_url ); ?>"><span class="rtb-play"><i></i></span> Suivre <?php echo esc_html( $ant_name ); ?></a>
-				<a class="rtb-btn-ghost" href="<?php echo esc_url( home_url( '/category/societe' ) ); ?>">Actualité régionale <span class="arrow"><i class="fa-solid fa-arrow-right"></i></span></a>
+				<a class="rtb-btn-ghost" href="<?php echo esc_url( rtb_lurl( '/category/societe' ) ); ?>">Actualité régionale <span class="arrow"><i class="fa-solid fa-arrow-right"></i></span></a>
 			</div>
 		</div>
 	</section>

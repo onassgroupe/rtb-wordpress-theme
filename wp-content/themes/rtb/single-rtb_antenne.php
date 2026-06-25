@@ -29,8 +29,8 @@ while ( have_posts() ) :
 		<div class="rtb-chero-bg"><span class="rtb-media" style="background-image:url('<?php echo esc_url( $cover ); ?>')"></span></div>
 		<div class="rtb-container rtb-chero-inner">
 			<div class="rtb-breadcrumb rtb-chero-crumb">
-				<a href="<?php echo esc_url( home_url( '/' ) ); ?>">Accueil</a> &rsaquo;
-				<a href="<?php echo esc_url( home_url( '/direct' ) ); ?>">Le Direct</a>
+				<a href="<?php echo esc_url( rtb_lurl( '/' ) ); ?>">Accueil</a> &rsaquo;
+				<a href="<?php echo esc_url( rtb_lurl( '/direct' ) ); ?>">Le Direct</a>
 			</div>
 			<div class="rtb-chero-badges">
 				<span class="rtb-chero-mark"><?php echo esc_html( $mark ); ?></span>
@@ -44,11 +44,11 @@ while ( have_posts() ) :
 			<?php endif; ?>
 			<div class="rtb-chero-actions">
 				<?php if ( $is_radio ) : ?>
-					<a class="rtb-btn-watch" href="<?php echo esc_url( home_url( '/radio' ) ); ?>"><span class="rtb-play"><i></i></span> Écouter en direct</a>
+					<a class="rtb-btn-watch" href="<?php echo esc_url( rtb_lurl( '/radio' ) ); ?>"><span class="rtb-play"><i></i></span> Écouter en direct</a>
 				<?php else : ?>
 					<button type="button" class="rtb-btn-watch" @click="src='<?php echo esc_js( $tv_embed ); ?>'; live=true"><span class="rtb-play"><i></i></span> Regarder en direct</button>
 				<?php endif; ?>
-				<a class="rtb-btn-ghost" href="<?php echo esc_url( home_url( '/grille' ) ); ?>"><?php pll_e( 'Guide des programmes' ); ?> <span class="arrow"><i class="fa-solid fa-arrow-right"></i></span></a>
+				<a class="rtb-btn-ghost" href="<?php echo esc_url( rtb_lurl( '/grille' ) ); ?>"><?php pll_e( 'Guide des programmes' ); ?> <span class="arrow"><i class="fa-solid fa-arrow-right"></i></span></a>
 				<?php if ( $freq ) : ?><span class="rtb-chero-freq"><i class="fa-solid fa-radio"></i> <?php echo esc_html( $freq ); ?></span><?php endif; ?>
 			</div>
 		</div>
@@ -75,7 +75,7 @@ while ( have_posts() ) :
 	<section class="rtb-container rtb-section">
 		<div class="rtb-sec-head">
 			<h2 class="rtb-eyebrow rtb-eyebrow--red" style="margin:0"><i></i><span>REPLAYS & PROGRAMMES</span></h2>
-			<a class="rtb-sec-more" href="<?php echo esc_url( home_url( '/emissions' ) ); ?>"><?php pll_e( 'Toutes les émissions' ); ?> <span class="arrow"><i class="fa-solid fa-arrow-right"></i></span></a>
+			<a class="rtb-sec-more" href="<?php echo esc_url( rtb_lurl( '/emissions' ) ); ?>"><?php pll_e( 'Toutes les émissions' ); ?> <span class="arrow"><i class="fa-solid fa-arrow-right"></i></span></a>
 		</div>
 		<div class="rtb-grid-3">
 			<?php while ( $emi->have_posts() ) : $emi->the_post(); get_template_part( 'parts/card', 'emission' ); endwhile; wp_reset_postdata(); ?>

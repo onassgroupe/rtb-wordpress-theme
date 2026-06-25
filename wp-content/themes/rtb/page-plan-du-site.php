@@ -24,13 +24,13 @@ $eterms = get_terms( [ 'taxonomy' => 'rtb_emission_cat', 'hide_empty' => true ] 
 		<div class="rtb-sitemap-col">
 			<h2>Le site</h2>
 			<ul>
-				<li><a href="<?php echo esc_url( home_url( '/' ) ); ?>">Accueil</a></li>
-				<li><a href="<?php echo esc_url( home_url( '/direct' ) ); ?>">Le Direct</a></li>
-				<li><a href="<?php echo esc_url( home_url( '/radio' ) ); ?>">Radio en direct</a></li>
-				<li><a href="<?php echo esc_url( home_url( '/grille' ) ); ?>">Grille des programmes</a></li>
+				<li><a href="<?php echo esc_url( rtb_lurl( '/' ) ); ?>">Accueil</a></li>
+				<li><a href="<?php echo esc_url( rtb_lurl( '/direct' ) ); ?>">Le Direct</a></li>
+				<li><a href="<?php echo esc_url( rtb_lurl( '/radio' ) ); ?>">Radio en direct</a></li>
+				<li><a href="<?php echo esc_url( rtb_lurl( '/grille' ) ); ?>">Grille des programmes</a></li>
 				<li><a href="<?php echo esc_url( get_post_type_archive_link( 'rtb_emission' ) ); ?>">Émissions & vidéos</a></li>
-				<li><a href="<?php echo esc_url( home_url( '/a-propos' ) ); ?>">À propos</a></li>
-				<li><a href="<?php echo esc_url( home_url( '/contact' ) ); ?>">Contact</a></li>
+				<li><a href="<?php echo esc_url( rtb_lurl( '/a-propos' ) ); ?>">À propos</a></li>
+				<li><a href="<?php echo esc_url( rtb_lurl( '/contact' ) ); ?>">Contact</a></li>
 			</ul>
 		</div>
 
@@ -38,7 +38,7 @@ $eterms = get_terms( [ 'taxonomy' => 'rtb_emission_cat', 'hide_empty' => true ] 
 			<h2>Nos antennes</h2>
 			<ul>
 				<?php foreach ( $ann as $a ) : ?>
-					<li><a href="<?php echo esc_url( $a['permalink'] ?? home_url( '/direct' ) ); ?>"><?php echo esc_html( $a['name'] ); ?></a></li>
+					<li><a href="<?php echo esc_url( $a['permalink'] ?? rtb_lurl( '/direct' ) ); ?>"><?php echo esc_html( $a['name'] ); ?></a></li>
 				<?php endforeach; ?>
 			</ul>
 		</div>
@@ -61,10 +61,10 @@ $eterms = get_terms( [ 'taxonomy' => 'rtb_emission_cat', 'hide_empty' => true ] 
 			</ul>
 			<h2 style="margin-top:24px">Informations légales</h2>
 			<ul>
-				<li><a href="<?php echo esc_url( home_url( '/mentions-legales' ) ); ?>">Mentions légales</a></li>
-				<li><a href="<?php echo esc_url( home_url( '/politique-de-confidentialite' ) ); ?>">Politique de confidentialité</a></li>
-				<li><a href="<?php echo esc_url( home_url( '/conditions-utilisation' ) ); ?>">Conditions d'utilisation</a></li>
-				<li><a href="<?php echo esc_url( home_url( '/accessibilite' ) ); ?>">Accessibilité</a></li>
+				<li><a href="<?php echo esc_url( rtb_lurl( '/mentions-legales' ) ); ?>">Mentions légales</a></li>
+				<li><a href="<?php echo esc_url( rtb_lurl( '/politique-de-confidentialite' ) ); ?>">Politique de confidentialité</a></li>
+				<li><a href="<?php echo esc_url( rtb_lurl( '/conditions-utilisation' ) ); ?>">Conditions d'utilisation</a></li>
+				<li><a href="<?php echo esc_url( rtb_lurl( '/accessibilite' ) ); ?>">Accessibilité</a></li>
 			</ul>
 		</div>
 

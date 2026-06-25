@@ -85,10 +85,10 @@ $rtb_payload = [
 				<h1 class="rtb-stage-title" x-text="hero.headline"></h1>
 				<p class="rtb-stage-meta"><strong x-text="heroName"></strong> — <span x-text="hero.meta"></span> · <span x-text="hero.dur"></span></p>
 				<div class="rtb-stage-actions">
-					<a class="rtb-btn-watch" href="<?php echo esc_url( home_url( '/direct' ) ); ?>">
+					<a class="rtb-btn-watch" href="<?php echo esc_url( rtb_lurl( '/direct' ) ); ?>">
 						<span class="rtb-play"><i></i></span> <?php pll_e( 'Regarder en direct' ); ?>
 					</a>
-					<a class="rtb-btn-ghost" href="<?php echo esc_url( home_url( '/grille' ) ); ?>"><?php pll_e( 'Guide des programmes' ); ?> <span class="arrow"><i class="fa-solid fa-arrow-right"></i></span></a>
+					<a class="rtb-btn-ghost" href="<?php echo esc_url( rtb_lurl( '/grille' ) ); ?>"><?php pll_e( 'Guide des programmes' ); ?> <span class="arrow"><i class="fa-solid fa-arrow-right"></i></span></a>
 				</div>
 			</div>
 
@@ -115,7 +115,7 @@ $rtb_payload = [
 	<section class="rtb-container rtb-section rtb-section--top">
 		<div class="rtb-sec-head">
 			<div class="rtb-eyebrow rtb-eyebrow--red"><i></i><span><?php pll_e( 'À LA UNE' ); ?></span></div>
-			<a class="rtb-sec-more" href="<?php echo esc_url( home_url( '/category/infos' ) ); ?>"><?php pll_e( "Toute l'actualité" ); ?> <span class="arrow"><i class="fa-solid fa-arrow-right"></i></span></a>
+			<a class="rtb-sec-more" href="<?php echo esc_url( rtb_lurl( '/category/infos' ) ); ?>"><?php pll_e( "Toute l'actualité" ); ?> <span class="arrow"><i class="fa-solid fa-arrow-right"></i></span></a>
 		</div>
 
 		<div class="rtb-headlines">
@@ -123,7 +123,7 @@ $rtb_payload = [
 			<?php
 			$aune_cover = onass_mod( 'rtb_aune_cover' ) ?: rtb_cdnize( 'https://www.rtb.bf/wp-content/uploads/2026/06/vlcsnap-2026-06-20-21h18m47s439.png' );
 			?>
-			<a class="rtb-lead" href="<?php echo esc_url( home_url( '/category/societe' ) ); ?>" data-cs="rtb_aune">
+			<a class="rtb-lead" href="<?php echo esc_url( rtb_lurl( '/category/societe' ) ); ?>" data-cs="rtb_aune">
 				<span class="rtb-lead-img rtb-media-wrap">
 					<span class="rtb-media" style="background-image:url('<?php echo esc_url( $aune_cover ); ?>')"></span>
 					<span class="rtb-lead-grad"></span>
@@ -205,11 +205,11 @@ $rtb_payload = [
 	<section class="rtb-container rtb-section">
 		<div class="rtb-sec-head">
 			<div class="rtb-eyebrow rtb-eyebrow--green"><i></i><span><?php pll_e( 'NOS ANTENNES' ); ?></span></div>
-			<a class="rtb-sec-more" href="<?php echo esc_url( home_url( '/emissions' ) ); ?>"><?php pll_e( 'Toutes les chaînes' ); ?> <span class="arrow"><i class="fa-solid fa-arrow-right"></i></span></a>
+			<a class="rtb-sec-more" href="<?php echo esc_url( rtb_lurl( '/emissions' ) ); ?>"><?php pll_e( 'Toutes les chaînes' ); ?> <span class="arrow"><i class="fa-solid fa-arrow-right"></i></span></a>
 		</div>
 		<div class="rtb-grid-5 rtb-channels">
 			<?php foreach ( $channels as $c ) : ?>
-				<a class="rtb-chcard" href="<?php echo esc_url( $c['permalink'] ?? home_url( '/direct' ) ); ?>" style="--ch:<?php echo esc_attr( $c['accent'] ); ?>">
+				<a class="rtb-chcard" href="<?php echo esc_url( $c['permalink'] ?? rtb_lurl( '/direct' ) ); ?>" style="--ch:<?php echo esc_attr( $c['accent'] ); ?>">
 					<span class="rtb-media" style="background-image:url('<?php echo esc_url( $c['cover'] ); ?>')"></span>
 					<span class="rtb-chcard-grad"></span>
 					<span class="rtb-chcard-head">
@@ -247,7 +247,7 @@ $rtb_payload = [
 			<div class="rtb-container rtb-section">
 				<div class="rtb-sec-head">
 					<div class="rtb-eyebrow rtb-eyebrow--yellow"><i></i><span><?php pll_e( 'GRANDS RENDEZ-VOUS' ); ?></span></div>
-					<a class="rtb-sec-more" href="<?php echo esc_url( home_url( '/emissions' ) ); ?>"><?php pll_e( 'Toutes les émissions' ); ?> <span class="arrow"><i class="fa-solid fa-arrow-right"></i></span></a>
+					<a class="rtb-sec-more" href="<?php echo esc_url( rtb_lurl( '/emissions' ) ); ?>"><?php pll_e( 'Toutes les émissions' ); ?> <span class="arrow"><i class="fa-solid fa-arrow-right"></i></span></a>
 				</div>
 				<div class="rtb-mags">
 					<?php foreach ( $rtb_mags as $i => $m ) :
@@ -283,12 +283,12 @@ $rtb_payload = [
 	<section class="rtb-container rtb-section">
 		<div class="rtb-sec-head">
 			<div class="rtb-eyebrow rtb-eyebrow--green"><i></i><span><?php pll_e( 'PROXIMITÉ' ); ?></span></div>
-			<a class="rtb-sec-more" href="<?php echo esc_url( home_url( '/regions' ) ); ?>"><?php pll_e( "L'info des régions" ); ?> <span class="arrow"><i class="fa-solid fa-arrow-right"></i></span></a>
+			<a class="rtb-sec-more" href="<?php echo esc_url( rtb_lurl( '/regions' ) ); ?>"><?php pll_e( "L'info des régions" ); ?> <span class="arrow"><i class="fa-solid fa-arrow-right"></i></span></a>
 		</div>
 		<h2 class="rtb-regions-title"><?php pll_e( 'La RTB en régions' ); ?></h2>
 		<div class="rtb-regions">
 			<?php foreach ( $rtb_regions as $r ) : ?>
-				<a class="rtb-region" href="<?php echo esc_url( $r['permalink'] ?? home_url( '/regions' ) ); ?>" style="border-left-color:<?php echo esc_attr( $r['accent'] ?? 'var(--rtb-green)' ); ?>">
+				<a class="rtb-region" href="<?php echo esc_url( $r['permalink'] ?? rtb_lurl( '/regions' ) ); ?>" style="border-left-color:<?php echo esc_attr( $r['accent'] ?? 'var(--rtb-green)' ); ?>">
 					<span class="rtb-region-name"><?php echo esc_html( $r['name'] ); ?></span>
 					<span class="rtb-region-city"><?php echo esc_html( $r['city'] ); ?></span>
 					<span class="rtb-region-role"><?php echo esc_html( $r['role'] ); ?></span>
@@ -341,7 +341,7 @@ $rtb_payload = [
 				<small x-text="channel.now"></small>
 			</div>
 			<div class="rtb-eq"><span></span><span></span><span></span><span></span><span></span></div>
-			<a class="rtb-livebar-cta" href="<?php echo esc_url( home_url( '/emissions' ) ); ?>">Regarder</a>
+			<a class="rtb-livebar-cta" href="<?php echo esc_url( rtb_lurl( '/emissions' ) ); ?>">Regarder</a>
 		</div>
 	</div>
 

@@ -1,5 +1,5 @@
 <?php defined( 'ABSPATH' ) || exit; ?>
-<form role="search" method="get" class="rtb-searchform" action="<?php echo esc_url( home_url( '/' ) ); ?>">
+<form role="search" method="get" class="rtb-searchform" action="<?php echo esc_url( rtb_lurl( '/' ) ); ?>">
 	<input type="search" name="s" value="<?php echo esc_attr( get_search_query() ); ?>" placeholder="Rechercher sur RTB…" aria-label="Rechercher" data-rtb-instant>
 	<button type="submit"><?php echo esc_html( rtb_t( 'Rechercher' ) ); ?></button>
 </form>
