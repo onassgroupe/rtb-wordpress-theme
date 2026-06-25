@@ -59,6 +59,19 @@ add_action( 'init', static function (): void {
 		}
 	}
 
+	// 2ter) Identité du site pour un partage propre (titre + slogan), UNE SEULE FOIS.
+	// Corrige l'aperçu Open Graph (« REFONTE RTB », pas de description) tout en
+	// laissant la RTB modifier ensuite via Réglages → Général.
+	if ( ! get_option( 'rtb_identity_set' ) ) {
+		update_option( 'rtb_identity_set', 1, false );
+		if ( 'REFONTE RTB' === (string) get_option( 'blogname' ) ) {
+			update_option( 'blogname', 'RTB' );
+		}
+		if ( '' === trim( (string) get_option( 'blogdescription' ) ) ) {
+			update_option( 'blogdescription', 'Radiodiffusion Télévision du Burkina, télévision, radio et actualités au cœur du pays' );
+		}
+	}
+
 	// 3) Première synchro + apprentissage, une seule fois (différé, non bloquant).
 	if ( ! get_option( 'rtb_bootstrapped' ) ) {
 		update_option( 'rtb_bootstrapped', time(), false );
