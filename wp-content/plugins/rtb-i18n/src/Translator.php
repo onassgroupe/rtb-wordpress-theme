@@ -23,8 +23,29 @@ final class Translator {
 		return $map[ $lang ][ $s ] ?? $s;
 	}
 
-	/** @return array<string,array<string,string>> langue => [ source FR => traduction ] */
+	/** Liste des chaînes sources (français) à traduire. @return string[] */
+	public static function sources(): array {
+		return array_keys( self::base()['en'] ?? [] );
+	}
+
+	/** Dictionnaire effectif = défauts du code + surcharges éditées en admin. */
 	public static function strings(): array {
+		$map  = self::base();
+		$over = get_option( Admin::OPTION, [] );
+		if ( is_array( $over ) ) {
+			foreach ( $over as $lang => $pairs ) {
+				if ( ! is_array( $pairs ) ) {
+					continue;
+				}
+				$pairs        = array_filter( $pairs, static fn( $v ) => '' !== $v && null !== $v );
+				$map[ $lang ] = array_merge( $map[ $lang ] ?? [], $pairs );
+			}
+		}
+		return $map;
+	}
+
+	/** Traductions par défaut livrées dans le code. @return array<string,array<string,string>> */
+	private static function base(): array {
 		return [
 			'en'  => [
 				// Navigation & sections
@@ -141,11 +162,56 @@ final class Translator {
 				'Politique de confidentialité' => 'Privacy policy', "Conditions d'utilisation" => 'Terms of use',
 			],
 			'mos' => [
+				// Navigation
 				'Accueil' => 'Yiri', 'Le Direct' => 'Sasa', 'Actualités' => 'Kibaya', 'Le Journal' => 'Kibar-kãsenga',
 				'Émissions' => 'Yɛlsgo', 'Sport' => 'Sport', 'Régions' => 'Tẽnsã', 'Contact' => 'Kɛɛnse',
+				'À propos' => 'Tõnd yelle', 'Radio' => 'Radio', 'Grille' => 'Sasa-pʋɩɩsem', 'En direct' => 'Sasa',
 				'EN DIRECT' => 'SASA', 'Rechercher' => 'Bao', 'Tout' => 'Fãa', 'Toutes les chaînes' => 'Sɛkã fãa',
+				'Regarder en direct' => 'Ges sasa', 'Guide des programmes' => 'Sasa-pʋɩɩsem',
+				'RECHERCHER SUR RTB' => 'BAO RTB PƲGẼ', "Toute l'actualité" => 'Kibay fãa', "L'info des régions" => 'Tẽnsã kibaya',
+				'Voir la chaîne' => 'Ges sɛka', 'Toutes les émissions' => 'Yɛlsg fãa', 'Recherches fréquentes' => 'Baoor sẽn yaa wʋsg',
+				// Sections
 				'NOS ANTENNES' => 'TÕND ANTENNÃ', 'À LA UNE' => 'PĨNDÃ', 'RADIO EN DIRECT' => 'RADIO SASA',
-				'À propos' => 'Tõnd yelle', 'Radio' => 'Radio',
+				'LES GROS TITRES' => 'GƲLSG-KÃSENGÃ', 'INFORMATION' => 'KIBAYA', 'Le Journal Télévisé' => 'Kibar-kãsenga',
+				'GRANDS RENDEZ-VOUS' => 'TIGSG-KÃSENGÃ', 'PROXIMITÉ' => 'PĒL-PĒLẼ', 'PROGRAMMES' => 'SASA-PƲƖƖSEM',
+				'PLUS DE VIDÉOS' => 'VIDEO-RÃMB N PAASE', 'CATÉGORIES POPULAIRES' => 'BUUD SẼN YAA WƲSG',
+				'DERNIERS ARTICLES' => 'SƐB PAALSE', 'À REVOIR SUR RTB' => 'LEB N GES RTB ZUG', 'Tous les replays' => 'Replay fãa',
+				'Accès rapides' => 'Sõr-tʋʋlse',
+				// Footer / légal
+				'Tél.' => 'Tel.', 'Contact :' => 'Kɛɛnse :', 'Mentions légales' => 'Tõog goama', 'Confidentialité' => 'Sũ-soaba',
+				'CGU' => 'Tũudum noya', 'Accessibilité' => 'Paam-paalga', 'Plan du site' => 'Saɩt plã',
+				// Cookies (boutons)
+				'En savoir plus' => 'Bãng n paase', 'Nécessaires' => 'Tɩlae', 'Préférences' => 'Datem', 'Personnaliser' => 'Manegre',
+				'Réduire' => 'Booge', 'Tout refuser' => 'Zãgs fãa', 'Enregistrer mes choix' => 'Bĩng m yãkre', 'Tout accepter' => 'Sak fãa',
+				// 404
+				'ERREUR 404' => 'TUDGÃ 404', 'Cette page est introuvable.' => 'Seb-neng kãngã ka mikd ye.',
+				// Recherche / article
+				'RECHERCHE' => 'BAOORE', 'Résultats pour' => 'Biis sẽn yaa', 'Articles' => 'Sɛba', 'Pertinence' => 'Sõmblem',
+				'Récents' => 'Paalse', 'Anciens' => 'Kʋdems', 'Type' => 'Buudu', 'Trier' => 'Welgre',
+				'Résultats de recherche' => 'Baoor biisi', 'Relancer une recherche' => 'Lebs n bao',
+				'Rechercher sur RTB…' => 'Bao RTB pʋgẽ…', 'Par la' => 'Ne', 'Rédaction RTB' => 'RTB seb-gʋlsdba',
+				'Document officiel' => 'Tõog-seb', 'Télécharger le PDF' => 'Rɩk PDF',
+				// Direct / Radio / Régions
+				'RTB — Direct' => 'RTB — Sasa', 'Écouter la radio en direct' => 'Kelg radio sasa', 'Radio en direct' => 'Radio sasa',
+				'PROGRAMMES RADIO' => 'RADIO SASA-PƲƖƖSEM', 'Voir la grille des programmes' => 'Ges sasa-pʋɩɩsem',
+				'Découvrir RTB Guiriko' => 'Bãng RTB Guiriko',
+				// À propos
+				'À PROPOS' => 'TÕND YELLE', 'Notre mission' => 'Tõnd tʋʋmde', 'Nos valeurs' => 'Tõnd yõod', 'NOTRE HISTOIRE' => 'TÕND KƲDEMDE',
+				'RÉCOMPENSES & DISTINCTIONS' => 'KEOOGSÃ', 'Un travail reconnu' => 'Tʋʋm sẽn paam pẽgre', 'LA DIRECTION' => 'TAOOR-DƖƖMBÃ',
+				'Nous contacter' => 'Kɛɛns-y tõndo', 'Antennes TV & radio' => 'Tele & radio antennã', 'Régions couvertes' => 'Tẽns sẽn paam', 'Année de création' => 'Naan-yʋʋmde',
+				// Jours / grille
+				'Lun' => 'Tẽn', 'Mar' => 'Talata', 'Mer' => 'Arba', 'Jeu' => 'Lami', 'Ven' => 'Arzũma', 'Sam' => 'Sibri', 'Dim' => 'Hat',
+				'Grille des programmes' => 'Sasa-pʋɩɩsem', 'Auj.' => 'Rũndã', 'En ce moment sur' => 'Masã wakat', 'EN COURS' => 'SASA WAKAT', 'À SUIVRE' => 'SẼN PƲGLE',
+				// Contact
+				'Téléphone' => 'Telefõ', 'E-mail' => 'E-mail', 'Adresse' => 'Zĩiga', 'NOUS CONTACTER' => 'KƐƐNS-Y TÕNDO', 'Contactez la RTB' => 'Kɛɛns-y RTB',
+				'Écrire à la rédaction' => 'Gʋls sebgʋlsdbã', 'Sujet' => 'Gom-zugu', 'Message *' => 'Tʋʋm-koɛɛg *', 'Envoyer le message' => 'Tʋm koɛɛgã',
+				'Nom complet *' => 'Yʋʋr fãa *', 'Samedi' => 'Sibri', 'Dimanche' => 'Hat',
+				// CPT / archives
+				'TÉLÉVISION' => 'TELEVIZÕ', 'Émissions & vidéos' => 'Yɛlsg & video', 'Regarder la vidéo' => 'Ges videwã', 'Programme :' => 'Pʋɩɩre :',
+				'Autres éditions' => 'Edisõ a taaba', 'À voir aussi' => 'Ges me', "À l'antenne" => 'Antenn zug', 'Écouter en direct' => 'Kelg sasa',
+				'Fermer le direct' => 'Pag sasa', 'REPLAYS & PROGRAMMES' => 'REPLAY & PƲƖƖSEM', 'AUTRES ANTENNES' => 'ANTENN A TAABA',
+				'RÉGION' => 'TẼNGA', 'Suivre' => 'Tũ', 'Actualité régionale' => 'Tẽngã kibaya', 'AUTRES RÉGIONS' => 'TẼNS A TAABA',
+				'ÉMISSIONS' => 'YƐLSGO', 'Programme' => 'Pʋɩɩre', 'PLAN DU SITE' => 'SAƖT PLÃ', 'Le site' => 'Saɩtã', 'Nos antennes' => 'Tõnd antennã', 'Rubriques' => 'Buudã',
 			],
 			'dyu' => [
 				'Accueil' => 'So', 'Le Direct' => 'Sisan', 'Actualités' => 'Kibaruyaw', 'Le Journal' => 'Kunnafoni',
