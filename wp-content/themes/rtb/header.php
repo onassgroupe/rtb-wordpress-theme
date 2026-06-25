@@ -290,8 +290,8 @@ $rtb_nav['emissions']['url']  = get_post_type_archive_link( 'rtb_emission' ) ?: 
 										<div class="rtb-dropdown-title"><?php echo esc_html( $item['menu_title'] ); ?></div>
 										<?php foreach ( $item['menu'] as $sub ) : ?>
 											<a class="rtb-dropdown-link" href="<?php echo esc_url( $sub[1] ); ?>" role="menuitem">
-												<span class="rtb-dropdown-link-name"><?php echo esc_html( $sub[0] ); ?></span>
-												<span class="rtb-dropdown-link-desc"><?php echo esc_html( $sub[2] ); ?></span>
+												<span class="rtb-dropdown-link-name"><?php echo esc_html( rtb_t( $sub[0] ) ); ?></span>
+												<span class="rtb-dropdown-link-desc"><?php echo esc_html( rtb_t( (string) ( $sub[2] ?? '' ) ) ); ?></span>
 											</a>
 										<?php endforeach; ?>
 									</div>

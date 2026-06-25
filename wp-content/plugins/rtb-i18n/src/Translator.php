@@ -62,6 +62,25 @@ final class Translator {
 	private static function extraBySource(): array {
 		return [
 			'Regarder' => [ 'en' => 'Watch', 'mos' => 'Ges', 'dyu' => 'Filɛ', 'ff' => 'Ndaaru', 'gux' => 'Diidi' ],
+			// Descriptions des chaînes (méga-menu Le Direct)
+			'La chaîne généraliste nationale.' => [ 'en' => 'The national general-interest channel.', 'mos' => 'Tẽn-gãndã sɛk-kãsenga.', 'dyu' => 'Jamana tele belebeleba.', 'ff' => 'Kanal leydi ngalu kala.', 'gux' => 'U dogu antɛn kpeligu.' ],
+			'Prenez de la Hauteur ! Divertissement & culture.' => [ 'en' => 'Rise above! Entertainment & culture.', 'mos' => 'Rʋ-y zug-zugu ! Reem & rog-n-mik.', 'dyu' => 'Aw ka yɛlɛ sanfɛ ! Ɲɛnajɛ ni laada.', 'ff' => 'Ƴawtu dow ! Weltaare e finaa-tawaa.', 'gux' => 'Du yuli po ! Mɔnu yeni laada.' ],
+			'Information de proximité.' => [ 'en' => 'Local information.', 'mos' => 'Pẽ-pẽ kibaya.', 'dyu' => 'Sigida kunnafoniw.', 'ff' => 'Kabaruuji ɓadtuɗi.', 'gux' => 'Pinpini labaaru.' ],
+			"Antenne de l'Ouest, Bobo-Dioulasso." => [ 'en' => 'Western channel, Bobo-Dioulasso.', 'mos' => 'Wẽst antennã, Bobo-Dioulasso.', 'dyu' => 'Tilebin tele, Bobo-Dioulasso.', 'ff' => 'Laawol hirnaange, Bobo-Dioulasso.', 'gux' => 'Nintuagu antɛn, Bobo-Dioulasso.' ],
+			'La radio nationale, 92.5 FM.' => [ 'en' => 'The national radio, 92.5 FM.', 'mos' => 'Tẽn-gãndã radio, 92.5 FM.', 'dyu' => 'Jamana radio, 92.5 FM.', 'ff' => 'Rajo leydi, 92.5 FM.', 'gux' => 'U dogu radio, 92.5 FM.' ],
+			// Rubriques (méga-menu Actualités)
+			'Politique & Gouvernement' => [ 'en' => 'Politics & Government', 'mos' => 'Politik & Goosneema', 'dyu' => 'Politiki ni Gɔfɛrɛnaman', 'ff' => 'Politik e Laamu', 'gux' => 'Politiki yeni U die' ],
+			'Société' => [ 'en' => 'Society', 'mos' => 'Zãma', 'dyu' => 'Sosiyete', 'ff' => 'Renndo', 'gux' => 'Nibuli' ],
+			'Économie' => [ 'en' => 'Economy', 'mos' => 'Ligd-yel', 'dyu' => 'Sɔrɔ ko', 'ff' => 'Faggudu', 'gux' => 'Ligidi maama' ],
+			'Sécurité & Défense' => [ 'en' => 'Security & Defence', 'mos' => 'Laafɩ & Gũudum', 'dyu' => 'Lakana ni Lakanani', 'ff' => 'Kisal e Reende', 'gux' => 'Kandima yeni Gaali' ],
+			'International' => [ 'en' => 'International', 'mos' => 'Dũni-zãnga', 'dyu' => 'Diɲɛ kɔnɔ', 'ff' => 'Winndere', 'gux' => 'Handuna' ],
+			'Culture' => [ 'en' => 'Culture', 'mos' => 'Rog-n-mik', 'dyu' => 'Laada', 'ff' => 'Finaa-tawaa', 'gux' => 'Laada' ],
+			// Éditions (méga-menu Le Journal)
+			'JT de 13H' => [ 'en' => '1 PM Newscast', 'mos' => 'JT 13H', 'dyu' => 'JT 13H', 'ff' => 'JT 13H', 'gux' => 'JT 13H' ],
+			'JT de 19H' => [ 'en' => '7 PM Newscast', 'mos' => 'JT 19H', 'dyu' => 'JT 19H', 'ff' => 'JT 19H', 'gux' => 'JT 19H' ],
+			'JT de 20H' => [ 'en' => '8 PM Newscast', 'mos' => 'JT 20H', 'dyu' => 'JT 20H', 'ff' => 'JT 20H', 'gux' => 'JT 20H' ],
+			'Journal en langues nationales' => [ 'en' => 'Newscast in national languages', 'mos' => 'Kibar buud-goamã pʋgẽ', 'dyu' => 'Kunnafoni jamana kanw na', 'ff' => 'Kabaaru e ɗemɗe leydi', 'gux' => 'Labaaru u dogu maabuoli nni' ],
+			'Journaux parlés (Radio)' => [ 'en' => 'Radio bulletins', 'mos' => 'Radio kibay', 'dyu' => 'Radio kunnafoniw', 'ff' => 'Kabaruuji rajo', 'gux' => 'Radio labaaru' ],
 			'Nos antennes en direct' => [ 'en' => 'Our channels live', 'mos' => 'Tõnd antennã sasa', 'dyu' => 'An ka teleyaw sisan', 'ff' => 'Laabi amen e jooni', 'gux' => 'Ti antɛn mɔanu' ],
 			'La chaîne généraliste nationale' => [ 'en' => 'The national general-interest channel', 'mos' => 'Tẽn-gãndã sɛk-kãsenga', 'dyu' => 'Jamana tele belebeleba', 'ff' => 'Kanal leydi ngalu kala', 'gux' => 'U dogu antɛn kpeligu' ],
 			'Divertissement & culture' => [ 'en' => 'Entertainment & culture', 'mos' => 'Reem & rog-n-mik', 'dyu' => 'Ɲɛnajɛ ni laada', 'ff' => 'Weltaare e finaa-tawaa', 'gux' => 'Mɔnu yeni laada' ],
