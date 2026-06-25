@@ -12,48 +12,48 @@ $rtb_nav = [
 	'home' => [ 'label' => 'Accueil', 'url' => rtb_lurl( '/' ) ],
 	'direct' => [
 		'label' => 'Le Direct', 'url' => rtb_lurl( '/emissions' ),
-		'menu_title' => 'Nos antennes en direct',
+		'menu_title' => rtb_t( 'Nos antennes en direct' ),
 		'menu' => [
-			[ 'RTB Télévision', rtb_lurl( '/emissions' ), 'La chaîne généraliste nationale' ],
-			[ 'Télé Zénith', rtb_lurl( '/emissions' ), 'Divertissement & culture' ],
-			[ 'RTB3 Langues Nationales', rtb_lurl( '/emissions' ), 'Information de proximité' ],
-			[ 'RTB Guiriko', rtb_lurl( '/emissions' ), "Antenne de l'Ouest — Bobo" ],
-			[ 'Radio Burkina', rtb_lurl( '/#radio' ), 'Radio nationale · 99.9 FM' ],
-			[ 'Grille des programmes', rtb_lurl( '/grille' ), 'TV & radio · ce qui passe maintenant' ],
+			[ 'RTB Télévision', rtb_lurl( '/emissions' ), rtb_t( 'La chaîne généraliste nationale' ) ],
+			[ 'Télé Zénith', rtb_lurl( '/emissions' ), rtb_t( 'Divertissement & culture' ) ],
+			[ 'RTB3 Langues Nationales', rtb_lurl( '/emissions' ), rtb_t( 'Information de proximité' ) ],
+			[ 'RTB Guiriko', rtb_lurl( '/emissions' ), rtb_t( "Antenne de l'Ouest — Bobo" ) ],
+			[ 'Radio Burkina', rtb_lurl( '/#radio' ), rtb_t( 'Radio nationale · 99.9 FM' ) ],
+			[ 'Grille des programmes', rtb_lurl( '/grille' ), rtb_t( 'TV & radio · ce qui passe maintenant' ) ],
 		],
 	],
 	'actualites' => [
 		'label' => 'Actualités', 'url' => rtb_lurl( '/category/infos' ),
-		'menu_title' => 'Les rubriques de la rédaction',
+		'menu_title' => rtb_t( 'Les rubriques de la rédaction' ),
 		'menu' => [
-			[ 'Politique & Gouvernement', rtb_lurl( '/category/politique' ), 'Présidence, Conseil des ministres' ],
-			[ 'Société', rtb_lurl( '/category/societe' ), 'Éducation, santé, vie nationale' ],
-			[ 'Économie', rtb_lurl( '/category/economie' ), 'Croissance, agriculture, énergie' ],
-			[ 'Sécurité & Défense', rtb_lurl( '/category/securite' ), 'FDS, souveraineté, AES' ],
-			[ 'International', rtb_lurl( '/category/international' ), 'Afrique & monde' ],
-			[ 'Culture', rtb_lurl( '/category/culture' ), 'Arts, patrimoine, SNC' ],
+			[ 'Politique & Gouvernement', rtb_lurl( '/category/politique' ), rtb_t( 'Présidence, Conseil des ministres' ) ],
+			[ 'Société', rtb_lurl( '/category/societe' ), rtb_t( 'Éducation, santé, vie nationale' ) ],
+			[ 'Économie', rtb_lurl( '/category/economie' ), rtb_t( 'Croissance, agriculture, énergie' ) ],
+			[ 'Sécurité & Défense', rtb_lurl( '/category/securite' ), rtb_t( 'FDS, souveraineté, AES' ) ],
+			[ 'International', rtb_lurl( '/category/international' ), rtb_t( 'Afrique & monde' ) ],
+			[ 'Culture', rtb_lurl( '/category/culture' ), rtb_t( 'Arts, patrimoine, SNC' ) ],
 		],
 	],
 	'journal' => [
 		'label' => 'Le Journal', 'url' => rtb_lurl( '/emissions' ),
-		'menu_title' => 'Éditions & journaux',
+		'menu_title' => rtb_t( 'Éditions & journaux' ),
 		'menu' => [
-			[ 'JT de 13H', rtb_lurl( '/emissions' ), 'Édition de la mi-journée' ],
-			[ 'JT de 19H', rtb_lurl( '/emissions' ), 'Édition de proximité' ],
-			[ 'JT de 20H', rtb_lurl( '/emissions' ), 'Grand journal du soir' ],
+			[ 'JT de 13H', rtb_lurl( '/emissions' ), rtb_t( 'Édition de la mi-journée' ) ],
+			[ 'JT de 19H', rtb_lurl( '/emissions' ), rtb_t( 'Édition de proximité' ) ],
+			[ 'JT de 20H', rtb_lurl( '/emissions' ), rtb_t( 'Grand journal du soir' ) ],
 			[ 'Journal en langues nationales', rtb_lurl( '/emissions' ), 'Mooré · Dioula · Fulfuldé' ],
-			[ 'Journaux parlés (Radio)', rtb_lurl( '/#radio' ), 'Éditions radio' ],
+			[ 'Journaux parlés (Radio)', rtb_lurl( '/#radio' ), rtb_t( 'Éditions radio' ) ],
 		],
 	],
 	'emissions' => [
 		'label' => 'Émissions', 'url' => rtb_lurl( '/emissions' ),
-		'menu_title' => 'Grands rendez-vous',
+		'menu_title' => rtb_t( 'Grands rendez-vous' ),
 		'menu' => [
-			[ 'Success', rtb_lurl( '/emissions' ), 'Le magazine de la réussite' ],
-			[ 'Questions Majeures', rtb_lurl( '/emissions' ), 'Le grand débat politique' ],
-			[ 'Santémag', rtb_lurl( '/emissions' ), 'Le magazine de la santé' ],
-			[ 'Débat de presse', rtb_lurl( '/emissions' ), "L'analyse de l'actualité" ],
-			[ 'Sport Box', rtb_lurl( '/emissions' ), "L'actualité du sport" ],
+			[ 'Success', rtb_lurl( '/emissions' ), rtb_t( 'Le magazine de la réussite' ) ],
+			[ 'Questions Majeures', rtb_lurl( '/emissions' ), rtb_t( 'Le grand débat politique' ) ],
+			[ 'Santémag', rtb_lurl( '/emissions' ), rtb_t( 'Le magazine de la santé' ) ],
+			[ 'Débat de presse', rtb_lurl( '/emissions' ), rtb_t( "L'analyse de l'actualité" ) ],
+			[ 'Sport Box', rtb_lurl( '/emissions' ), rtb_t( "L'actualité du sport" ) ],
 		],
 	],
 	'sport'   => [ 'label' => 'Sport',   'url' => rtb_lurl( '/category/sport' ) ],
@@ -64,10 +64,10 @@ $rtb_nav = [
 $rtb_cdn_u = 'https://www.rtb.bf/wp-content/uploads/';
 // Covers des méga-menus — défauts statiques, puis remplacés par le dernier contenu (suit chaque synchro).
 $rtb_features = [
-	'direct'     => [ 'label' => 'EN DIRECT', 'title' => 'RTB Télévision', 'cover' => $rtb_cdn_u . '2026/05/Capture-decran-2026-02-25-201146.png' ],
-	'actualites' => [ 'label' => 'À LA UNE', 'title' => 'Actualités', 'cover' => $rtb_cdn_u . '2026/06/vlcsnap-2026-06-20-21h18m47s439.png' ],
-	'journal'    => [ 'label' => 'DERNIÈRE ÉDITION', 'title' => 'Le Journal', 'cover' => $rtb_cdn_u . '2026/06/vlcsnap-2026-06-15-19h26m07s146.png' ],
-	'emissions'  => [ 'label' => 'MAGAZINE', 'title' => 'Magazines', 'cover' => $rtb_cdn_u . '2026/06/vlcsnap-2026-06-17-21h44m25s931.png' ],
+	'direct'     => [ 'label' => rtb_t( 'EN DIRECT' ), 'title' => 'RTB Télévision', 'cover' => $rtb_cdn_u . '2026/05/Capture-decran-2026-02-25-201146.png' ],
+	'actualites' => [ 'label' => rtb_t( 'À LA UNE' ), 'title' => 'Actualités', 'cover' => $rtb_cdn_u . '2026/06/vlcsnap-2026-06-20-21h18m47s439.png' ],
+	'journal'    => [ 'label' => rtb_t( 'DERNIÈRE ÉDITION' ), 'title' => 'Le Journal', 'cover' => $rtb_cdn_u . '2026/06/vlcsnap-2026-06-15-19h26m07s146.png' ],
+	'emissions'  => [ 'label' => rtb_t( 'MAGAZINE' ), 'title' => 'Magazines', 'cover' => $rtb_cdn_u . '2026/06/vlcsnap-2026-06-17-21h44m25s931.png' ],
 ];
 // Dernière émission → Le Direct + Le Journal
 $rtb_f_last = rtb_get_emissions( 1 );
@@ -102,10 +102,10 @@ $rtb_socials = [
 $rtb_nav['direct']['url'] = rtb_lurl( '/direct' );
 $rtb_direct_menu = [];
 foreach ( rtb_get_antennes() as $a ) {
-	$rtb_direct_menu[] = [ $a['name'], $a['permalink'] ?? rtb_lurl( '/direct' ), $a['desc'] ?: 'En direct' ];
+	$rtb_direct_menu[] = [ $a['name'], $a['permalink'] ?? rtb_lurl( '/direct' ), $a['desc'] ?: rtb_t( 'En direct' ) ];
 }
-$rtb_direct_menu[] = [ 'Radio en direct', rtb_lurl( '/radio' ), 'Toutes les stations de la RTB' ];
-$rtb_direct_menu[] = [ 'Grille des programmes', rtb_lurl( '/grille' ), 'TV & radio · ce qui passe maintenant' ];
+$rtb_direct_menu[] = [ 'Radio en direct', rtb_lurl( '/radio' ), rtb_t( 'Toutes les stations de la RTB' ) ];
+$rtb_direct_menu[] = [ 'Grille des programmes', rtb_lurl( '/grille' ), rtb_t( 'TV & radio · ce qui passe maintenant' ) ];
 $rtb_nav['direct']['menu'] = $rtb_direct_menu;
 
 /* Le Journal : éditions (catégories JT) + langues nationales (RTB3) + journaux parlés (radio). */
@@ -115,26 +115,26 @@ foreach ( rtb_get_antennes() as $a ) {
 		$rtb_rtb3_url = $a['permalink'] ?? $rtb_rtb3_url;
 	}
 }
-$rtb_jt_desc = [ 'JT 13H' => 'Édition de la mi-journée', 'JT 19H' => 'Édition de proximité', 'JT 20H' => 'Grand journal du soir' ];
+$rtb_jt_desc = [ 'JT 13H' => rtb_t( 'Édition de la mi-journée' ), 'JT 19H' => rtb_t( 'Édition de proximité' ), 'JT 20H' => rtb_t( 'Grand journal du soir' ) ];
 $rtb_journal_menu = [];
 foreach ( [ 'jt-13h', 'jt-19h', 'jt-20h' ] as $jt_slug ) {
 	$term = get_term_by( 'slug', $jt_slug, 'rtb_emission_cat' );
 	if ( $term ) {
-		$rtb_journal_menu[] = [ $term->name, get_term_link( $term ), $rtb_jt_desc[ $term->name ] ?? 'Journal télévisé' ];
+		$rtb_journal_menu[] = [ $term->name, get_term_link( $term ), $rtb_jt_desc[ $term->name ] ?? rtb_t( 'Journal télévisé' ) ];
 	}
 }
 $rtb_journal_menu[] = [ 'Journal en langues nationales', $rtb_rtb3_url, 'Mooré · Dioula · Fulfuldé · Gulmancéma' ];
-$rtb_journal_menu[] = [ 'Journaux parlés (Radio)', rtb_lurl( '/radio' ), 'Éditions radio' ];
+$rtb_journal_menu[] = [ 'Journaux parlés (Radio)', rtb_lurl( '/radio' ), rtb_t( 'Éditions radio' ) ];
 $rtb_nav['journal']['menu'] = $rtb_journal_menu;
 $rtb_nav['journal']['url']  = get_post_type_archive_link( 'rtb_emission' ) ?: rtb_lurl( '/emissions' );
 
 /* Émissions : une page par grand rendez-vous (filtre ?prog=). */
 $rtb_progs = [
-	'Success'            => 'Le magazine de la réussite',
-	'Questions Majeures' => 'Le grand débat politique',
-	'Santémag'           => 'Le magazine de la santé',
-	'Débat de presse'    => "L'analyse de l'actualité",
-	'Sport Box'          => "L'actualité du sport",
+	'Success'            => rtb_t( 'Le magazine de la réussite' ),
+	'Questions Majeures' => rtb_t( 'Le grand débat politique' ),
+	'Santémag'           => rtb_t( 'Le magazine de la santé' ),
+	'Débat de presse'    => rtb_t( "L'analyse de l'actualité" ),
+	'Sport Box'          => rtb_t( "L'actualité du sport" ),
 ];
 $rtb_emi_menu = [];
 foreach ( $rtb_progs as $name => $desc ) {
@@ -167,7 +167,7 @@ $rtb_nav['emissions']['url']  = get_post_type_archive_link( 'rtb_emission' ) ?: 
 <body <?php body_class(); ?>>
 <?php wp_body_open(); ?>
 
-<a class="rtb-skip" href="#rtb-main">Aller au contenu principal</a>
+<a class="rtb-skip" href="#rtb-main"><?php echo esc_html( rtb_t( 'Aller au contenu principal' ) ); ?></a>
 
 <div x-data="{ open: false, search: false }" @keydown.escape.window="open = false; search = false">
 
@@ -177,11 +177,11 @@ $rtb_nav['emissions']['url']  = get_post_type_archive_link( 'rtb_emission' ) ?: 
 			<div class="rtb-container">
 				<div class="rtb-search-head">
 					<span class="rtb-search-eyebrow"><?php pll_e( 'RECHERCHER SUR RTB' ); ?></span>
-					<button class="rtb-search-close" @click="search = false" aria-label="Fermer la recherche">&times;</button>
+					<button class="rtb-search-close" @click="search = false" aria-label="<?php echo esc_attr( rtb_t( 'Fermer la recherche' ) ); ?>">&times;</button>
 				</div>
 				<form role="search" method="get" action="<?php echo esc_url( rtb_lurl( '/' ) ); ?>" class="rtb-search-form">
 					<i class="fa-solid fa-magnifying-glass rtb-search-ico"></i>
-					<input type="search" name="s" value="<?php echo esc_attr( get_search_query() ); ?>" placeholder="Actualité, JT, émission, dossier…" x-ref="searchInput" x-init="$watch('search', v => v && $nextTick(() => $refs.searchInput.focus()))" autocomplete="off" data-rtb-instant>
+					<input type="search" name="s" value="<?php echo esc_attr( get_search_query() ); ?>" placeholder="<?php echo esc_attr( rtb_t( 'Actualité, JT, émission, dossier…' ) ); ?>" x-ref="searchInput" x-init="$watch('search', v => v && $nextTick(() => $refs.searchInput.focus()))" autocomplete="off" data-rtb-instant>
 					<button type="submit" class="rtb-search-go"><?php pll_e( 'Rechercher' ); ?></button>
 				</form>
 				<div class="rtb-search-suggest">
@@ -256,7 +256,7 @@ $rtb_nav['emissions']['url']  = get_post_type_archive_link( 'rtb_emission' ) ?: 
 				<?php endif; ?>
 
 				<!-- Dark mode -->
-				<button class="rtb-theme-btn" onclick="rtbToggleTheme()" aria-label="Changer de thème" title="Mode clair / sombre">
+				<button class="rtb-theme-btn" onclick="rtbToggleTheme()" aria-label="<?php echo esc_attr( rtb_t( 'Changer de thème' ) ); ?>" title="<?php echo esc_attr( rtb_t( 'Mode clair / sombre' ) ); ?>">
 					<svg class="rtb-icon-sun" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4.2"/><path d="M12 2v2.5M12 19.5V22M4.2 4.2l1.8 1.8M18 18l1.8 1.8M2 12h2.5M19.5 12H22M4.2 19.8 6 18M18 6l1.8-1.8"/></svg>
 						<svg class="rtb-icon-moon" width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M21 12.8A8.5 8.5 0 1 1 11.2 3a6.8 6.8 0 0 0 9.8 9.8z"/></svg>
 				</button>
@@ -267,7 +267,7 @@ $rtb_nav['emissions']['url']  = get_post_type_archive_link( 'rtb_emission' ) ?: 
 	<!-- NAV -->
 	<header class="rtb-header" id="rtb-header">
 		<div class="rtb-container">
-			<nav class="rtb-nav" aria-label="Navigation principale">
+			<nav class="rtb-nav" aria-label="<?php echo esc_attr( rtb_t( 'Navigation principale' ) ); ?>">
 				<a href="<?php echo esc_url( rtb_lurl( '/' ) ); ?>" class="rtb-logo" rel="home" data-cs="rtb_identity">
 					<img src="<?php echo esc_url( rtb_logo_url() ); ?>" alt="<?php bloginfo( 'name' ); ?>">
 					<span class="rtb-logo-divider"></span>
@@ -315,13 +315,13 @@ $rtb_nav['emissions']['url']  = get_post_type_archive_link( 'rtb_emission' ) ?: 
 				</div>
 
 				<div class="rtb-nav-actions">
-					<button class="rtb-search-btn" aria-label="Rechercher" @click="search = true">
+					<button class="rtb-search-btn" aria-label="<?php echo esc_attr( rtb_t( 'Rechercher' ) ); ?>" @click="search = true">
 						<i class="fa-solid fa-magnifying-glass"></i>
 					</button>
 					<a href="<?php echo esc_url( rtb_lurl( '/direct' ) ); ?>" class="rtb-live-btn">
 						<span class="rtb-live-dot"></span><?php pll_e( 'EN DIRECT' ); ?>
 					</a>
-					<button class="rtb-hamburger" @click="open = true" aria-label="Menu"><span></span><span></span><span></span></button>
+					<button class="rtb-hamburger" @click="open = true" aria-label="<?php echo esc_attr( rtb_t( 'Menu' ) ); ?>"><span></span><span></span><span></span></button>
 				</div>
 			</nav>
 		</div>
@@ -372,7 +372,7 @@ $rtb_nav['emissions']['url']  = get_post_type_archive_link( 'rtb_emission' ) ?: 
 	<div class="rtb-mobile-nav" :class="{ 'is-open': open }">
 		<div class="rtb-mobile-head">
 			<img src="<?php echo esc_url( rtb_logo_url() ); ?>" alt="<?php bloginfo( 'name' ); ?>">
-			<button class="rtb-mobile-close" @click="open = false" aria-label="Fermer">&times;</button>
+			<button class="rtb-mobile-close" @click="open = false" aria-label="<?php echo esc_attr( rtb_t( 'Fermer' ) ); ?>">&times;</button>
 		</div>
 		<nav class="rtb-mobile-links">
 			<?php foreach ( $rtb_nav as $slug => $item ) : ?>

@@ -13,6 +13,11 @@ final class AssistantPage {
 	private const QV  = 'rtb_assistant';
 	private const VER = '1';
 
+	/** Traduction sûre du chrome d'UI (rtb_t fourni par le plugin rtb-i18n, peut être absent). */
+	private static function t( string $fr ): string {
+		return function_exists( 'rtb_t' ) ? rtb_t( $fr ) : $fr;
+	}
+
 	public function register(): void {
 		add_action( 'init', [ $this, 'rewrite' ] );
 		add_filter( 'query_vars', [ $this, 'queryVar' ] );
@@ -38,7 +43,7 @@ final class AssistantPage {
 			return;
 		}
 		status_header( 200 );
-		add_filter( 'pre_get_document_title', static fn() => 'Assistant RTB' );
+		add_filter( 'pre_get_document_title', static fn() => self::t( 'Assistant RTB' ) );
 
 		$prompts = [
 			[ 'Dernières actualités', 'fa-newspaper' ],
@@ -50,16 +55,16 @@ final class AssistantPage {
 		];
 
 		$tips = [
-			[ 'fa-bullseye', 'Soyez précis', 'Indiquez un sujet clair : « conseil des ministres mai », « finale Coupe du Faso ».' ],
-			[ 'fa-key', 'Mots-clés', 'Pas besoin de phrases complètes — quelques mots suffisent.' ],
-			[ 'fa-wand-magic-sparkles', 'Demandez un résumé', 'Commencez par « résume-moi… » pour une synthèse de l\'article.' ],
-			[ 'fa-clock', 'Actu récente', 'Tapez « dernières actualités » pour les publications du moment.' ],
+			[ 'fa-bullseye', self::t( 'Soyez précis' ), self::t( 'Indiquez un sujet clair : « conseil des ministres mai », « finale Coupe du Faso ».' ) ],
+			[ 'fa-key', self::t( 'Mots-clés' ), self::t( 'Pas besoin de phrases complètes — quelques mots suffisent.' ) ],
+			[ 'fa-wand-magic-sparkles', self::t( 'Demandez un résumé' ), self::t( 'Commencez par « résume-moi… » pour une synthèse de l\'article.' ) ],
+			[ 'fa-clock', self::t( 'Actu récente' ), self::t( 'Tapez « dernières actualités » pour les publications du moment.' ) ],
 		];
 		$can = [
-			[ 'fa-magnifying-glass', 'Rechercher des articles & JT' ],
-			[ 'fa-file-lines', 'Résumer un sujet' ],
-			[ 'fa-tower-broadcast', 'Orienter vers le direct & la radio' ],
-			[ 'fa-newspaper', 'Donner les dernières actualités' ],
+			[ 'fa-magnifying-glass', self::t( 'Rechercher des articles & JT' ) ],
+			[ 'fa-file-lines', self::t( 'Résumer un sujet' ) ],
+			[ 'fa-tower-broadcast', self::t( 'Orienter vers le direct & la radio' ) ],
+			[ 'fa-newspaper', self::t( 'Donner les dernières actualités' ) ],
 		];
 
 		get_header();
@@ -67,12 +72,12 @@ final class AssistantPage {
 		<div class="rtb-assist-page">
 			<div class="rtb-container rtb-assist-layout">
 				<div class="rtb-assist" data-rtb-chat-inline>
-					<button class="rtb-bot-clear rtb-assist-clear" type="button" aria-label="Effacer la conversation" title="Nouvelle conversation"><i class="fa-solid fa-trash-can" aria-hidden="true"></i></button>
+					<button class="rtb-bot-clear rtb-assist-clear" type="button" aria-label="<?php echo esc_attr( self::t( 'Effacer la conversation' ) ); ?>" title="<?php echo esc_attr( self::t( 'Nouvelle conversation' ) ); ?>"><i class="fa-solid fa-trash-can" aria-hidden="true"></i></button>
 					<div class="rtb-bot-log rtb-assist-log" aria-live="polite">
 						<div class="rtb-assist-intro">
 							<span class="rtb-assist-mark"><i class="fa-solid fa-headset" aria-hidden="true"></i></span>
-							<h1>Comment puis-je vous aider ?</h1>
-							<p>Posez vos questions sur l'actualité, les JT, les émissions ou le direct — je réponds à partir du contenu de la RTB.</p>
+							<h1><?php echo esc_html( self::t( 'Comment puis-je vous aider ?' ) ); ?></h1>
+							<p><?php echo esc_html( self::t( "Posez vos questions sur l'actualité, les JT, les émissions ou le direct — je réponds à partir du contenu de la RTB." ) ); ?></p>
 							<div class="rtb-assist-prompts">
 								<?php foreach ( $prompts as $p ) : ?>
 									<button type="button" class="rtb-assist-prompt" data-rtb-ask="<?php echo esc_attr( $p[0] ); ?>">
@@ -84,14 +89,14 @@ final class AssistantPage {
 						</div>
 					</div>
 					<form class="rtb-bot-form rtb-assist-form">
-						<input type="text" class="rtb-bot-input" placeholder="Écrivez votre message…" autocomplete="off" maxlength="500">
-						<button type="submit" aria-label="Envoyer"><i class="fa-solid fa-paper-plane" aria-hidden="true"></i></button>
+						<input type="text" class="rtb-bot-input" placeholder="<?php echo esc_attr( self::t( 'Écrivez votre message…' ) ); ?>" autocomplete="off" maxlength="500">
+						<button type="submit" aria-label="<?php echo esc_attr( self::t( 'Envoyer' ) ); ?>"><i class="fa-solid fa-paper-plane" aria-hidden="true"></i></button>
 					</form>
 				</div>
 
 				<aside class="rtb-assist-side">
 					<div class="rtb-assist-side-card">
-						<h2 class="rtb-assist-side-h"><i class="fa-solid fa-lightbulb" aria-hidden="true"></i> Tirer le meilleur</h2>
+						<h2 class="rtb-assist-side-h"><i class="fa-solid fa-lightbulb" aria-hidden="true"></i> <?php echo esc_html( self::t( 'Tirer le meilleur' ) ); ?></h2>
 						<ul class="rtb-assist-tips">
 							<?php foreach ( $tips as $t ) : ?>
 								<li>
@@ -102,7 +107,7 @@ final class AssistantPage {
 						</ul>
 					</div>
 					<div class="rtb-assist-side-card">
-						<h2 class="rtb-assist-side-h"><i class="fa-solid fa-circle-check" aria-hidden="true"></i> Ce que je peux faire</h2>
+						<h2 class="rtb-assist-side-h"><i class="fa-solid fa-circle-check" aria-hidden="true"></i> <?php echo esc_html( self::t( 'Ce que je peux faire' ) ); ?></h2>
 						<ul class="rtb-assist-can">
 							<?php foreach ( $can as $c ) : ?>
 								<li><i class="fa-solid <?php echo esc_attr( $c[0] ); ?>" aria-hidden="true"></i> <?php echo esc_html( $c[1] ); ?></li>

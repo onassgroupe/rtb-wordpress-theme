@@ -25,12 +25,22 @@ final class Translator {
 
 	/** Liste des chaînes sources (français) à traduire. @return string[] */
 	public static function sources(): array {
-		return array_keys( self::base()['en'] ?? [] );
+		return array_keys( self::strings()['en'] ?? [] );
 	}
 
-	/** Dictionnaire effectif = défauts du code + surcharges éditées en admin. */
+	/** Dictionnaire effectif = défauts du code + lot « par source » + surcharges admin. */
 	public static function strings(): array {
-		$map  = self::base();
+		$map = self::base();
+
+		// Lot 2 (thème + plugins) stocké par source FR → transposé par langue.
+		foreach ( self::extraBySource() as $src => $langs ) {
+			foreach ( $langs as $lang => $tr ) {
+				if ( '' !== $tr && null !== $tr ) {
+					$map[ $lang ][ $src ] = $tr;
+				}
+			}
+		}
+
 		$over = get_option( Admin::OPTION, [] );
 		if ( is_array( $over ) ) {
 			foreach ( $over as $lang => $pairs ) {
@@ -42,6 +52,97 @@ final class Translator {
 			}
 		}
 		return $map;
+	}
+
+	/**
+	 * Lot 2 — chaînes du thème + plugins (header, parts, rtb-search, rtb-chat),
+	 * stockées par source FR avec toutes les langues. BROUILLON langues nationales.
+	 * @return array<string,array<string,string>>
+	 */
+	private static function extraBySource(): array {
+		return [
+			'Nos antennes en direct' => [ 'en' => 'Our channels live', 'mos' => 'Tõnd antennã sasa', 'dyu' => 'An ka teleyaw sisan', 'ff' => 'Laabi amen e jooni', 'gux' => 'Ti antɛn mɔanu' ],
+			'La chaîne généraliste nationale' => [ 'en' => 'The national general-interest channel', 'mos' => 'Tẽn-gãndã sɛk-kãsenga', 'dyu' => 'Jamana tele belebeleba', 'ff' => 'Kanal leydi ngalu kala', 'gux' => 'U dogu antɛn kpeligu' ],
+			'Divertissement & culture' => [ 'en' => 'Entertainment & culture', 'mos' => 'Reem & rog-n-mik', 'dyu' => 'Ɲɛnajɛ ni laada', 'ff' => 'Weltaare e finaa-tawaa', 'gux' => 'Mɔnu yeni laada' ],
+			'Information de proximité' => [ 'en' => 'Local information', 'mos' => 'Pẽ-pẽ kibaya', 'dyu' => 'Sigida kunnafoniw', 'ff' => 'Kabaruuji ɓadtuɗi', 'gux' => 'Pinpini labaaru' ],
+			"Antenne de l'Ouest — Bobo" => [ 'en' => 'Western channel — Bobo', 'mos' => 'Wẽst antennã — Bobo', 'dyu' => 'Tilebin tele — Bobo', 'ff' => 'Laawol hirnaange — Bobo', 'gux' => 'Nintuagu antɛn — Bobo' ],
+			'Radio nationale · 99.9 FM' => [ 'en' => 'National radio · 99.9 FM', 'mos' => 'Tẽn-gãndã radio · 99.9 FM', 'dyu' => 'Jamana radio · 99.9 FM', 'ff' => 'Rajo leydi · 99.9 FM', 'gux' => 'U dogu radio · 99.9 FM' ],
+			'TV & radio · ce qui passe maintenant' => [ 'en' => "TV & radio · what's on now", 'mos' => 'TV & radio · sẽn maand masã', 'dyu' => 'TV ni radio · min bɛ kɛ sisan', 'ff' => 'TV e rajo · ko waɗata jooni', 'gux' => 'TV yeni radio · yaala n tieni mɔla' ],
+			'Les rubriques de la rédaction' => [ 'en' => 'The newsroom sections', 'mos' => 'Kibar-gʋlsdbã babsã', 'dyu' => 'Sɛbɛnnikɛyɔrɔ tilew', 'ff' => 'Pece winndannde', 'gux' => 'Diani-diama buolu' ],
+			'Présidence, Conseil des ministres' => [ 'en' => 'Presidency, Council of Ministers', 'mos' => 'Naab-zĩndg, Minister-rãmbã sull', 'dyu' => 'Perezidansi, Minisiriw ɲɔgɔnye', 'ff' => 'Hooreejo leydi, Diiso hooreeɓe', 'gux' => 'U bado, U yidanli taanli' ],
+			'Éducation, santé, vie nationale' => [ 'en' => 'Education, health, national life', 'mos' => 'Zãms-koglgo, laafɩ, tẽn-gãndã vɩɩm', 'dyu' => 'Kalan, kɛnɛya, jamana ɲɛnamaya', 'ff' => 'Janngude, cellal, nguurndam leydi', 'gux' => 'Cogu, laafia, u dogu miali' ],
+			'Croissance, agriculture, énergie' => [ 'en' => 'Growth, agriculture, energy', 'mos' => 'Bɩʋʋngu, koobgo, kʋɩlem', 'dyu' => 'Yiriwali, sɛnɛkɛ, fanga', 'ff' => 'Ɓeydaari, ndema, doole', 'gux' => 'Yuagu, u koali, u fidima' ],
+			'FDS, souveraineté, AES' => [ 'en' => 'Defence forces, sovereignty, AES', 'mos' => 'FDS, mengã-soolem, AES', 'dyu' => 'FDS, yɛrɛmahɔrɔnya, AES', 'ff' => 'FDS, jeyal hoore-mum, AES', 'gux' => 'FDS, u die yenma, AES' ],
+			'Afrique & monde' => [ 'en' => 'Africa & world', 'mos' => 'Afrik & dũni', 'dyu' => 'Afiriki ni diɲɛ', 'ff' => 'Afirik e winndere', 'gux' => 'Afilika yeni handuna' ],
+			'Arts, patrimoine, SNC' => [ 'en' => 'Arts, heritage, SNC', 'mos' => 'Bʋg-tʋʋmã, rog-n-mik, SNC', 'dyu' => 'Seko, ciyɛn, SNC', 'ff' => 'Mbaadiiji, ndonu, SNC', 'gux' => 'Tuonbuali, faali, SNC' ],
+			'Éditions & journaux' => [ 'en' => 'Editions & bulletins', 'mos' => 'Yiisg la kibar-bãmsã', 'dyu' => 'Bɔlenw ni kunnafoniw', 'ff' => 'Yaltinanɗe e kabaruuji', 'gux' => 'Yendi yeni labaaru' ],
+			'Édition de la mi-journée' => [ 'en' => 'Midday edition', 'mos' => 'Wĩndg-sʋk yiisgu', 'dyu' => 'Tilefɛ bɔlen', 'ff' => 'Yaltinannde naange-tummbo', 'gux' => 'Yensiigu yendi' ],
+			'Édition de proximité' => [ 'en' => 'Local edition', 'mos' => 'Pẽ-pẽ yiisgu', 'dyu' => 'Sigida bɔlen', 'ff' => 'Yaltinannde ɓadiindi', 'gux' => 'Pinpini yendi' ],
+			'Grand journal du soir' => [ 'en' => 'Main evening news', 'mos' => 'Zaabr kibar-kãsenga', 'dyu' => 'Wula kunnafoni belebeleba', 'ff' => 'Kabaaru mawɗo kikiiɗe', 'gux' => 'Yenjuogu labaaru kpiagu' ],
+			'Éditions radio' => [ 'en' => 'Radio editions', 'mos' => 'Radio yiisgã', 'dyu' => 'Radio bɔlenw', 'ff' => 'Yaltinanɗe rajo', 'gux' => 'Radio yendi' ],
+			'Journal télévisé' => [ 'en' => 'TV news', 'mos' => 'Televiziõ kibarã', 'dyu' => 'Telewizɔn kunnafoni', 'ff' => 'Kabaaru tele', 'gux' => 'Televizõ labaaru' ],
+			'Grands rendez-vous' => [ 'en' => 'Major events', 'mos' => 'Tigsg-kãsemsã', 'dyu' => 'Lajɛ belebelebaw', 'ff' => 'Hawrooji mawɗi', 'gux' => 'Taanli kpiali' ],
+			'Le magazine de la réussite' => [ 'en' => 'The success magazine', 'mos' => 'Tõog-n-paam magaziinã', 'dyu' => 'Ɲɛtaa magazini', 'ff' => 'Magaajinewol moƴƴere', 'gux' => 'U paali magazini' ],
+			'Le grand débat politique' => [ 'en' => 'The major political debate', 'mos' => 'Politik sõsg-kãsenga', 'dyu' => 'Politiki sɔsɔli belebeleba', 'ff' => 'Yeewtere mawnde politik', 'gux' => 'U politiki maama kpiagu' ],
+			'Le magazine de la santé' => [ 'en' => 'The health magazine', 'mos' => 'Laafɩ magaziinã', 'dyu' => 'Kɛnɛya magazini', 'ff' => 'Magaajinewol cellal', 'gux' => 'U laafia magazini' ],
+			"L'analyse de l'actualité" => [ 'en' => 'News analysis', 'mos' => 'Kibarã vaeesgo', 'dyu' => 'Kunnafoni sɛgɛsɛgɛli', 'ff' => 'Ƴeewndo kabaruuji', 'gux' => 'Labaaru biigima' ],
+			"L'actualité du sport" => [ 'en' => 'Sports news', 'mos' => 'Reem kibarã', 'dyu' => 'Farikoloɲɛnajɛ kunnafoni', 'ff' => 'Kabaruuji coftal', 'gux' => 'Tuali labaaru' ],
+			'DERNIÈRE ÉDITION' => [ 'en' => 'LATEST EDITION', 'mos' => 'YAOOL YIISGU', 'dyu' => 'BƆLEN LABAN', 'ff' => 'YALTINANNDE SAKKITORDE', 'gux' => 'YENDI JUODIGU' ],
+			'MAGAZINE' => [ 'en' => 'MAGAZINE', 'mos' => 'MAGAZIIN', 'dyu' => 'MAGAZINI', 'ff' => 'MAGAAJINEWOL', 'gux' => 'MAGAZINI' ],
+			'Toutes les stations de la RTB' => [ 'en' => 'All RTB stations', 'mos' => 'RTB radio-rãmbã fãa', 'dyu' => 'RTB ka radioy bɛɛ', 'ff' => 'Estasiyoŋaaji RTB fof', 'gux' => 'RTB stasɔn kuli' ],
+			'Aller au contenu principal' => [ 'en' => 'Skip to main content', 'mos' => 'Kẽng yẽg-kãsengã zĩigẽ', 'dyu' => 'Taa kunnafoni jɔnjɔn na', 'ff' => 'Yahu e ngonkaaji jaɓaaɗi', 'gux' => 'Gedi u maama bonli po' ],
+			'Fermer la recherche' => [ 'en' => 'Close search', 'mos' => 'Pag baoorã', 'dyu' => 'Ɲinili datugu', 'ff' => 'Uddu ɗaɓɓirde', 'gux' => 'Luoni u kpaagima' ],
+			'Actualité, JT, émission, dossier…' => [ 'en' => 'News, bulletin, show, dossier…', 'mos' => 'Kibare, JT, yẽgre, dossier…', 'dyu' => 'Kunnafoni, JT, porogaramu, dosiye…', 'ff' => 'Kabaaru, JT, eɓɓoode, dosiye…', 'gux' => 'Labaaru, JT, yendi, dosie…' ],
+			'Navigation principale' => [ 'en' => 'Main navigation', 'mos' => 'Sõ-sõ-kãsengã', 'dyu' => 'Yaalama jɔnjɔn', 'ff' => 'Yaadu mawndu', 'gux' => 'U gedima maama' ],
+			'Changer de thème' => [ 'en' => 'Change theme', 'mos' => 'Tek tɛɛmã', 'dyu' => 'Tɛmu falen', 'ff' => 'Waylu tema', 'gux' => 'Lebidi tɛm' ],
+			'Mode clair / sombre' => [ 'en' => 'Light / dark mode', 'mos' => 'Vẽenem / lik', 'dyu' => 'Yeelen / dibi', 'ff' => 'Annoora / niɓe', 'gux' => 'Yenma / biigu' ],
+			'Menu' => [ 'en' => 'Menu', 'mos' => 'Menu', 'dyu' => 'Menu', 'ff' => 'Menu', 'gux' => 'Menu' ],
+			'Fermer' => [ 'en' => 'Close', 'mos' => 'Pagre', 'dyu' => 'A datugu', 'ff' => 'Uddu', 'gux' => 'Luoni' ],
+			'Partager' => [ 'en' => 'Share', 'mos' => 'Pʋɩ', 'dyu' => 'Tila', 'ff' => 'Senndu', 'gux' => 'Pɔdi' ],
+			'Partager sur' => [ 'en' => 'Share on', 'mos' => 'Pʋɩ', 'dyu' => 'Tila', 'ff' => 'Senndu e', 'gux' => 'Pɔdi' ],
+			'Suivez la RTB' => [ 'en' => 'Follow RTB', 'mos' => 'Tũ-y RTB', 'dyu' => 'Aw ka RTB tugu', 'ff' => 'Jokkee RTB', 'gux' => 'Ŋɔbidi RTB' ],
+			'Rejoignez notre communauté sur les réseaux et ne manquez aucune actualité.' => [ 'en' => 'Join our community on social media and never miss any news.', 'mos' => 'Wa-y tʋlg-y tõnd zãma sãngdɛ zĩisẽ la y ra bas kibar ye.', 'dyu' => 'I ka don an ka jɛkulu la sɔsɔliw kan, kana kunnafoni si to.', 'ff' => 'Naatu e dental amen e jaaɗe ɗee taa accaa kabaaru woo.', 'gux' => 'Tɔni ti nibuli sani sankudu po, ŋ daa ŋmaali tɔbu baa.' ],
+			'Articles liés' => [ 'en' => 'Related articles', 'mos' => 'Sɛb sẽn loe taab', 'dyu' => 'Sɛbɛw minnu bɛ ɲɔgɔn na', 'ff' => 'Binndi jokkondirɗi', 'gux' => 'Tila yaa n taani' ],
+			'Les plus récents' => [ 'en' => 'Most recent', 'mos' => 'Sẽn yaa paalse', 'dyu' => 'Kura kura ye', 'ff' => 'Ɓuri kesɗi', 'gux' => 'Yaa n paani' ],
+			'Tous les épisodes et replays de « %s ».' => [ 'en' => 'All episodes and replays of "%s".', 'mos' => '« %s » babs fãa la a leb-getɛ.', 'dyu' => '« %s » yɔrɔ bɛɛ ni a segin filɛliw.', 'ff' => 'Kuule fof e firloyle « %s ».', 'gux' => '« %s » yogidi kuli yeni a guani-nuadi.' ],
+			'Revivez les journaux, magazines et grands rendez-vous de la RTB, en replay et à la demande.' => [ 'en' => 'Relive RTB newscasts, magazines and major events, in replay and on demand.', 'mos' => 'Le-y get RTB kibay, magaziin la tigis-kãsems, leb-getg la y sẽn dat wakat ninga.', 'dyu' => 'RTB kibaruw, magazinw ni ɲɔgɔnye babaw filɛ kokura, segin filɛli ni i sago tuma.', 'ff' => 'Yeeso kabaruuji RTB, mooɓe e batuuji mawɗi, e firlo e tuma muuyaa.', 'gux' => 'Guani diidi RTB labaaridi, magazindi yeni taantili kpeligi, guani-nuadi yeni a yamu sanu.' ],
+			'Aucune émission disponible pour le moment.' => [ 'en' => 'No shows available at the moment.', 'mos' => 'Yel-kibr ka be masã ye.', 'dyu' => 'Porogaramu tɛ yen sisan.', 'ff' => 'Eɓɓoode woo alaa jooni.', 'gux' => 'Tundi baa ki ye moala.' ],
+			'ACTUALITÉS' => [ 'en' => 'NEWS', 'mos' => 'KIBAYA', 'dyu' => 'KIBARUW', 'ff' => 'KABARUUJI', 'gux' => 'LABAARIDI' ],
+			'Aucun article pour le moment.' => [ 'en' => 'No articles at the moment.', 'mos' => 'Sɛbr ka be masã ye.', 'dyu' => 'Sɛbɛn tɛ yen sisan.', 'ff' => 'Binndol woo alaa jooni.', 'gux' => 'Tili baa ki ye moala.' ],
+			'Résultats' => [ 'en' => 'Results', 'mos' => 'Biis', 'dyu' => 'Jaabiw', 'ff' => 'Keɓe', 'gux' => 'Jaabi' ],
+			'Aucun résultat' => [ 'en' => 'No results', 'mos' => 'Bũmb ka mikd ye', 'dyu' => 'Foyi ma sɔrɔ', 'ff' => 'Keɓe alaa', 'gux' => 'Bonli ki la' ],
+			'Voir tous les résultats' => [ 'en' => 'See all results', 'mos' => 'Ges biis fãa', 'dyu' => 'Jaabiw bɛɛ filɛ', 'ff' => 'Yiyo keɓe fof', 'gux' => 'Diidi jaabi kuli' ],
+			'Recherche…' => [ 'en' => 'Searching…', 'mos' => 'Baoodame…', 'dyu' => 'Ɲinili la…', 'ff' => 'Ina ɗaɓɓa…', 'gux' => 'Lingidi na…' ],
+			'Émission' => [ 'en' => 'Show', 'mos' => 'Yɛlsgo', 'dyu' => 'Porogaramu', 'ff' => 'Eɓɓoode', 'gux' => 'Mɔanli' ],
+			'Article' => [ 'en' => 'Article', 'mos' => 'Sɛbga', 'dyu' => 'Sɛbɛnni', 'ff' => 'Winndannde', 'gux' => 'Tigili' ],
+			'Actualité' => [ 'en' => 'News', 'mos' => 'Kibare', 'dyu' => 'Kibaru', 'ff' => 'Kabaaru', 'gux' => 'Labaaru' ],
+			'Assistant RTB' => [ 'en' => 'RTB Assistant', 'mos' => 'RTB sõngdã', 'dyu' => 'RTB dɛmɛbaga', 'ff' => 'Ballal RTB', 'gux' => 'RTB toddikoa' ],
+			'Soyez précis' => [ 'en' => 'Be specific', 'mos' => 'Wilg sõma', 'dyu' => 'A fɔ ka ɲɛ', 'ff' => 'Wonu laaɓɗo', 'gux' => 'Maadi ki ŋani' ],
+			'Indiquez un sujet clair : « conseil des ministres mai », « finale Coupe du Faso ».' => [ 'en' => 'State a clear topic: "council of ministers May", "Coupe du Faso final".', 'mos' => 'Wilg yɛl sẽn yaa vẽenega: « minisɛɛ-rãmbã tigsg », « Faso Kup baasgo ».', 'dyu' => 'Kuma jɛlen fɔ : « ministɛriw ka lajɛ », « Faso Kup laban ».', 'ff' => 'Holto fannu laaɓɗo : "batu ministaaɓe", "timmoode Kuupu Faso".', 'gux' => 'Maadi li bonli ki ŋani : « minisitɛɛnba taanli », « Faso Kup juodima ».' ],
+			'Mots-clés' => [ 'en' => 'Keywords', 'mos' => 'Gom-yõod', 'dyu' => 'Kuma kunbabaw', 'ff' => 'Kongi tiiɗɗi', 'gux' => 'Maama mama' ],
+			'Pas besoin de phrases complètes — quelques mots suffisent.' => [ 'en' => 'No need for full sentences — a few words are enough.', 'mos' => 'Pa tɩlae gom-zãnga ye — gom-bilf n sek.', 'dyu' => 'Kumakan dafalen man wajibiya — kumaden dama bɛ se.', 'ff' => 'Konngol timmungol alaa haaju — kongi seeɗa hannduɗum.', 'gux' => 'Maama dela ki sua kaa tie tiladi — maama waamu baa dagidi.' ],
+			'Demandez un résumé' => [ 'en' => 'Ask for a summary', 'mos' => 'Kos koɛɛg-koɛɛga', 'dyu' => 'A ɲini surɔ kunbaba', 'ff' => 'Ɗaɓɓu dunngo', 'gux' => 'Mia ke ŋmaali waamu' ],
+			"Commencez par « résume-moi… » pour une synthèse de l'article." => [ 'en' => 'Start with "summarize for me…" to get a synthesis of the article.', 'mos' => 'Sɩng ne « koɛɛg-koɛɛg maam… » n paam sõsg koɛɛga.', 'dyu' => 'A daminɛ ni « surɔ n ye… » walisa ka sɛbɛnni surɔ sɔrɔ.', 'ff' => 'Fuɗɗor e "dunnan kam…" ngam heɓude dunngo winndannde.', 'gux' => 'Cili yeni « ŋmaali npo… » ki baa li tili ŋmaali.' ],
+			'Actu récente' => [ 'en' => 'Recent news', 'mos' => 'Kibay paalse', 'dyu' => 'Kibaru kuraw', 'ff' => 'Kabaruuji kesi', 'gux' => 'Laabaali paani' ],
+			'Tapez « dernières actualités » pour les publications du moment.' => [ 'en' => 'Type "latest news" for current publications.', 'mos' => 'Gʋls « kibay paalse » n paam masã kibaya.', 'dyu' => 'A sɛbɛn « kibaru kuraw » walisa ka sisan kibaruw sɔrɔ.', 'ff' => 'Winndu "kabaruuji kesi" ngam kabaruuji jonta.', 'gux' => 'Diani « laabaali paani » ki baa mɔla laabaali.' ],
+			'Rechercher des articles & JT' => [ 'en' => 'Search articles & newscasts', 'mos' => 'Bao gom-zãn la JT', 'dyu' => 'Sɛbɛnniw ni JT ɲini', 'ff' => 'Yiylo binndi e JT', 'gux' => 'Lingi sɛbla yeni JT' ],
+			'Résumer un sujet' => [ 'en' => 'Summarize a topic', 'mos' => 'Koɛɛg-koɛɛg yɛlle', 'dyu' => 'Kuma dɔ surɔ', 'ff' => 'Dunngo fannu', 'gux' => 'Ŋmaali bonli' ],
+			'Orienter vers le direct & la radio' => [ 'en' => 'Point you to live & radio', 'mos' => 'Wilg direk la radio sorã', 'dyu' => 'A bila jɛ ni rajo ma', 'ff' => 'Tinndinde to jeeyngal e rajo', 'gux' => 'Waani li yeni rajo sanu' ],
+			'Donner les dernières actualités' => [ 'en' => 'Give the latest news', 'mos' => 'Kõ kibay paalse', 'dyu' => 'Kibaru kuraw di', 'ff' => 'Hokku kabaruuji kesi', 'gux' => 'Pa laabaali paani' ],
+			'Comment puis-je vous aider ?' => [ 'en' => 'How can I help you?', 'mos' => 'Mam tõe n sõng-y-la wãna?', 'dyu' => 'N bɛ se ka i dɛmɛ cogo di?', 'ff' => 'Hol no mi waawi ballude ma?', 'gux' => 'N baa tieni ledima ki todi ŋa?' ],
+			"Posez vos questions sur l'actualité, les JT, les émissions ou le direct — je réponds à partir du contenu de la RTB." => [ 'en' => 'Ask your questions about the news, newscasts, shows or the live stream — I answer from RTB content.', 'mos' => 'Sok-y y sogsg kibayã, JT, yɛlsgã wall direkã zugu — m leokda ne RTB gomdã.', 'dyu' => 'Aw ka aw ɲininkaliw kɛ kibaruw, JT, porogaramuw walima jɛ kan — n bɛ jaabi RTB ka kunnafoniw la.', 'ff' => 'Naamno-ɗon naamne mon e dow kabaruuji, JT, eɓɓooje walla jeeyngal — miɗo jaaba e nder kabaruuji RTB.', 'gux' => 'Mia li buali kuli laabaali, JT, mɔanjima bii jɛ po — n jiini RTB bonli po.' ],
+			'Tirer le meilleur' => [ 'en' => 'Get the most out of it', 'mos' => 'Paam sõma sẽn yɩɩda', 'dyu' => 'Nafa belebele sɔrɔ', 'ff' => 'Heɓ ko ɓuri moƴƴude', 'gux' => 'Baa ke ŋani ki cie' ],
+			'Ce que je peux faire' => [ 'en' => 'What I can do', 'mos' => 'Bũmb ning m sẽn tõe n maane', 'dyu' => 'Min bɛ se ka kɛ', 'ff' => 'Ko mi waawi waɗude', 'gux' => 'Yala n baa tieni' ],
+			'Effacer la conversation' => [ 'en' => 'Clear the conversation', 'mos' => 'Yiis sõsgã', 'dyu' => 'Baro jɔsi', 'ff' => 'Momtu yeewtere', 'gux' => 'Ñaali maama' ],
+			'Nouvelle conversation' => [ 'en' => 'New conversation', 'mos' => 'Sõsg paalga', 'dyu' => 'Baro kura', 'ff' => 'Yeewtere hesere', 'gux' => 'Maama paano' ],
+			'Écrivez votre message…' => [ 'en' => 'Write your message…', 'mos' => 'Gʋls y koɛɛgã…', 'dyu' => 'I ka i ka bataki sɛbɛn…', 'ff' => 'Winndu nulal maa…', 'gux' => 'Diani a maama…' ],
+			'Envoyer' => [ 'en' => 'Send', 'mos' => 'Tʋmse', 'dyu' => 'Ci', 'ff' => 'Neldu', 'gux' => 'Tuni' ],
+			"Ouvrir l'assistant RTB" => [ 'en' => 'Open the RTB assistant', 'mos' => 'Pak RTB sõngdã', 'dyu' => 'RTB dɛmɛbaga da yɛlɛ', 'ff' => 'Uddit ballal RTB', 'gux' => 'Luodi RTB toddikoa' ],
+			'Réponses à partir du contenu de la RTB' => [ 'en' => 'Answers based on RTB content', 'mos' => 'Leoor sẽn yit RTB gomdẽ', 'dyu' => 'Jaabiw bɔlen RTB kunnafoniw la', 'ff' => 'Jaabaaji ummiiɗi e kabaruuji RTB', 'gux' => 'Jiina yala n ñani RTB bonli po' ],
+			'Ouvrir en plein écran' => [ 'en' => 'Open in fullscreen', 'mos' => 'Pak ekrã wã fãa', 'dyu' => 'Ekran bɛɛ da yɛlɛ', 'ff' => 'Uddit e ekraan timmuɗo', 'gux' => 'Luodi ki ŋmaa ekɛɛn' ],
+			'Plein écran' => [ 'en' => 'Fullscreen', 'mos' => 'Ekrã fãa', 'dyu' => 'Ekran bɛɛ', 'ff' => 'Ekraan timmuɗo', 'gux' => 'Ekɛɛn ŋmaa' ],
+			'Posez votre question…' => [ 'en' => 'Ask your question…', 'mos' => 'Sok-y y sokrã…', 'dyu' => 'I ka i ɲininkali kɛ…', 'ff' => 'Naamno naamnal maa…', 'gux' => 'Buali a buali…' ],
+		];
 	}
 
 	/** Traductions par défaut livrées dans le code. @return array<string,array<string,string>> */

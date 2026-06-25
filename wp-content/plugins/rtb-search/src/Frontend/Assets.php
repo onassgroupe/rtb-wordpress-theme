@@ -19,16 +19,19 @@ final class Assets {
 		wp_enqueue_style( 'rtb-search', RTB_SEARCH_URL . 'assets/instant.css', [], is_file( $css ) ? (string) filemtime( $css ) : RTB_SEARCH_VER );
 		wp_enqueue_script( 'rtb-search', RTB_SEARCH_URL . 'assets/instant.js', [], is_file( $js ) ? (string) filemtime( $js ) : RTB_SEARCH_VER, true );
 
+		// URL de base de la recherche : doit conserver la locale active (sinon retour au /fr/).
+		$home = function_exists( 'rtb_lurl' ) ? rtb_lurl( '/' ) : home_url( '/' );
+
 		wp_localize_script( 'rtb-search', 'RTB_SEARCH', [
 			'ajax'  => admin_url( 'admin-ajax.php' ),
 			'nonce' => wp_create_nonce( 'rtb_instant' ),
-			'home'  => home_url( '/' ),
+			'home'  => $home,
 			'i18n'  => [
-				'results'  => __( 'Résultats', 'rtb-search' ),
-				'trending' => __( 'Recherches fréquentes', 'rtb-search' ),
-				'empty'    => __( 'Aucun résultat', 'rtb-search' ),
-				'all'      => __( 'Voir tous les résultats', 'rtb-search' ),
-				'searching' => __( 'Recherche…', 'rtb-search' ),
+				'results'   => function_exists( 'rtb_t' ) ? rtb_t( 'Résultats' ) : 'Résultats',
+				'trending'  => function_exists( 'rtb_t' ) ? rtb_t( 'Recherches fréquentes' ) : 'Recherches fréquentes',
+				'empty'     => function_exists( 'rtb_t' ) ? rtb_t( 'Aucun résultat' ) : 'Aucun résultat',
+				'all'       => function_exists( 'rtb_t' ) ? rtb_t( 'Voir tous les résultats' ) : 'Voir tous les résultats',
+				'searching' => function_exists( 'rtb_t' ) ? rtb_t( 'Recherche…' ) : 'Recherche…',
 			],
 		] );
 	}

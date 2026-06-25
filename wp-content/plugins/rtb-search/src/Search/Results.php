@@ -18,12 +18,15 @@ final class Results {
 			$thumb = rtb_post_cover( $id );
 		}
 
+		$emission_label = function_exists( 'rtb_t' ) ? rtb_t( 'Émission' ) : 'Émission';
+		$article_label  = function_exists( 'rtb_t' ) ? rtb_t( 'Article' ) : 'Article';
+
 		if ( $is_emission ) {
 			$terms = get_the_terms( $id, 'rtb_emission_cat' );
-			$cat   = ( $terms && ! is_wp_error( $terms ) ) ? $terms[0]->name : 'Émission';
+			$cat   = ( $terms && ! is_wp_error( $terms ) ) ? $terms[0]->name : $emission_label;
 		} else {
 			$cats = get_the_category( $id );
-			$cat  = $cats ? $cats[0]->name : 'Actualité';
+			$cat  = $cats ? $cats[0]->name : ( function_exists( 'rtb_t' ) ? rtb_t( 'Actualité' ) : 'Actualité' );
 		}
 
 		return [
@@ -31,7 +34,7 @@ final class Results {
 			'title' => html_entity_decode( get_the_title( $id ), ENT_QUOTES, 'UTF-8' ),
 			'url'   => get_permalink( $id ),
 			'date'  => get_the_date( 'j M Y', $id ),
-			'type'  => $is_emission ? 'Émission' : 'Article',
+			'type'  => $is_emission ? $emission_label : $article_label,
 			'kind'  => $is_emission ? 'emission' : 'post',
 			'cat'   => $cat,
 			'thumb' => $thumb ?: '',

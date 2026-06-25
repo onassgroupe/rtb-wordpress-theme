@@ -27,18 +27,18 @@ $rtb_follow = [
 
 	<!-- Partage -->
 	<div class="rtb-widget">
-		<div class="rtb-widget-title">Partager</div>
+		<div class="rtb-widget-title"><?php echo esc_html( rtb_t( 'Partager' ) ); ?></div>
 		<div class="rtb-share">
 			<?php foreach ( $rtb_shares as $key => $href ) : ?>
-				<a class="rtb-share-btn rtb-soc--<?php echo esc_attr( $key ); ?>" href="<?php echo esc_url( $href ); ?>" target="_blank" rel="noopener nofollow" aria-label="Partager sur <?php echo esc_attr( ucfirst( $key ) ); ?>"><?php echo rtb_social_svg( $key ); // phpcs:ignore ?></a>
+				<a class="rtb-share-btn rtb-soc--<?php echo esc_attr( $key ); ?>" href="<?php echo esc_url( $href ); ?>" target="_blank" rel="noopener nofollow" aria-label="<?php echo esc_attr( rtb_t( 'Partager sur' ) ) . ' ' . esc_attr( ucfirst( $key ) ); ?>"><?php echo rtb_social_svg( $key ); // phpcs:ignore ?></a>
 			<?php endforeach; ?>
 		</div>
 	</div>
 
 	<!-- Suivre la RTB (social proof) -->
 	<div class="rtb-widget rtb-widget--follow">
-		<div class="rtb-widget-title">Suivez la RTB</div>
-		<p class="rtb-widget-sub">Rejoignez notre communauté sur les réseaux et ne manquez aucune actualité.</p>
+		<div class="rtb-widget-title"><?php echo esc_html( rtb_t( 'Suivez la RTB' ) ); ?></div>
+		<p class="rtb-widget-sub"><?php echo esc_html( rtb_t( 'Rejoignez notre communauté sur les réseaux et ne manquez aucune actualité.' ) ); ?></p>
 		<div class="rtb-follow">
 			<?php foreach ( $rtb_follow as $key => $href ) : ?>
 				<a class="rtb-soc rtb-soc--<?php echo esc_attr( $key ); ?>" href="<?php echo esc_url( $href ); ?>" target="_blank" rel="noopener" aria-label="<?php echo esc_attr( ucfirst( $key ) ); ?>"><?php echo rtb_social_svg( $key ); // phpcs:ignore ?></a>
@@ -61,7 +61,7 @@ $rtb_follow = [
 		if ( $rtb_related->have_posts() ) :
 			?>
 			<div class="rtb-widget">
-				<div class="rtb-widget-title">Articles liés</div>
+				<div class="rtb-widget-title"><?php echo esc_html( rtb_t( 'Articles liés' ) ); ?></div>
 				<div class="rtb-widget-list">
 					<?php while ( $rtb_related->have_posts() ) : $rtb_related->the_post(); ?>
 						<a class="rtb-mini" href="<?php the_permalink(); ?>">
@@ -92,7 +92,7 @@ $rtb_follow = [
 	if ( $rtb_recent->have_posts() ) :
 		?>
 		<div class="rtb-widget">
-			<div class="rtb-widget-title">Les plus récents</div>
+			<div class="rtb-widget-title"><?php echo esc_html( rtb_t( 'Les plus récents' ) ); ?></div>
 			<div class="rtb-widget-list">
 				<?php $rn = 0; while ( $rtb_recent->have_posts() ) : $rtb_recent->the_post(); $rn++; ?>
 					<a class="rtb-recent" href="<?php the_permalink(); ?>">
