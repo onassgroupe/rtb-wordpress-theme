@@ -376,7 +376,22 @@ $rtb_nav['emissions']['url']  = get_post_type_archive_link( 'rtb_emission' ) ?: 
 		</div>
 		<nav class="rtb-mobile-links">
 			<?php foreach ( $rtb_nav as $slug => $item ) : ?>
-				<a href="<?php echo esc_url( $item['url'] ); ?>" class="<?php echo esc_attr( rtb_active( $slug ) ); ?>"><?php echo esc_html( rtb_t( $item['label'] ) ); ?></a>
+				<?php if ( ! empty( $item['menu'] ) ) : ?>
+					<div class="rtb-mobile-group" x-data="{ sub: false }">
+						<button type="button" class="rtb-mobile-grouptop" @click="sub = !sub" :aria-expanded="sub">
+							<span><?php echo esc_html( rtb_t( $item['label'] ) ); ?></span>
+							<span class="rtb-mobile-caret" :class="{ 'is-open': sub }" aria-hidden="true">&rsaquo;</span>
+						</button>
+						<div class="rtb-mobile-sub" x-show="sub" x-cloak x-transition.opacity>
+							<a href="<?php echo esc_url( $item['url'] ); ?>" class="rtb-mobile-suball"><?php echo esc_html( rtb_t( 'Tout voir' ) ); ?></a>
+							<?php foreach ( $item['menu'] as $sub ) : ?>
+								<a href="<?php echo esc_url( $sub[1] ); ?>"><?php echo esc_html( rtb_t( (string) $sub[0] ) ); ?></a>
+							<?php endforeach; ?>
+						</div>
+					</div>
+				<?php else : ?>
+					<a href="<?php echo esc_url( $item['url'] ); ?>" class="<?php echo esc_attr( rtb_active( $slug ) ); ?>"><?php echo esc_html( rtb_t( $item['label'] ) ); ?></a>
+				<?php endif; ?>
 			<?php endforeach; ?>
 		</nav>
 		<a href="<?php echo esc_url( rtb_lurl( '/direct' ) ); ?>" class="rtb-live-btn rtb-mobile-cta"><span class="rtb-live-dot"></span><?php pll_e( 'EN DIRECT' ); ?></a>
