@@ -17,7 +17,7 @@ while ( have_posts() ) :
 	<div class="rtb-page-head">
 		<div class="rtb-container">
 			<div class="rtb-breadcrumb">
-				<a href="<?php echo esc_url( home_url( '/' ) ); ?>">Accueil</a>
+				<a href="<?php echo esc_url( rtb_lurl( '/' ) ); ?>">Accueil</a>
 				<?php if ( $cat ) : ?> &rsaquo; <a href="<?php echo esc_url( get_category_link( $cat[0]->term_id ) ); ?>"><?php echo esc_html( $cname ); ?></a><?php endif; ?>
 			</div>
 			<div class="rtb-eyebrow rtb-eyebrow--red"><i></i><span><?php echo esc_html( mb_strtoupper( $cname, 'UTF-8' ) ); ?></span></div>

@@ -94,9 +94,17 @@ function rtb_register_polylang_languages(): void {
 		return;
 	}
 	$model = PLL()->model;
-	if ( ! method_exists( $model, 'add_language' ) ) {
+
+	// Polylang 3.7+ moved language creation to PLL()->model->languages->add();
+	// older versions used PLL()->model->add_language(). Support both.
+	$new_api = isset( $model->languages ) && is_object( $model->languages ) && method_exists( $model->languages, 'add' );
+	$legacy  = method_exists( $model, 'add_language' );
+	if ( ! $new_api && ! $legacy ) {
 		return;
 	}
+	$add = static function ( array $args ) use ( $model, $new_api ) {
+		return $new_api ? $model->languages->add( $args ) : $model->add_language( $args );
+	};
 
 	$have = [];
 	foreach ( $model->get_languages_list() as $l ) {
@@ -108,24 +116,18 @@ function rtb_register_polylang_languages(): void {
 		if ( isset( $have[ $def['slug'] ] ) ) {
 			continue;
 		}
-		// No Polylang flag here (the UI uses emoji flags); a bad flag code would
-		// make add_language fail. Retry without flag if a first attempt errors.
-		$res = $model->add_language( [
+		$args = [
 			'name'       => $def['name'],
 			'slug'       => $def['slug'],
 			'locale'     => $def['locale'],
 			'rtl'        => 0,
 			'term_group' => $def['term_group'],
-			'flag'       => 'bf',
-		] );
-		if ( is_wp_error( $res ) ) {
-			$res = $model->add_language( [
-				'name'       => $def['name'],
-				'slug'       => $def['slug'],
-				'locale'     => $def['locale'],
-				'rtl'        => 0,
-				'term_group' => $def['term_group'],
-			] );
+			'flag'       => $def['flag'],
+		];
+		$res = $add( $args );
+		if ( is_wp_error( $res ) ) { // retry without flag (a bad flag code would block creation)
+			unset( $args['flag'] );
+			$res = $add( $args );
 		}
 		if ( ! is_wp_error( $res ) ) {
 			$added = true;
@@ -139,7 +141,7 @@ function rtb_register_polylang_languages(): void {
 		rtb_cache_clear();
 	}
 }
-add_action( 'admin_init', 'rtb_register_polylang_languages' );
+// Triggered by rtb_i18n_bootstrap() on wp_loaded (front + admin).
 
 /**
  * Traductions d'interface (chaînes du thème) par langue.
@@ -219,7 +221,7 @@ function rtb_seed_string_translations(): void {
 		rtb_cache_clear();
 	}
 }
-add_action( 'admin_init', 'rtb_seed_string_translations', 20 );
+// Triggered by rtb_i18n_bootstrap() on wp_loaded.
 
 /**
  * URL interne consciente de la langue : préfixe le chemin avec la langue
@@ -232,8 +234,8 @@ function rtb_lurl( string $path = '/' ): string {
 	if ( ! $cur || $cur === $def ) {
 		return home_url( $path );
 	}
-	// If the path maps to a static page, return its translation's real permalink
-	// (unique slug) so the URL resolves cleanly instead of 301-redirecting.
+	// Static page → its translation's real permalink (unique slug) so the URL
+	// resolves cleanly instead of 301-redirecting.
 	$clean = trim( $path, '/' );
 	if ( '' !== $clean && false === strpos( $clean, '#' ) && false === strpos( $clean, '?' ) && function_exists( 'pll_get_post' ) ) {
 		$src = get_page_by_path( $clean );
@@ -244,7 +246,7 @@ function rtb_lurl( string $path = '/' ): string {
 			}
 		}
 	}
-	// Fallback: prefix the language (home, CPT archives, translated categories…).
+	// Fallback: prefix the language (home, CPT archives, untranslated categories…).
 	return home_url( '/' . $cur . $path );
 }
 
@@ -309,7 +311,38 @@ function rtb_ensure_page_translations(): void {
 		rtb_cache_clear();
 	}
 }
-add_action( 'admin_init', 'rtb_ensure_page_translations', 30 );
+
+
+/**
+ * Setup multilingue automatique (front ET admin), une seule fois : crée les
+ * langues, traduit les pages statiques, sème les chaînes. Plus besoin d'ouvrir
+ * le wp-admin. Re-tente à chaque requête tant que les langues nationales manquent.
+ */
+function rtb_i18n_bootstrap(): void {
+	if ( get_option( 'rtb_i18n_setup_v2' ) === 'done' ) {
+		return;
+	}
+	if ( ! function_exists( 'PLL' ) || ! PLL() || ! isset( PLL()->model ) ) {
+		return;
+	}
+
+	rtb_register_polylang_languages();
+
+	$slugs = [];
+	foreach ( PLL()->model->get_languages_list() as $l ) {
+		$slugs[] = $l->slug;
+	}
+	// Wait until the national languages exist before translating content.
+	if ( count( array_intersect( [ 'mos', 'dyu', 'ff', 'gux' ], $slugs ) ) < 4 ) {
+		return;
+	}
+
+	rtb_ensure_page_translations();
+	rtb_seed_string_translations();
+
+	update_option( 'rtb_i18n_setup_v2', 'done' );
+}
+add_action( 'wp_loaded', 'rtb_i18n_bootstrap', 20 );
 
 /**
  * Langues affichées dans le sélecteur (noms natifs, jamais traduits).

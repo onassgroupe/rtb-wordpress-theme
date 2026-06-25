@@ -29,14 +29,14 @@ $rtb_404_links = array(
 	<div class="rtb-404-tools">
 		<?php get_search_form(); ?>
 		<div class="rtb-404-cta">
-			<a class="rtb-live-btn" style="background:var(--rtb-green-dark)" href="<?php echo esc_url( home_url( '/' ) ); ?>"><i class="fa-solid fa-house" aria-hidden="true"></i> Accueil</a>
-			<a class="rtb-live-btn" href="<?php echo esc_url( home_url( '/direct' ) ); ?>"><span class="rtb-live-dot" aria-hidden="true"></span> En direct</a>
+			<a class="rtb-live-btn" style="background:var(--rtb-green-dark)" href="<?php echo esc_url( rtb_lurl( '/' ) ); ?>"><i class="fa-solid fa-house" aria-hidden="true"></i> Accueil</a>
+			<a class="rtb-live-btn" href="<?php echo esc_url( rtb_lurl( '/direct' ) ); ?>"><span class="rtb-live-dot" aria-hidden="true"></span> En direct</a>
 		</div>
 	</div>
 
 	<nav class="rtb-404-nav" aria-label="Accès rapides">
 		<?php foreach ( $rtb_404_links as $l ) : ?>
-			<a href="<?php echo esc_url( home_url( $l[0] ) ); ?>"><i class="fa-solid <?php echo esc_attr( $l[1] ); ?>" aria-hidden="true"></i><?php echo esc_html( $l[2] ); ?></a>
+			<a href="<?php echo esc_url( rtb_lurl( $l[0] ) ); ?>"><i class="fa-solid <?php echo esc_attr( $l[1] ); ?>" aria-hidden="true"></i><?php echo esc_html( $l[2] ); ?></a>
 		<?php endforeach; ?>
 	</nav>
 
@@ -50,7 +50,7 @@ $rtb_404_links = array(
 	if ( $rtb_404_posts->have_posts() ) : ?>
 		<div class="rtb-sec-head">
 			<h2 class="rtb-eyebrow rtb-eyebrow--red"><i></i><span>DERNIERS ARTICLES</span></h2>
-			<a class="rtb-link-more" href="<?php echo esc_url( home_url( '/category/infos' ) ); ?>">Toute l'actualité →</a>
+			<a class="rtb-link-more" href="<?php echo esc_url( rtb_lurl( '/category/infos' ) ); ?>">Toute l'actualité →</a>
 		</div>
 		<div class="rtb-archive-grid">
 			<?php while ( $rtb_404_posts->have_posts() ) : $rtb_404_posts->the_post(); get_template_part( 'parts/card', 'post' ); endwhile; ?>
@@ -67,7 +67,7 @@ $rtb_404_links = array(
 	if ( $rtb_404_emissions->have_posts() ) : ?>
 		<div class="rtb-sec-head">
 			<h2 class="rtb-eyebrow rtb-eyebrow--green"><i></i><span>À REVOIR SUR RTB</span></h2>
-			<a class="rtb-link-more" href="<?php echo esc_url( home_url( '/emissions' ) ); ?>">Tous les replays →</a>
+			<a class="rtb-link-more" href="<?php echo esc_url( rtb_lurl( '/emissions' ) ); ?>">Tous les replays →</a>
 		</div>
 		<div class="rtb-archive-grid">
 			<?php while ( $rtb_404_emissions->have_posts() ) : $rtb_404_emissions->the_post(); get_template_part( 'parts/card', 'emission' ); endwhile; ?>
