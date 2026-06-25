@@ -37,8 +37,8 @@ $payload = [
 <div class="rtb-page-head">
 	<div class="rtb-container">
 		<div class="rtb-eyebrow rtb-eyebrow--red"><i></i><span><?php pll_e( 'EN DIRECT' ); ?></span></div>
-		<h1>Le Direct</h1>
-		<p class="rtb-page-lead">Suivez en direct toutes les antennes de la RTB — télévision et radio — où que vous soyez.</p>
+		<h1><?php echo esc_html( rtb_t( 'Le Direct' ) ); ?></h1>
+		<p class="rtb-page-lead"><?php echo esc_html( rtb_t( 'Suivez en direct toutes les antennes de la RTB — télévision et radio — où que vous soyez.' ) ); ?></p>
 	</div>
 </div>
 
@@ -52,7 +52,7 @@ $payload = [
 				<!-- Direct de la chaîne (Infomaniak, auto_start) ; si pas de live → dernière édition YouTube -->
 				<iframe class="rtb-video-iframe"
 					:src="(channel && channel.live) ? channel.live : ('https://www.youtube-nocookie.com/embed/' + data.ytId + '?autoplay=1&mute=1&playsinline=1&rel=0&modestbranding=1')"
-					title="RTB — Direct" allow="autoplay; fullscreen; encrypted-media" allowfullscreen></iframe>
+					title="<?php echo esc_attr( rtb_t( 'RTB — Direct' ) ); ?>" allow="autoplay; fullscreen; encrypted-media" allowfullscreen></iframe>
 				<span class="rtb-badge-live rtb-badge-over">
 					<span class="rtb-live-dot"></span>
 					<span x-text="(channel && channel.live) ? 'EN DIRECT' : 'DERNIÈRE ÉDITION'"></span>
@@ -83,7 +83,7 @@ $payload = [
 					<i class="fa-solid fa-play rtb-live-row-ico"></i>
 				</button>
 			</template>
-			<a class="rtb-live-radio-link" href="<?php echo esc_url( rtb_lurl( '/radio' ) ); ?>"><i class="fa-solid fa-radio"></i> Écouter la radio en direct</a>
+			<a class="rtb-live-radio-link" href="<?php echo esc_url( rtb_lurl( '/radio' ) ); ?>"><i class="fa-solid fa-radio"></i> <?php echo esc_html( rtb_t( 'Écouter la radio en direct' ) ); ?></a>
 		</aside>
 	</div>
 </section>

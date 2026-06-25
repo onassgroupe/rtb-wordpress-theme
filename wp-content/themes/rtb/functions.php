@@ -123,7 +123,7 @@ function rtb_logo_url(): string {
 function rtb_scripts(): void {
 	wp_enqueue_style(
 		'rtb-fonts',
-		'https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700;800;900&family=Libre+Franklin:wght@400;500;600;700&display=swap',
+		'https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700;800;900&family=Libre+Franklin:wght@400;500;600;700&display=optional',
 		[],
 		null
 	);

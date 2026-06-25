@@ -334,14 +334,14 @@ $rtb_payload = [
 	<!-- BARRE LIVE FLOTTANTE -->
 	<div class="rtb-livebar" :class="{ 'is-up': pastHero && !footerVisible }">
 		<div class="rtb-container">
-			<button type="button" class="rtb-livebar-play" aria-label="Regarder"><i></i></button>
-			<span class="rtb-livebar-tag"><span class="rtb-live-dot"></span>EN DIRECT</span>
+			<button type="button" class="rtb-livebar-play" aria-label="<?php echo esc_attr( rtb_t( 'Regarder' ) ); ?>"><i></i></button>
+			<span class="rtb-livebar-tag"><span class="rtb-live-dot"></span><?php echo esc_html( rtb_t( 'EN DIRECT' ) ); ?></span>
 			<div class="rtb-livebar-info">
 				<b x-text="heroName"></b>
 				<small x-text="channel.now"></small>
 			</div>
 			<div class="rtb-eq"><span></span><span></span><span></span><span></span><span></span></div>
-			<a class="rtb-livebar-cta" href="<?php echo esc_url( rtb_lurl( '/emissions' ) ); ?>">Regarder</a>
+			<a class="rtb-livebar-cta" href="<?php echo esc_url( rtb_lurl( '/emissions' ) ); ?>"><?php echo esc_html( rtb_t( 'Regarder' ) ); ?></a>
 		</div>
 	</div>
 

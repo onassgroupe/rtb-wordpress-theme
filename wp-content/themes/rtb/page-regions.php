@@ -18,9 +18,9 @@ foreach ( rtb_get_antennes() as $a ) {
 ?>
 <div class="rtb-page-head">
 	<div class="rtb-container">
-		<div class="rtb-eyebrow rtb-eyebrow--green"><i></i><span>PROXIMITÉ</span></div>
-		<h1>La RTB en régions</h1>
-		<p class="rtb-page-lead">Présente sur l'ensemble du territoire, la RTB couvre l'actualité de toutes les régions du Burkina Faso et porte la voix de la proximité.</p>
+		<div class="rtb-eyebrow rtb-eyebrow--green"><i></i><span><?php echo esc_html( rtb_t( 'PROXIMITÉ' ) ); ?></span></div>
+		<h1><?php echo esc_html( rtb_t( 'La RTB en régions' ) ); ?></h1>
+		<p class="rtb-page-lead"><?php echo esc_html( rtb_t( "Présente sur l'ensemble du territoire, la RTB couvre l'actualité de toutes les régions du Burkina Faso et porte la voix de la proximité." ) ); ?></p>
 	</div>
 </div>
 
@@ -38,10 +38,10 @@ foreach ( rtb_get_antennes() as $a ) {
 
 <section class="rtb-band">
 	<div class="rtb-container rtb-section" style="text-align:center">
-		<div class="rtb-eyebrow rtb-eyebrow--red" style="justify-content:center"><i></i><span>ANTENNE DE L'OUEST</span></div>
-		<h2 style="font-size:28px;margin:6px 0 12px">RTB Guiriko, la proximité au cœur des Hauts-Bassins</h2>
-		<p class="rtb-page-lead" style="margin:0 auto 24px">Depuis Bobo-Dioulasso, RTB Guiriko informe et accompagne les populations de l'Ouest du pays.</p>
-		<a class="rtb-btn-watch" href="<?php echo esc_url( $guiriko ); ?>" style="text-decoration:none"><span class="rtb-play"><i></i></span> Découvrir RTB Guiriko</a>
+		<div class="rtb-eyebrow rtb-eyebrow--red" style="justify-content:center"><i></i><span><?php echo esc_html( rtb_t( "ANTENNE DE L'OUEST" ) ); ?></span></div>
+		<h2 style="font-size:28px;margin:6px 0 12px"><?php echo esc_html( rtb_t( 'RTB Guiriko, la proximité au cœur des Hauts-Bassins' ) ); ?></h2>
+		<p class="rtb-page-lead" style="margin:0 auto 24px"><?php echo esc_html( rtb_t( "Depuis Bobo-Dioulasso, RTB Guiriko informe et accompagne les populations de l'Ouest du pays." ) ); ?></p>
+		<a class="rtb-btn-watch" href="<?php echo esc_url( $guiriko ); ?>" style="text-decoration:none"><span class="rtb-play"><i></i></span> <?php echo esc_html( rtb_t( 'Découvrir RTB Guiriko' ) ); ?></a>
 	</div>
 </section>
 
