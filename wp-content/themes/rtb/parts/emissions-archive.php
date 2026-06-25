@@ -5,13 +5,13 @@
  */
 defined( 'ABSPATH' ) || exit;
 
-$rtb_eyebrow = $args['eyebrow'] ?? 'TÉLÉVISION';
-$rtb_title   = $args['title'] ?? 'Émissions & vidéos';
+$rtb_eyebrow = $args['eyebrow'] ?? rtb_t( 'TÉLÉVISION' );
+$rtb_title   = $args['title'] ?? rtb_t( 'Émissions & vidéos' );
 
 // Filtre programme (?prog=Success)
 $rtb_prog = isset( $_GET['prog'] ) ? sanitize_text_field( wp_unslash( $_GET['prog'] ) ) : '';
 if ( $rtb_prog ) {
-	$rtb_eyebrow = 'GRAND RENDEZ-VOUS';
+	$rtb_eyebrow = rtb_t( 'GRAND RENDEZ-VOUS' );
 	$rtb_title   = $rtb_prog;
 }
 
@@ -24,8 +24,8 @@ $rtb_current_id = ( is_tax( 'rtb_emission_cat' ) ) ? (int) get_queried_object_id
 		<h1><?php echo esc_html( $rtb_title ); ?></h1>
 		<p class="rtb-page-lead">
 			<?php echo $rtb_prog
-				? esc_html( 'Tous les épisodes et replays de « ' . $rtb_prog .' ».' )
-				: 'Revivez les journaux, magazines et grands rendez-vous de la RTB, en replay et à la demande.'; ?>
+				? esc_html( sprintf( rtb_t( 'Tous les épisodes et replays de « %s ».' ), $rtb_prog ) )
+				: esc_html( rtb_t( 'Revivez les journaux, magazines et grands rendez-vous de la RTB, en replay et à la demande.' ) ); ?>
 		</p>
 	</div>
 </div>
@@ -34,7 +34,7 @@ $rtb_current_id = ( is_tax( 'rtb_emission_cat' ) ) ? (int) get_queried_object_id
 	<h2 class="rtb-visually-hidden"><?php echo esc_html( $rtb_title ); ?></h2>
 	<?php if ( $rtb_terms && ! is_wp_error( $rtb_terms ) ) : ?>
 		<div class="rtb-tabs rtb-emissions-filter">
-			<a class="rtb-tab<?php echo $rtb_current_id ? '' : ' is-on'; ?>" href="<?php echo esc_url( get_post_type_archive_link( 'rtb_emission' ) ); ?>">Tout</a>
+			<a class="rtb-tab<?php echo $rtb_current_id ? '' : ' is-on'; ?>" href="<?php echo esc_url( get_post_type_archive_link( 'rtb_emission' ) ); ?>"><?php echo esc_html( rtb_t( 'Tout' ) ); ?></a>
 			<?php foreach ( $rtb_terms as $t ) : ?>
 				<a class="rtb-tab<?php echo $rtb_current_id === (int) $t->term_id ? ' is-on' : ''; ?>" href="<?php echo esc_url( get_term_link( $t ) ); ?>"><?php echo esc_html( $t->name ); ?></a>
 			<?php endforeach; ?>
@@ -47,6 +47,6 @@ $rtb_current_id = ( is_tax( 'rtb_emission_cat' ) ) ? (int) get_queried_object_id
 		</div>
 		<div class="rtb-pagination"><?php echo paginate_links( [ 'mid_size' => 1 ] ); ?></div>
 	<?php else : ?>
-		<p style="color:var(--text-muted)">Aucune émission disponible pour le moment.</p>
+		<p style="color:var(--text-muted)"><?php echo esc_html( rtb_t( 'Aucune émission disponible pour le moment.' ) ); ?></p>
 	<?php endif; ?>
 </section>

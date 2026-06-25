@@ -171,6 +171,33 @@ function rtb_scripts(): void {
 }
 add_action( 'wp_enqueue_scripts', 'rtb_scripts' );
 
+/**
+ * Charge les CSS non critiques en ASYNCHRONE (non bloquantes pour le rendu) :
+ * FontAwesome, polices Google, CSS des widgets chat/recherche. Seul rtb.css
+ * (critique) reste bloquant → meilleur FCP/LCP, surtout sur mobile.
+ */
+function rtb_defer_styles( string $tag, string $handle, string $href, string $media ): string {
+	if ( is_admin() ) {
+		return $tag;
+	}
+	$defer_handles = [ 'rtb-fonts', 'font-awesome', 'fa-solid', 'fa-brands' ];
+	$defer         = in_array( $handle, $defer_handles, true );
+	if ( ! $defer ) {
+		foreach ( [ 'fontawesome', '/chat.css', '/instant.css', 'fonts.googleapis.com' ] as $needle ) {
+			if ( false !== strpos( $href, $needle ) ) {
+				$defer = true;
+				break;
+			}
+		}
+	}
+	if ( ! $defer ) {
+		return $tag;
+	}
+	return '<link rel="stylesheet" href="' . esc_url( $href ) . '" media="print" onload="this.media=\'all\';this.onload=null;">'
+		. '<noscript><link rel="stylesheet" href="' . esc_url( $href ) . '"></noscript>' . "\n";
+}
+add_filter( 'style_loader_tag', 'rtb_defer_styles', 10, 4 );
+
 /* Pas d'avatars Gravatar : requêtes externes inutiles (contenu institutionnel). */
 add_filter( 'pre_option_show_avatars', '__return_zero' );
 add_filter( 'get_avatar', '__return_empty_string', 99 );

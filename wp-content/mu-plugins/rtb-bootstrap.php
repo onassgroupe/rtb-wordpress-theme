@@ -50,6 +50,15 @@ add_action( 'init', static function (): void {
 		switch_theme( 'rtb' );
 	}
 
+	// 2bis) Rendre le site indexable (une fois) : en prod, blog_public était à 0
+	// → WordPress ajoutait <meta robots noindex,nofollow> partout (SEO cassé).
+	if ( ! get_option( 'rtb_indexable_set' ) ) {
+		update_option( 'rtb_indexable_set', 1, false );
+		if ( '1' !== (string) get_option( 'blog_public' ) ) {
+			update_option( 'blog_public', '1' );
+		}
+	}
+
 	// 3) Première synchro + apprentissage, une seule fois (différé, non bloquant).
 	if ( ! get_option( 'rtb_bootstrapped' ) ) {
 		update_option( 'rtb_bootstrapped', time(), false );

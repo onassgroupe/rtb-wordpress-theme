@@ -9,6 +9,11 @@ defined( 'ABSPATH' ) || exit;
  */
 final class Assets {
 
+	/** Traduction sûre du chrome d'UI (rtb_t fourni par le plugin rtb-i18n, peut être absent). */
+	private static function t( string $fr ): string {
+		return function_exists( 'rtb_t' ) ? rtb_t( $fr ) : $fr;
+	}
+
 	public function register(): void {
 		add_action( 'wp_enqueue_scripts', [ $this, 'enqueue' ] );
 		add_action( 'wp_footer', [ $this, 'widget' ] );
@@ -36,25 +41,25 @@ final class Assets {
 		}
 		?>
 		<div class="rtb-bot" id="rtb-bot" data-open="false">
-			<button class="rtb-bot-toggle" type="button" aria-label="Ouvrir l'assistant RTB" aria-expanded="false">
+			<button class="rtb-bot-toggle" type="button" aria-label="<?php echo esc_attr( self::t( "Ouvrir l'assistant RTB" ) ); ?>" aria-expanded="false">
 				<i class="fa-solid fa-comment-dots rtb-bot-toggle-open" aria-hidden="true"></i>
 				<i class="fa-solid fa-xmark rtb-bot-toggle-close" aria-hidden="true"></i>
 			</button>
-			<div class="rtb-bot-panel" role="dialog" aria-label="Assistant RTB">
+			<div class="rtb-bot-panel" role="dialog" aria-label="<?php echo esc_attr( self::t( 'Assistant RTB' ) ); ?>">
 				<div class="rtb-bot-header">
 					<span class="rtb-bot-avatar"><i class="fa-solid fa-headset" aria-hidden="true"></i></span>
 					<span class="rtb-bot-head-txt">
-						<strong>Assistant RTB</strong>
-						<small>Réponses à partir du contenu de la RTB</small>
+						<strong><?php echo esc_html( self::t( 'Assistant RTB' ) ); ?></strong>
+						<small><?php echo esc_html( self::t( 'Réponses à partir du contenu de la RTB' ) ); ?></small>
 					</span>
-					<button class="rtb-bot-clear" type="button" aria-label="Effacer la conversation" title="Nouvelle conversation"><i class="fa-solid fa-trash-can" aria-hidden="true"></i></button>
-					<a class="rtb-bot-expand" href="<?php echo esc_url( home_url( '/assistant' ) ); ?>" aria-label="Ouvrir en plein écran" title="Plein écran"><i class="fa-solid fa-up-right-and-down-left-from-center" aria-hidden="true"></i></a>
-					<button class="rtb-bot-min" type="button" aria-label="Fermer">&times;</button>
+					<button class="rtb-bot-clear" type="button" aria-label="<?php echo esc_attr( self::t( 'Effacer la conversation' ) ); ?>" title="<?php echo esc_attr( self::t( 'Nouvelle conversation' ) ); ?>"><i class="fa-solid fa-trash-can" aria-hidden="true"></i></button>
+					<a class="rtb-bot-expand" href="<?php echo esc_url( home_url( '/assistant' ) ); ?>" aria-label="<?php echo esc_attr( self::t( 'Ouvrir en plein écran' ) ); ?>" title="<?php echo esc_attr( self::t( 'Plein écran' ) ); ?>"><i class="fa-solid fa-up-right-and-down-left-from-center" aria-hidden="true"></i></a>
+					<button class="rtb-bot-min" type="button" aria-label="<?php echo esc_attr( self::t( 'Fermer' ) ); ?>">&times;</button>
 				</div>
 				<div class="rtb-bot-log" id="rtb-bot-log" aria-live="polite"></div>
 				<form class="rtb-bot-form" id="rtb-bot-form">
-					<input type="text" class="rtb-bot-input" id="rtb-bot-input" placeholder="Posez votre question…" autocomplete="off" maxlength="500">
-					<button type="submit" aria-label="Envoyer"><i class="fa-solid fa-paper-plane" aria-hidden="true"></i></button>
+					<input type="text" class="rtb-bot-input" id="rtb-bot-input" placeholder="<?php echo esc_attr( self::t( 'Posez votre question…' ) ); ?>" autocomplete="off" maxlength="500">
+					<button type="submit" aria-label="<?php echo esc_attr( self::t( 'Envoyer' ) ); ?>"><i class="fa-solid fa-paper-plane" aria-hidden="true"></i></button>
 				</form>
 			</div>
 		</div>
