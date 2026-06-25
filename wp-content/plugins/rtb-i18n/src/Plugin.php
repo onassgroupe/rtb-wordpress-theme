@@ -9,6 +9,8 @@ defined( 'ABSPATH' ) || exit;
  */
 final class Plugin {
 
+	private const CACHE_VER = '2026-06-25a';
+
 	private static ?Plugin $instance = null;
 
 	public static function instance(): self {
@@ -41,5 +43,21 @@ final class Plugin {
 		add_filter( 'language_attributes', static function ( $output ) {
 			return 'lang="' . esc_attr( Locale::current() ) . '"';
 		} );
+
+		// Éditeur de traductions (admin).
+		if ( is_admin() ) {
+			( new Admin() )->register();
+		}
+
+		// Purge le cache de page une fois après un déploiement (changement de version)
+		// pour que les nouvelles traductions/URLs s'affichent immédiatement en prod.
+		add_action( 'init', static function () {
+			if ( get_option( 'rtb_i18n_cache_ver' ) !== self::CACHE_VER ) {
+				if ( function_exists( 'rtb_cache_clear' ) ) {
+					rtb_cache_clear();
+				}
+				update_option( 'rtb_i18n_cache_ver', self::CACHE_VER, false );
+			}
+		}, 99 );
 	}
 }
