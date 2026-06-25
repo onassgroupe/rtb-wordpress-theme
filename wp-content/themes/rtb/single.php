@@ -17,7 +17,7 @@ while ( have_posts() ) :
 	<div class="rtb-page-head">
 		<div class="rtb-container">
 			<div class="rtb-breadcrumb">
-				<a href="<?php echo esc_url( rtb_lurl( '/' ) ); ?>">Accueil</a>
+				<a href="<?php echo esc_url( rtb_lurl( '/' ) ); ?>"><?php echo esc_html( rtb_t( 'Accueil' ) ); ?></a>
 				<?php if ( $cat ) : ?> &rsaquo; <a href="<?php echo esc_url( get_category_link( $cat[0]->term_id ) ); ?>"><?php echo esc_html( $cname ); ?></a><?php endif; ?>
 			</div>
 			<div class="rtb-eyebrow rtb-eyebrow--red"><i></i><span><?php echo esc_html( mb_strtoupper( $cname, 'UTF-8' ) ); ?></span></div>
@@ -28,7 +28,7 @@ while ( have_posts() ) :
 	<div class="rtb-single rtb-container">
 		<article class="rtb-article rtb-article--main">
 			<div class="rtb-article-meta">
-				Par la <strong>Rédaction RTB</strong> · <?php echo esc_html( get_the_date( 'j F Y' ) ); ?>
+				<?php echo esc_html( rtb_t( 'Par la' ) ); ?> <strong><?php echo esc_html( rtb_t( 'Rédaction RTB' ) ); ?></strong> · <?php echo esc_html( get_the_date( 'j F Y' ) ); ?>
 			</div>
 			<?php if ( $cover && ! $rtb_doc ) : ?>
 				<div class="rtb-article-cover" style="background-image:url('<?php echo esc_url( $cover ); ?>')"></div>
@@ -40,8 +40,8 @@ while ( have_posts() ) :
 				<?php endif; ?>
 				<figure class="rtb-doc">
 					<figcaption class="rtb-doc-head">
-						<span class="rtb-doc-title"><i class="fa-solid fa-file-pdf" aria-hidden="true"></i> Document officiel</span>
-						<a class="rtb-doc-dl" href="<?php echo esc_url( $rtb_doc ); ?>" download><i class="fa-solid fa-download" aria-hidden="true"></i> Télécharger le PDF</a>
+						<span class="rtb-doc-title"><i class="fa-solid fa-file-pdf" aria-hidden="true"></i> <?php echo esc_html( rtb_t( 'Document officiel' ) ); ?></span>
+						<a class="rtb-doc-dl" href="<?php echo esc_url( $rtb_doc ); ?>" download><i class="fa-solid fa-download" aria-hidden="true"></i> <?php echo esc_html( rtb_t( 'Télécharger le PDF' ) ); ?></a>
 					</figcaption>
 					<object class="rtb-doc-view" data="<?php echo esc_url( $rtb_doc ); ?>#view=FitH" type="application/pdf">
 						<iframe class="rtb-doc-view" src="<?php echo esc_url( $rtb_doc ); ?>" title="<?php the_title_attribute(); ?> — document PDF" loading="lazy"></iframe>

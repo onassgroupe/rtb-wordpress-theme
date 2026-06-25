@@ -5,34 +5,26 @@ namespace RTB\Seo;
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Liens alternatifs hreflang (multilingue Polylang) — fr/en/mos/dyu/ff/gux.
+ * Liens alternatifs hreflang (multilingue rtb-i18n) — fr/en/mos/dyu/ff/gux.
+ * Chaque langue pointe vers la même page sous son préfixe d'URL.
  */
 final class Hreflang {
 
 	public function render(): void {
-		if ( ! function_exists( 'pll_the_languages' ) ) {
-			return;
-		}
-		$langs = pll_the_languages( [ 'raw' => 1, 'hide_if_no_translation' => 0 ] );
-		if ( ! is_array( $langs ) || count( $langs ) < 2 ) {
+		if ( ! function_exists( 'rtb_current_lang' ) || ! defined( 'RTB_INNER_PATH' ) ) {
 			return;
 		}
 
-		$default = function_exists( 'pll_default_language' ) ? pll_default_language() : '';
-		$out     = '';
-		foreach ( $langs as $l ) {
-			if ( empty( $l['url'] ) ) {
-				continue;
-			}
-			$code = ! empty( $l['locale'] ) ? str_replace( '_', '-', $l['locale'] ) : ( $l['slug'] ?? '' );
-			if ( '' === $code ) {
-				continue;
-			}
-			$out .= '<link rel="alternate" hreflang="' . esc_attr( $code ) . '" href="' . esc_url( $l['url'] ) . '">' . "\n";
-			if ( ! empty( $default ) && ( $l['slug'] ?? '' ) === $default ) {
-				$out .= '<link rel="alternate" hreflang="x-default" href="' . esc_url( $l['url'] ) . '">' . "\n";
-			}
+		$inner   = RTB_INNER_PATH;
+		$qs      = ! empty( $_SERVER['QUERY_STRING'] ) ? '?' . sanitize_text_field( wp_unslash( $_SERVER['QUERY_STRING'] ) ) : '';
+		$locales = [ 'fr', 'en', 'mos', 'dyu', 'ff', 'gux' ];
+
+		$out = '';
+		foreach ( $locales as $code ) {
+			$href = home_url( '/' . $code . $inner ) . $qs;
+			$out .= '<link rel="alternate" hreflang="' . esc_attr( $code ) . '" href="' . esc_url( $href ) . '">' . "\n";
 		}
-		echo $out;
+		$out .= '<link rel="alternate" hreflang="x-default" href="' . esc_url( home_url( '/fr' . $inner ) . $qs ) . '">' . "\n";
+		echo $out; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- déjà échappé ci-dessus.
 	}
 }

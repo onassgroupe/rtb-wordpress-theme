@@ -23,6 +23,10 @@ final class Context {
 
 	/** URL canonique. */
 	public function url(): string {
+		return $this->localize( $this->rawUrl() );
+	}
+
+	private function rawUrl(): string {
 		if ( is_singular() ) {
 			return (string) get_permalink();
 		}
@@ -42,6 +46,28 @@ final class Context {
 		}
 		global $wp;
 		return home_url( add_query_arg( [], $wp->request ?? '' ) );
+	}
+
+	/**
+	 * Garantit que l'URL canonique porte le préfixe de langue courant
+	 * (rtb-i18n), pour éviter une chaîne canonical → redirection. Idempotent.
+	 */
+	private function localize( string $url ): string {
+		if ( ! function_exists( 'rtb_current_lang' ) ) {
+			return $url;
+		}
+		$home = home_url( '/' );
+		if ( 0 !== strpos( $url, $home ) ) {
+			return $url;
+		}
+		$rest = ltrim( substr( $url, strlen( $home ) ), '/' );
+		if ( preg_match( '#^(fr|en|mos|dyu|ff|gux)(/|$|\?)#', $rest ) ) {
+			return $url; // déjà préfixé
+		}
+		if ( preg_match( '#^(wp-|xmlrpc|feed)#', $rest ) ) {
+			return $url;
+		}
+		return $home . rtb_current_lang() . '/' . $rest;
 	}
 
 	public function title(): string {

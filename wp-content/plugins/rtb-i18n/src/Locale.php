@@ -37,6 +37,15 @@ final class Locale {
 		} else {
 			self::$inner = $path;
 		}
+
+		// Constantes exposées aux autres plugins (ex. rtb-seo) sans couplage de classe.
+		if ( ! defined( 'RTB_LANG' ) ) {
+			define( 'RTB_LANG', self::$current );
+		}
+		if ( ! defined( 'RTB_INNER_PATH' ) ) {
+			define( 'RTB_INNER_PATH', self::$inner );
+		}
+		$GLOBALS['rtb_prefixed'] = self::$prefixed;
 	}
 
 	public static function current(): string {

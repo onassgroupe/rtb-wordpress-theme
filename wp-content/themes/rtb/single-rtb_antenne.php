@@ -29,8 +29,8 @@ while ( have_posts() ) :
 		<div class="rtb-chero-bg"><span class="rtb-media" style="background-image:url('<?php echo esc_url( $cover ); ?>')"></span></div>
 		<div class="rtb-container rtb-chero-inner">
 			<div class="rtb-breadcrumb rtb-chero-crumb">
-				<a href="<?php echo esc_url( rtb_lurl( '/' ) ); ?>">Accueil</a> &rsaquo;
-				<a href="<?php echo esc_url( rtb_lurl( '/direct' ) ); ?>">Le Direct</a>
+				<a href="<?php echo esc_url( rtb_lurl( '/' ) ); ?>"><?php echo esc_html( rtb_t( 'Accueil' ) ); ?></a> &rsaquo;
+				<a href="<?php echo esc_url( rtb_lurl( '/direct' ) ); ?>"><?php echo esc_html( rtb_t( 'Le Direct' ) ); ?></a>
 			</div>
 			<div class="rtb-chero-badges">
 				<span class="rtb-chero-mark"><?php echo esc_html( $mark ); ?></span>
@@ -40,13 +40,13 @@ while ( have_posts() ) :
 			<h1 class="rtb-chero-title"><?php the_title(); ?></h1>
 			<?php if ( $desc ) : ?><p class="rtb-chero-desc"><?php echo esc_html( $desc ); ?></p><?php endif; ?>
 			<?php if ( $now ) : ?>
-				<div class="rtb-chero-now"><span class="rtb-chero-now-label">À l'antenne</span> <?php echo esc_html( $now ); ?></div>
+				<div class="rtb-chero-now"><span class="rtb-chero-now-label"><?php echo esc_html( rtb_t( "À l'antenne" ) ); ?></span> <?php echo esc_html( $now ); ?></div>
 			<?php endif; ?>
 			<div class="rtb-chero-actions">
 				<?php if ( $is_radio ) : ?>
-					<a class="rtb-btn-watch" href="<?php echo esc_url( rtb_lurl( '/radio' ) ); ?>"><span class="rtb-play"><i></i></span> Écouter en direct</a>
+					<a class="rtb-btn-watch" href="<?php echo esc_url( rtb_lurl( '/radio' ) ); ?>"><span class="rtb-play"><i></i></span> <?php echo esc_html( rtb_t( 'Écouter en direct' ) ); ?></a>
 				<?php else : ?>
-					<button type="button" class="rtb-btn-watch" @click="src='<?php echo esc_js( $tv_embed ); ?>'; live=true"><span class="rtb-play"><i></i></span> Regarder en direct</button>
+					<button type="button" class="rtb-btn-watch" @click="src='<?php echo esc_js( $tv_embed ); ?>'; live=true"><span class="rtb-play"><i></i></span> <?php echo esc_html( rtb_t( 'Regarder en direct' ) ); ?></button>
 				<?php endif; ?>
 				<a class="rtb-btn-ghost" href="<?php echo esc_url( rtb_lurl( '/grille' ) ); ?>"><?php pll_e( 'Guide des programmes' ); ?> <span class="arrow"><i class="fa-solid fa-arrow-right"></i></span></a>
 				<?php if ( $freq ) : ?><span class="rtb-chero-freq"><i class="fa-solid fa-radio"></i> <?php echo esc_html( $freq ); ?></span><?php endif; ?>
@@ -55,7 +55,7 @@ while ( have_posts() ) :
 		<?php if ( ! $is_radio ) : ?>
 		<div class="rtb-chero-player" x-show="live" style="display:none">
 			<iframe class="rtb-video-iframe" :src="src" title="<?php echo esc_attr( get_the_title() ); ?> — Direct" allow="autoplay; fullscreen; encrypted-media" allowfullscreen></iframe>
-			<button type="button" class="rtb-chero-close" @click="live=false; src=''" aria-label="Fermer le direct">&times;</button>
+			<button type="button" class="rtb-chero-close" @click="live=false; src=''" aria-label="<?php echo esc_attr( rtb_t( 'Fermer le direct' ) ); ?>">&times;</button>
 		</div>
 		<?php endif; ?>
 	</section>
@@ -74,7 +74,7 @@ while ( have_posts() ) :
 	?>
 	<section class="rtb-container rtb-section">
 		<div class="rtb-sec-head">
-			<h2 class="rtb-eyebrow rtb-eyebrow--red" style="margin:0"><i></i><span>REPLAYS & PROGRAMMES</span></h2>
+			<h2 class="rtb-eyebrow rtb-eyebrow--red" style="margin:0"><i></i><span><?php echo esc_html( rtb_t( 'REPLAYS & PROGRAMMES' ) ); ?></span></h2>
 			<a class="rtb-sec-more" href="<?php echo esc_url( rtb_lurl( '/emissions' ) ); ?>"><?php pll_e( 'Toutes les émissions' ); ?> <span class="arrow"><i class="fa-solid fa-arrow-right"></i></span></a>
 		</div>
 		<div class="rtb-grid-3">
@@ -89,7 +89,7 @@ while ( have_posts() ) :
 		?>
 		<section class="rtb-band">
 			<div class="rtb-container rtb-section">
-				<h2 class="rtb-eyebrow rtb-eyebrow--green" style="margin-top:0"><i></i><span>AUTRES ANTENNES</span></h2>
+				<h2 class="rtb-eyebrow rtb-eyebrow--green" style="margin-top:0"><i></i><span><?php echo esc_html( rtb_t( 'AUTRES ANTENNES' ) ); ?></span></h2>
 				<div class="rtb-grid-5 rtb-channels">
 					<?php
 					foreach ( $others as $o ) :
