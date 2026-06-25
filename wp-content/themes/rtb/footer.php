@@ -44,11 +44,11 @@ $rtb_footer_cats = array_slice( $rtb_footer_cats, 0, 8 );
 			<div class="rtb-footer-logo">
 				<img src="<?php echo esc_url( rtb_logo_url() ); ?>" alt="<?php bloginfo( 'name' ); ?>">
 			</div>
-			<p>La Radiodiffusion Télévision du Burkina (RTB) est la société publique de radiotélévision du Burkina Faso, au service de l'information et de la proximité.</p>
+			<p><?php echo esc_html( rtb_t( "La Radiodiffusion Télévision du Burkina (RTB) est la société publique de radiotélévision du Burkina Faso, au service de l'information et de la proximité." ) ); ?></p>
 			<div class="rtb-footer-contact">
 				<div data-live="rtb_address"><?php echo esc_html( $rtb_address ); ?></div>
-				<div>Tél. <span data-live="rtb_phone"><?php echo esc_html( $rtb_phone ); ?></span></div>
-				<div style="margin-top:4px">Contact : <a href="mailto:<?php echo esc_attr( $rtb_email ); ?>" data-live-mail="rtb_email"><span data-live="rtb_email"><?php echo esc_html( $rtb_email ); ?></span></a></div>
+				<div><?php echo esc_html( rtb_t( 'Tél.' ) ); ?> <span data-live="rtb_phone"><?php echo esc_html( $rtb_phone ); ?></span></div>
+				<div style="margin-top:4px"><?php echo esc_html( rtb_t( 'Contact :' ) ); ?> <a href="mailto:<?php echo esc_attr( $rtb_email ); ?>" data-live-mail="rtb_email"><span data-live="rtb_email"><?php echo esc_html( $rtb_email ); ?></span></a></div>
 			</div>
 			<div class="rtb-footer-socials">
 				<?php foreach ( $rtb_footer_socials as $key => $url ) : ?>
@@ -91,18 +91,18 @@ $rtb_footer_cats = array_slice( $rtb_footer_cats, 0, 8 );
 
 	<div class="rtb-footer-bottom">
 		<div class="rtb-container">
-			<span>&copy; <?php echo esc_html( date( 'Y' ) ); ?> — Radiodiffusion Télévision du Burkina</span>
+			<span>&copy; <?php echo esc_html( date( 'Y' ) ); ?> — <?php echo esc_html( rtb_t( 'Radiodiffusion Télévision du Burkina' ) ); ?></span>
 			<nav>
-				<a href="<?php echo esc_url( rtb_lurl( '/a-propos' ) ); ?>">À propos</a>
-				<a href="<?php echo esc_url( rtb_lurl( '/direct' ) ); ?>">Le Direct</a>
-				<a href="<?php echo esc_url( rtb_lurl( '/radio' ) ); ?>">Radio</a>
-				<a href="<?php echo esc_url( rtb_lurl( '/grille' ) ); ?>">Grille</a>
-				<a href="<?php echo esc_url( rtb_lurl( '/contact' ) ); ?>">Contact</a>
-				<a href="<?php echo esc_url( rtb_lurl( '/mentions-legales' ) ); ?>">Mentions légales</a>
-				<a href="<?php echo esc_url( rtb_lurl( '/politique-de-confidentialite' ) ); ?>">Confidentialité</a>
-				<a href="<?php echo esc_url( rtb_lurl( '/conditions-utilisation' ) ); ?>">CGU</a>
-				<a href="<?php echo esc_url( rtb_lurl( '/accessibilite' ) ); ?>">Accessibilité</a>
-				<a href="<?php echo esc_url( rtb_lurl( '/plan-du-site' ) ); ?>">Plan du site</a>
+				<a href="<?php echo esc_url( rtb_lurl( '/a-propos' ) ); ?>"><?php echo esc_html( rtb_t( 'À propos' ) ); ?></a>
+				<a href="<?php echo esc_url( rtb_lurl( '/direct' ) ); ?>"><?php echo esc_html( rtb_t( 'Le Direct' ) ); ?></a>
+				<a href="<?php echo esc_url( rtb_lurl( '/radio' ) ); ?>"><?php echo esc_html( rtb_t( 'Radio' ) ); ?></a>
+				<a href="<?php echo esc_url( rtb_lurl( '/grille' ) ); ?>"><?php echo esc_html( rtb_t( 'Grille' ) ); ?></a>
+				<a href="<?php echo esc_url( rtb_lurl( '/contact' ) ); ?>"><?php echo esc_html( rtb_t( 'Contact' ) ); ?></a>
+				<a href="<?php echo esc_url( rtb_lurl( '/mentions-legales' ) ); ?>"><?php echo esc_html( rtb_t( 'Mentions légales' ) ); ?></a>
+				<a href="<?php echo esc_url( rtb_lurl( '/politique-de-confidentialite' ) ); ?>"><?php echo esc_html( rtb_t( 'Confidentialité' ) ); ?></a>
+				<a href="<?php echo esc_url( rtb_lurl( '/conditions-utilisation' ) ); ?>"><?php echo esc_html( rtb_t( 'CGU' ) ); ?></a>
+				<a href="<?php echo esc_url( rtb_lurl( '/accessibilite' ) ); ?>"><?php echo esc_html( rtb_t( 'Accessibilité' ) ); ?></a>
+				<a href="<?php echo esc_url( rtb_lurl( '/plan-du-site' ) ); ?>"><?php echo esc_html( rtb_t( 'Plan du site' ) ); ?></a>
 			</nav>
 		</div>
 	</div>
@@ -111,25 +111,25 @@ $rtb_footer_cats = array_slice( $rtb_footer_cats, 0, 8 );
 </div><!-- /x-data wrapper (ouvert dans header.php) -->
 
 <!-- CONSENTEMENT COOKIES — bandeau non bloquant + personnalisation -->
-<div class="rtb-cookie" :class="{ 'is-custom': custom }" x-data="rtbCookie()" x-show="open" x-transition @rtb-open-cookies.window="open = true; custom = true" x-cloak role="region" aria-label="Consentement aux cookies">
+<div class="rtb-cookie" :class="{ 'is-custom': custom }" x-data="rtbCookie()" x-show="open" x-transition @rtb-open-cookies.window="open = true; custom = true" x-cloak role="region" aria-label="<?php echo esc_attr( rtb_t( 'Consentement aux cookies' ) ); ?>">
 	<div class="rtb-cookie-flag"><span></span><span></span><span></span></div>
 	<div class="rtb-cookie-inner">
 		<div class="rtb-cookie-head">
 			<span class="rtb-cookie-ico"><i class="fa-solid fa-cookie-bite"></i></span>
-			<h2 id="rtb-cookie-title">Cookies &amp; confidentialité</h2>
+			<h2 id="rtb-cookie-title"><?php echo esc_html( rtb_t( 'Cookies & confidentialité' ) ); ?></h2>
 		</div>
-		<p class="rtb-cookie-intro">La RTB utilise des cookies pour assurer le bon fonctionnement du site, mesurer son audience et améliorer votre expérience. Vous pouvez tout accepter, tout refuser ou choisir par catégorie. <a href="<?php echo esc_url( rtb_lurl( '/politique-de-confidentialite' ) ); ?>">En savoir plus</a>.</p>
+		<p class="rtb-cookie-intro"><?php echo esc_html( rtb_t( 'La RTB utilise des cookies pour assurer le bon fonctionnement du site, mesurer son audience et améliorer votre expérience. Vous pouvez tout accepter, tout refuser ou choisir par catégorie.' ) ); ?> <a href="<?php echo esc_url( rtb_lurl( '/politique-de-confidentialite' ) ); ?>"><?php echo esc_html( rtb_t( 'En savoir plus' ) ); ?></a>.</p>
 
 		<!-- Panneau de personnalisation (dépliable) -->
 		<div class="rtb-cookie-opts" x-show="custom" x-transition.opacity>
 			<?php
 			$rtb_cookie_cats = [
-				[ 'key' => 'necessary', 'lock' => true,  'icon' => 'fa-shield-halved', 'name' => 'Nécessaires',            'desc' => 'Indispensables au fonctionnement du site (session, sécurité, consentement). Toujours actifs.' ],
-				[ 'key' => 'prefs',     'lock' => false, 'icon' => 'fa-sliders',       'name' => 'Préférences',            'desc' => 'Mémorisent vos choix : langue, mode clair/sombre, réglages d’affichage.' ],
-				[ 'key' => 'stats',     'lock' => false, 'icon' => 'fa-chart-line',     'name' => 'Mesure d’audience',      'desc' => 'Statistiques de fréquentation anonymes (pages vues, durée) pour améliorer le site.' ],
-				[ 'key' => 'ads',       'lock' => false, 'icon' => 'fa-bullhorn',       'name' => 'Publicité & marketing',  'desc' => 'Personnalisation des annonces et mesure des campagnes.' ],
-				[ 'key' => 'social',    'lock' => false, 'icon' => 'fa-share-nodes',    'name' => 'Réseaux sociaux & vidéos','desc' => 'Lecteurs et boutons de partage tiers (YouTube, Facebook, X…).' ],
-				[ 'key' => 'geo',       'lock' => false, 'icon' => 'fa-location-dot',   'name' => 'Géolocalisation',        'desc' => 'Contenus et actualités adaptés à votre région.' ],
+				[ 'key' => 'necessary', 'lock' => true,  'icon' => 'fa-shield-halved', 'name' => rtb_t( 'Nécessaires' ),            'desc' => rtb_t( 'Indispensables au fonctionnement du site (session, sécurité, consentement). Toujours actifs.' ) ],
+				[ 'key' => 'prefs',     'lock' => false, 'icon' => 'fa-sliders',       'name' => rtb_t( 'Préférences' ),            'desc' => rtb_t( 'Mémorisent vos choix : langue, mode clair/sombre, réglages d’affichage.' ) ],
+				[ 'key' => 'stats',     'lock' => false, 'icon' => 'fa-chart-line',     'name' => rtb_t( 'Mesure d’audience' ),      'desc' => rtb_t( 'Statistiques de fréquentation anonymes (pages vues, durée) pour améliorer le site.' ) ],
+				[ 'key' => 'ads',       'lock' => false, 'icon' => 'fa-bullhorn',       'name' => rtb_t( 'Publicité & marketing' ),  'desc' => rtb_t( 'Personnalisation des annonces et mesure des campagnes.' ) ],
+				[ 'key' => 'social',    'lock' => false, 'icon' => 'fa-share-nodes',    'name' => rtb_t( 'Réseaux sociaux & vidéos' ),'desc' => rtb_t( 'Lecteurs et boutons de partage tiers (YouTube, Facebook, X…).' ) ],
+				[ 'key' => 'geo',       'lock' => false, 'icon' => 'fa-location-dot',   'name' => rtb_t( 'Géolocalisation' ),        'desc' => rtb_t( 'Contenus et actualités adaptés à votre région.' ) ],
 			];
 			foreach ( $rtb_cookie_cats as $cat ) :
 				?>
@@ -148,16 +148,16 @@ $rtb_footer_cats = array_slice( $rtb_footer_cats, 0, 8 );
 		<!-- Actions -->
 		<div class="rtb-cookie-actions">
 			<template x-if="!custom">
-				<button type="button" class="rtb-cookie-btn rtb-cookie-ghost" @click="custom = true"><i class="fa-solid fa-sliders" aria-hidden="true"></i> Personnaliser</button>
+				<button type="button" class="rtb-cookie-btn rtb-cookie-ghost" @click="custom = true"><i class="fa-solid fa-sliders" aria-hidden="true"></i> <?php echo esc_html( rtb_t( 'Personnaliser' ) ); ?></button>
 			</template>
 			<template x-if="custom">
-				<button type="button" class="rtb-cookie-btn rtb-cookie-ghost" @click="custom = false">Réduire</button>
+				<button type="button" class="rtb-cookie-btn rtb-cookie-ghost" @click="custom = false"><?php echo esc_html( rtb_t( 'Réduire' ) ); ?></button>
 			</template>
-			<button type="button" class="rtb-cookie-btn rtb-cookie-refuse" @click="refuseAll()">Tout refuser</button>
+			<button type="button" class="rtb-cookie-btn rtb-cookie-refuse" @click="refuseAll()"><?php echo esc_html( rtb_t( 'Tout refuser' ) ); ?></button>
 			<template x-if="custom">
-				<button type="button" class="rtb-cookie-btn rtb-cookie-save" @click="saveChoices()">Enregistrer mes choix</button>
+				<button type="button" class="rtb-cookie-btn rtb-cookie-save" @click="saveChoices()"><?php echo esc_html( rtb_t( 'Enregistrer mes choix' ) ); ?></button>
 			</template>
-			<button type="button" class="rtb-cookie-btn rtb-cookie-accept" @click="acceptAll()">Tout accepter</button>
+			<button type="button" class="rtb-cookie-btn rtb-cookie-accept" @click="acceptAll()"><?php echo esc_html( rtb_t( 'Tout accepter' ) ); ?></button>
 		</div>
 	</div>
 </div>

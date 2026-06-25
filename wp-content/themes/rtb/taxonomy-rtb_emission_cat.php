@@ -8,8 +8,8 @@ get_header();
 
 $term = get_queried_object();
 get_template_part( 'parts/emissions-archive', null, [
-	'eyebrow' => 'ÉMISSIONS',
-	'title'   => $term ? $term->name : 'Émissions',
+	'eyebrow' => rtb_t( 'ÉMISSIONS' ),
+	'title'   => $term ? $term->name : rtb_t( 'Émissions' ),
 ] );
 
 get_footer();

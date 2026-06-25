@@ -7,10 +7,10 @@ defined( 'ABSPATH' ) || exit;
 get_header();
 
 $figures = [
-	[ 'n' => '4',    'l' => 'Antennes TV & radio', 'i' => 'fa-tower-broadcast', 'c' => '#E70C2F' ],
-	[ 'n' => '13',   'l' => 'Régions couvertes',    'i' => 'fa-location-dot',    'c' => '#0B7A3B' ],
-	[ 'n' => '24/7', 'l' => 'Diffusion en continu', 'i' => 'fa-satellite-dish',  'c' => '#C9A227' ],
-	[ 'n' => '1963', 'l' => 'Année de création',    'i' => 'fa-flag',            'c' => '#E70C2F' ],
+	[ 'n' => '4',    'l' => rtb_t( 'Antennes TV & radio' ), 'i' => 'fa-tower-broadcast', 'c' => '#E70C2F' ],
+	[ 'n' => '13',   'l' => rtb_t( 'Régions couvertes' ),    'i' => 'fa-location-dot',    'c' => '#0B7A3B' ],
+	[ 'n' => '24/7', 'l' => rtb_t( 'Diffusion en continu' ), 'i' => 'fa-satellite-dish',  'c' => '#C9A227' ],
+	[ 'n' => '1963', 'l' => rtb_t( 'Année de création' ),    'i' => 'fa-flag',            'c' => '#E70C2F' ],
 ];
 $antennes = rtb_get_antennes();
 
@@ -35,8 +35,8 @@ $rtb_team    = rtb_about_lines( 'rtb_about_team', $rtb_def['team'] ?? '' );
 ?>
 <div class="rtb-page-head">
 	<div class="rtb-container">
-		<div class="rtb-eyebrow rtb-eyebrow--green"><i></i><span>À PROPOS</span></div>
-		<h1>La Radiodiffusion Télévision du Burkina</h1>
+		<div class="rtb-eyebrow rtb-eyebrow--green"><i></i><span><?php echo esc_html( rtb_t( 'À PROPOS' ) ); ?></span></div>
+		<h1><?php echo esc_html( rtb_t( 'La Radiodiffusion Télévision du Burkina' ) ); ?></h1>
 		<p class="rtb-page-lead"><?php echo esc_html( onass_mod( 'rtb_baseline', "Société publique de radiotélévision du Burkina Faso, la RTB informe, éduque et divertit, au service de l'information et de la proximité." ) ); ?></p>
 	</div>
 </div>
@@ -44,11 +44,11 @@ $rtb_team    = rtb_about_lines( 'rtb_about_team', $rtb_def['team'] ?? '' );
 <section class="rtb-container rtb-section">
 	<div class="rtb-about-grid">
 		<div class="rtb-article-body" data-cs="rtb_about">
-			<h2>Notre mission</h2>
+			<h2><?php echo esc_html( rtb_t( 'Notre mission' ) ); ?></h2>
 			<?php foreach ( $rtb_mission as $para ) : ?>
 				<p><?php echo esc_html( $para ); ?></p>
 			<?php endforeach; ?>
-			<h2>Nos valeurs</h2>
+			<h2><?php echo esc_html( rtb_t( 'Nos valeurs' ) ); ?></h2>
 			<ul class="rtb-values">
 				<?php foreach ( $rtb_values as $v ) : ?>
 					<li><i class="fa-solid fa-check" aria-hidden="true"></i> <?php echo esc_html( $v[0] ); ?></li>
@@ -70,8 +70,8 @@ $rtb_team    = rtb_about_lines( 'rtb_about_team', $rtb_def['team'] ?? '' );
 <?php if ( $rtb_history ) : ?>
 <section class="rtb-band">
 	<div class="rtb-container rtb-section" data-cs="rtb_about">
-		<div class="rtb-eyebrow rtb-eyebrow--red"><i></i><span>NOTRE HISTOIRE</span></div>
-		<h2 class="rtb-sec-h">Plus de 60 ans au service du public</h2>
+		<div class="rtb-eyebrow rtb-eyebrow--red"><i></i><span><?php echo esc_html( rtb_t( 'NOTRE HISTOIRE' ) ); ?></span></div>
+		<h2 class="rtb-sec-h"><?php echo esc_html( rtb_t( 'Plus de 60 ans au service du public' ) ); ?></h2>
 		<ol class="rtb-timeline">
 			<?php foreach ( $rtb_history as $h ) : ?>
 				<li class="rtb-tl-item">
@@ -86,8 +86,8 @@ $rtb_team    = rtb_about_lines( 'rtb_about_team', $rtb_def['team'] ?? '' );
 
 <?php if ( $rtb_awards ) : ?>
 <section class="rtb-container rtb-section" data-cs="rtb_about">
-	<div class="rtb-eyebrow rtb-eyebrow--yellow"><i></i><span>RÉCOMPENSES & DISTINCTIONS</span></div>
-	<h2 class="rtb-sec-h">Un travail reconnu</h2>
+	<div class="rtb-eyebrow rtb-eyebrow--yellow"><i></i><span><?php echo esc_html( rtb_t( 'RÉCOMPENSES & DISTINCTIONS' ) ); ?></span></div>
+	<h2 class="rtb-sec-h"><?php echo esc_html( rtb_t( 'Un travail reconnu' ) ); ?></h2>
 	<div class="rtb-awards">
 		<?php foreach ( $rtb_awards as $a ) : ?>
 			<div class="rtb-award">
@@ -107,8 +107,8 @@ $rtb_team    = rtb_about_lines( 'rtb_about_team', $rtb_def['team'] ?? '' );
 	?>
 <section class="rtb-band">
 	<div class="rtb-container rtb-section" data-cs="rtb_about" style="text-align:center">
-		<div class="rtb-eyebrow rtb-eyebrow--green" style="justify-content:center"><i></i><span>LA DIRECTION</span></div>
-		<h2 class="rtb-sec-h">Organisation de la RTB</h2>
+		<div class="rtb-eyebrow rtb-eyebrow--green" style="justify-content:center"><i></i><span><?php echo esc_html( rtb_t( 'LA DIRECTION' ) ); ?></span></div>
+		<h2 class="rtb-sec-h"><?php echo esc_html( rtb_t( 'Organisation de la RTB' ) ); ?></h2>
 		<div class="rtb-org">
 			<div class="rtb-org-root">
 				<b><?php echo esc_html( $rtb_root[0] ); ?></b>
@@ -132,7 +132,7 @@ $rtb_team    = rtb_about_lines( 'rtb_about_team', $rtb_def['team'] ?? '' );
 
 <section class="rtb-band">
 	<div class="rtb-container rtb-section">
-		<div class="rtb-eyebrow rtb-eyebrow--red"><i></i><span>NOS ANTENNES</span></div>
+		<div class="rtb-eyebrow rtb-eyebrow--red"><i></i><span><?php echo esc_html( rtb_t( 'NOS ANTENNES' ) ); ?></span></div>
 		<div class="rtb-grid-5 rtb-channels">
 			<?php foreach ( $antennes as $c ) : ?>
 				<a class="rtb-chcard" href="<?php echo esc_url( $c['permalink'] ?? rtb_lurl( '/direct' ) ); ?>" style="--ch:<?php echo esc_attr( $c['accent'] ); ?>">
@@ -153,9 +153,9 @@ $rtb_team    = rtb_about_lines( 'rtb_about_team', $rtb_def['team'] ?? '' );
 </section>
 
 <section class="rtb-container rtb-section" style="text-align:center">
-	<h2 style="font-size:28px;margin-bottom:12px">Une question, un partenariat ?</h2>
-	<p class="rtb-page-lead" style="margin:0 auto 24px">La rédaction et les services de la RTB sont à votre écoute.</p>
-	<a class="rtb-btn-watch" href="<?php echo esc_url( rtb_lurl( '/contact' ) ); ?>" style="text-decoration:none"><i class="fa-solid fa-envelope" style="margin-right:4px"></i> Nous contacter</a>
+	<h2 style="font-size:28px;margin-bottom:12px"><?php echo esc_html( rtb_t( 'Une question, un partenariat ?' ) ); ?></h2>
+	<p class="rtb-page-lead" style="margin:0 auto 24px"><?php echo esc_html( rtb_t( 'La rédaction et les services de la RTB sont à votre écoute.' ) ); ?></p>
+	<a class="rtb-btn-watch" href="<?php echo esc_url( rtb_lurl( '/contact' ) ); ?>" style="text-decoration:none"><i class="fa-solid fa-envelope" style="margin-right:4px"></i> <?php echo esc_html( rtb_t( 'Nous contacter' ) ); ?></a>
 </section>
 
 <?php
