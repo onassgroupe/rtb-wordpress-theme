@@ -29,6 +29,7 @@ final class RestController {
 		register_rest_route( $ns, '/channels',   [ 'methods' => 'GET', 'callback' => [ $this, 'channels' ],   'permission_callback' => $auth ] );
 		register_rest_route( $ns, '/radio',      [ 'methods' => 'GET', 'callback' => [ $this, 'radio' ],      'permission_callback' => $auth ] );
 		register_rest_route( $ns, '/categories', [ 'methods' => 'GET', 'callback' => [ $this, 'categories' ], 'permission_callback' => $auth ] );
+		register_rest_route( $ns, '/emission-categories', [ 'methods' => 'GET', 'callback' => [ $this, 'emissionCategories' ], 'permission_callback' => $auth ] );
 		register_rest_route( $ns, '/articles',   [ 'methods' => 'GET', 'callback' => [ $this, 'articles' ],   'permission_callback' => $auth, 'args' => $list ] );
 		register_rest_route( $ns, '/articles/(?P<id>\d+)', [ 'methods' => 'GET', 'callback' => [ $this, 'article' ], 'permission_callback' => $auth, 'args' => [ 'id' => [ 'sanitize_callback' => 'absint' ] ] ] );
 		register_rest_route( $ns, '/emissions',  [ 'methods' => 'GET', 'callback' => [ $this, 'emissions' ],  'permission_callback' => $auth, 'args' => $list ] );
@@ -82,7 +83,15 @@ final class RestController {
 
 	public function categories(): WP_REST_Response {
 		$terms = get_categories( [ 'hide_empty' => true ] );
-		return $this->ok( [ 'items' => array_map( [ Transformer::class, 'category' ], $terms ) ] );
+		return $this->ok( [ 'items' => array_values( array_map( [ Transformer::class, 'category' ], $terms ) ) ] );
+	}
+
+	public function emissionCategories(): WP_REST_Response {
+		$terms = get_terms( [ 'taxonomy' => 'rtb_emission_cat', 'hide_empty' => true ] );
+		if ( is_wp_error( $terms ) ) {
+			$terms = [];
+		}
+		return $this->ok( [ 'items' => array_values( array_map( [ Transformer::class, 'category' ], $terms ) ) ] );
 	}
 
 	public function articles( WP_REST_Request $req ): WP_REST_Response {
