@@ -87,8 +87,19 @@ final class Context {
 		} elseif ( is_search() ) {
 			$desc = sprintf( 'Résultats de recherche pour « %s » sur la RTB.', get_search_query() );
 		}
+		// Accueil : slogan du site (Réglages → Général), sinon description de marque.
+		if ( '' === trim( (string) $desc ) && ( is_front_page() || is_home() ) ) {
+			$desc = (string) get_bloginfo( 'description' );
+			if ( '' === trim( $desc ) ) {
+				$desc = 'Radiodiffusion Télévision du Burkina, télévision, radio et actualités au cœur du pays.';
+			}
+		}
 		if ( '' === trim( (string) $desc ) ) {
 			$desc = get_bloginfo( 'description' );
+		}
+		// Localise une description issue d'une option texte (slogan) dans la langue courante.
+		if ( '' !== trim( (string) $desc ) && function_exists( 'rtb_t' ) ) {
+			$desc = rtb_t( (string) $desc );
 		}
 		$desc = trim( preg_replace( '/\s+/', ' ', wp_strip_all_tags( (string) $desc ) ) );
 		return '' === $desc ? '' : mb_substr( $desc, 0, 200 );

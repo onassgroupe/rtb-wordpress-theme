@@ -26,6 +26,22 @@ final class Plugin {
 			remove_action( 'wp_head', 'rel_canonical' );
 		}, 1 );
 
+		// Titre de l'accueil propre : « Titre du site — Slogan », le slogan étant
+		// traduit dans les 6 langues. La SOURCE de vérité reste Réglages → Général
+		// (Titre du site + Slogan), éditable par la RTB ; on ne fait que localiser.
+		add_filter( 'document_title_parts', static function ( array $parts ): array {
+			if ( is_front_page() || is_home() ) {
+				$tagline = trim( (string) get_bloginfo( 'description', 'display' ) );
+				if ( '' !== $tagline && function_exists( 'rtb_t' ) ) {
+					$tagline = rtb_t( $tagline );
+				}
+				if ( '' !== $tagline ) {
+					$parts['tagline'] = $tagline;
+				}
+			}
+			return $parts;
+		} );
+
 		add_action( 'wp_head', [ new HeadMeta(), 'render' ], 3 );
 		add_action( 'wp_head', [ new Hreflang(), 'render' ], 4 );
 		add_action( 'wp_head', [ new Schema\JsonLd(), 'render' ], 5 );
