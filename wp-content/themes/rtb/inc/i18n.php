@@ -94,9 +94,17 @@ function rtb_register_polylang_languages(): void {
 		return;
 	}
 	$model = PLL()->model;
-	if ( ! method_exists( $model, 'add_language' ) ) {
+
+	// Polylang 3.7+ moved language creation to PLL()->model->languages->add();
+	// older versions used PLL()->model->add_language(). Support both.
+	$new_api = isset( $model->languages ) && is_object( $model->languages ) && method_exists( $model->languages, 'add' );
+	$legacy  = method_exists( $model, 'add_language' );
+	if ( ! $new_api && ! $legacy ) {
 		return;
 	}
+	$add = static function ( array $args ) use ( $model, $new_api ) {
+		return $new_api ? $model->languages->add( $args ) : $model->add_language( $args );
+	};
 
 	$have = [];
 	foreach ( $model->get_languages_list() as $l ) {
@@ -108,24 +116,18 @@ function rtb_register_polylang_languages(): void {
 		if ( isset( $have[ $def['slug'] ] ) ) {
 			continue;
 		}
-		// No Polylang flag here (the UI uses emoji flags); a bad flag code would
-		// make add_language fail. Retry without flag if a first attempt errors.
-		$res = $model->add_language( [
+		$args = [
 			'name'       => $def['name'],
 			'slug'       => $def['slug'],
 			'locale'     => $def['locale'],
 			'rtl'        => 0,
 			'term_group' => $def['term_group'],
-			'flag'       => 'bf',
-		] );
-		if ( is_wp_error( $res ) ) {
-			$res = $model->add_language( [
-				'name'       => $def['name'],
-				'slug'       => $def['slug'],
-				'locale'     => $def['locale'],
-				'rtl'        => 0,
-				'term_group' => $def['term_group'],
-			] );
+			'flag'       => $def['flag'],
+		];
+		$res = $add( $args );
+		if ( is_wp_error( $res ) ) { // retry without flag (a bad flag code would block creation)
+			unset( $args['flag'] );
+			$res = $add( $args );
 		}
 		if ( ! is_wp_error( $res ) ) {
 			$added = true;
