@@ -39,11 +39,19 @@ final class RateLimiter {
 		return $result;
 	}
 
-	/** IP réelle, en tenant compte du proxy (Coolify/Traefik). */
+	/**
+	 * IP réelle derrière le proxy (Coolify/Traefik).
+	 *
+	 * Le proxy de confiance AJOUTE l'IP cliente à DROITE de X-Forwarded-For.
+	 * On lit donc la liste de droite à gauche : la 1ʳᵉ IP valide trouvée est
+	 * celle posée par le proxy — un client ne peut pas la spoofer (toute valeur
+	 * qu'il enverrait se retrouve à GAUCHE et est ignorée). On retombe sur
+	 * REMOTE_ADDR si aucun en-tête.
+	 */
 	private function clientIp(): string {
 		$candidates = [];
 		if ( ! empty( $_SERVER['HTTP_X_FORWARDED_FOR'] ) ) {
-			$candidates = explode( ',', (string) $_SERVER['HTTP_X_FORWARDED_FOR'] );
+			$candidates = array_reverse( explode( ',', (string) $_SERVER['HTTP_X_FORWARDED_FOR'] ) );
 		}
 		$candidates[] = $_SERVER['REMOTE_ADDR'] ?? '';
 		foreach ( $candidates as $ip ) {

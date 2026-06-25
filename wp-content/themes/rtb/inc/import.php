@@ -97,11 +97,29 @@ function rtb_pdftotext_bin(): string {
 	return $bin = ( $w && @is_executable( $w ) ) ? $w : '';
 }
 
-/** Encode les octets non-ASCII (ex. « ° ») d'une URL pour wp_remote_get. */
+/** Valide (anti-SSRF) + encode les octets non-ASCII d'une URL pour wp_remote_get. */
 function rtb_safe_url( string $url ): string {
+	$url = trim( $url );
+
+	// Anti-SSRF : n'autoriser que http/https et refuser les hôtes internes / IP privées.
+	$scheme = strtolower( (string) wp_parse_url( $url, PHP_URL_SCHEME ) );
+	if ( ! in_array( $scheme, array( 'http', 'https' ), true ) ) {
+		return '';
+	}
+	$host = (string) wp_parse_url( $url, PHP_URL_HOST );
+	if ( '' === $host ) {
+		return '';
+	}
+	$ip = filter_var( $host, FILTER_VALIDATE_IP ) ? $host : gethostbyname( $host );
+	if ( filter_var( $ip, FILTER_VALIDATE_IP )
+		&& ! filter_var( $ip, FILTER_VALIDATE_IP, FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE ) ) {
+		return ''; // boucle locale, réseau privé, link-local… → refusé
+	}
+
+	// Encode les octets non-ASCII (ex. « ° ») pour wp_remote_get.
 	return preg_replace_callback( '#[^\x21-\x7E]#', static function ( $m ) {
 		return rawurlencode( $m[0] );
-	}, trim( $url ) );
+	}, $url );
 }
 
 /**

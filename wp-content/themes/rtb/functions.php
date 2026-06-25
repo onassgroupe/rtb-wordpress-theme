@@ -241,6 +241,14 @@ add_action( 'wp_head', function () {
 function rtb_handle_contact(): void {
 	check_ajax_referer( 'rtb_contact', 'nonce' );
 
+	// Anti-spam : 1 envoi / 30 s par IP (léger, sans dépendance).
+	$ip     = (string) ( $_SERVER['REMOTE_ADDR'] ?? 'unknown' );
+	$bucket = 'rtb_contact_rl_' . md5( $ip );
+	if ( get_transient( $bucket ) ) {
+		wp_send_json_error( [ 'message' => 'Merci de patienter un instant avant de renvoyer un message.' ] );
+	}
+	set_transient( $bucket, 1, 30 );
+
 	$nom   = sanitize_text_field( $_POST['nom'] ?? '' );
 	$email = sanitize_email( $_POST['email'] ?? '' );
 	$sujet = sanitize_text_field( $_POST['sujet'] ?? '' );
