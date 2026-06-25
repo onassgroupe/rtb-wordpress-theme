@@ -29,6 +29,7 @@ final class RestController {
 		register_rest_route( $ns, '/channels',   [ 'methods' => 'GET', 'callback' => [ $this, 'channels' ],   'permission_callback' => $auth ] );
 		register_rest_route( $ns, '/radio',      [ 'methods' => 'GET', 'callback' => [ $this, 'radio' ],      'permission_callback' => $auth ] );
 		register_rest_route( $ns, '/categories', [ 'methods' => 'GET', 'callback' => [ $this, 'categories' ], 'permission_callback' => $auth ] );
+		register_rest_route( $ns, '/emission-categories', [ 'methods' => 'GET', 'callback' => [ $this, 'emissionCategories' ], 'permission_callback' => $auth ] );
 		register_rest_route( $ns, '/articles',   [ 'methods' => 'GET', 'callback' => [ $this, 'articles' ],   'permission_callback' => $auth, 'args' => $list ] );
 		register_rest_route( $ns, '/articles/(?P<id>\d+)', [ 'methods' => 'GET', 'callback' => [ $this, 'article' ], 'permission_callback' => $auth, 'args' => [ 'id' => [ 'sanitize_callback' => 'absint' ] ] ] );
 		register_rest_route( $ns, '/emissions',  [ 'methods' => 'GET', 'callback' => [ $this, 'emissions' ],  'permission_callback' => $auth, 'args' => $list ] );
@@ -38,6 +39,21 @@ final class RestController {
 			'type'  => [ 'sanitize_callback' => 'sanitize_key' ],
 			'limit' => [ 'sanitize_callback' => 'absint' ],
 		] ] );
+		register_rest_route( $ns, '/assistant',  [ 'methods' => 'POST', 'callback' => [ $this, 'assistant' ], 'permission_callback' => $auth, 'args' => [
+			'message' => [ 'required' => true, 'sanitize_callback' => 'sanitize_textarea_field' ],
+		] ] );
+	}
+
+	public function assistant( WP_REST_Request $req ) {
+		if ( ! class_exists( \RTB\Chat\Assistant::class ) ) {
+			return new WP_Error( 'rtb_chat_unavailable', "L'assistant n'est pas disponible.", [ 'status' => 503 ] );
+		}
+		$message = trim( mb_substr( (string) $req->get_param( 'message' ), 0, 500 ) );
+		if ( '' === $message ) {
+			return new WP_Error( 'rtb_empty', 'Message vide.', [ 'status' => 400 ] );
+		}
+		$reply = ( new \RTB\Chat\Assistant() )->answer( $message );
+		return $this->ok( [ 'intent' => $reply->intent, 'blocks' => $reply->blocks() ] );
 	}
 
 	public function config(): WP_REST_Response {
@@ -82,7 +98,15 @@ final class RestController {
 
 	public function categories(): WP_REST_Response {
 		$terms = get_categories( [ 'hide_empty' => true ] );
-		return $this->ok( [ 'items' => array_map( [ Transformer::class, 'category' ], $terms ) ] );
+		return $this->ok( [ 'items' => array_values( array_map( [ Transformer::class, 'category' ], $terms ) ) ] );
+	}
+
+	public function emissionCategories(): WP_REST_Response {
+		$terms = get_terms( [ 'taxonomy' => 'rtb_emission_cat', 'hide_empty' => true ] );
+		if ( is_wp_error( $terms ) ) {
+			$terms = [];
+		}
+		return $this->ok( [ 'items' => array_values( array_map( [ Transformer::class, 'category' ], $terms ) ) ] );
 	}
 
 	public function articles( WP_REST_Request $req ): WP_REST_Response {
