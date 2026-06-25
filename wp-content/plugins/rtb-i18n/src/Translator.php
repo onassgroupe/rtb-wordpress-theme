@@ -61,6 +61,7 @@ final class Translator {
 	 */
 	private static function extraBySource(): array {
 		return [
+			'Regarder' => [ 'en' => 'Watch', 'mos' => 'Ges', 'dyu' => 'Filɛ', 'ff' => 'Ndaaru', 'gux' => 'Diidi' ],
 			'Nos antennes en direct' => [ 'en' => 'Our channels live', 'mos' => 'Tõnd antennã sasa', 'dyu' => 'An ka teleyaw sisan', 'ff' => 'Laabi amen e jooni', 'gux' => 'Ti antɛn mɔanu' ],
 			'La chaîne généraliste nationale' => [ 'en' => 'The national general-interest channel', 'mos' => 'Tẽn-gãndã sɛk-kãsenga', 'dyu' => 'Jamana tele belebeleba', 'ff' => 'Kanal leydi ngalu kala', 'gux' => 'U dogu antɛn kpeligu' ],
 			'Divertissement & culture' => [ 'en' => 'Entertainment & culture', 'mos' => 'Reem & rog-n-mik', 'dyu' => 'Ɲɛnajɛ ni laada', 'ff' => 'Weltaare e finaa-tawaa', 'gux' => 'Mɔnu yeni laada' ],
