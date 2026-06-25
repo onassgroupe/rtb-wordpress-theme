@@ -23,6 +23,9 @@ final class Plugin {
 		add_filter( 'rest_pre_serve_request', [ $this, 'cors' ], 10, 4 );
 		add_filter( 'rest_pre_dispatch', [ new RateLimiter(), 'maybeLimit' ], 10, 3 );
 
+		// Notifications push : envoi auto à la publication d'un nouvel article.
+		( new Push\Sender() )->register();
+
 		if ( is_admin() ) {
 			( new Admin() )->register();
 		}
@@ -32,8 +35,8 @@ final class Plugin {
 	public function cors( $served, $result, $request, $server ) {
 		if ( 0 === strpos( ltrim( (string) $request->get_route(), '/' ), RTB_API_NS ) ) {
 			header( 'Access-Control-Allow-Origin: *' );
-			header( 'Access-Control-Allow-Methods: GET, OPTIONS' );
-			header( 'Access-Control-Allow-Headers: Content-Type' );
+			header( 'Access-Control-Allow-Methods: GET, POST, OPTIONS' );
+			header( 'Access-Control-Allow-Headers: Content-Type, X-RTB-Api-Key' );
 		}
 		return $served;
 	}
