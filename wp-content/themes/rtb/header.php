@@ -228,23 +228,28 @@ $rtb_nav['emissions']['url']  = get_post_type_archive_link( 'rtb_emission' ) ?: 
 
 				<!-- Sélecteur de langue (Polylang) -->
 				<?php
-				$rtb_langs   = rtb_languages();
-				$rtb_cur_lng = 'FR';
+				$rtb_langs    = rtb_languages();
+				$rtb_cur_lng  = 'FR';
+				$rtb_cur_flag = '🇫🇷';
 				foreach ( $rtb_langs as $rl ) {
 					if ( $rl['current'] ) {
-						$rtb_cur_lng = $rl['slug'];
+						$rtb_cur_lng  = strtoupper( $rl['slug'] );
+						$rtb_cur_flag = $rl['flag'];
 					}
 				}
 				if ( $rtb_langs ) :
 					?>
 					<div class="rtb-lang" x-data="{ open: false }" @click.outside="open = false">
 						<button class="rtb-lang-btn" @click="open = !open" :aria-expanded="open.toString()">
-							<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"/></svg>
+							<span class="rtb-lang-flag"><?php echo esc_html( $rtb_cur_flag ); ?></span>
 							<span><?php echo esc_html( $rtb_cur_lng ); ?></span><i class="fa-solid fa-chevron-down rtb-caret"></i>
 						</button>
 						<div class="rtb-lang-menu" x-show="open" x-transition.opacity style="display:none">
 							<?php foreach ( $rtb_langs as $rl ) : ?>
-								<a href="<?php echo esc_url( $rl['url'] ); ?>" class="<?php echo $rl['current'] ? 'is-on' : ''; ?>"><?php echo esc_html( $rl['name'] ); ?></a>
+								<a href="<?php echo esc_url( $rl['url'] ); ?>" class="<?php echo $rl['current'] ? 'is-on' : ''; ?>">
+									<span class="rtb-lang-flag"><?php echo esc_html( $rl['flag'] ); ?></span>
+									<span><?php echo esc_html( $rl['name'] ); ?></span>
+								</a>
 							<?php endforeach; ?>
 						</div>
 					</div>
