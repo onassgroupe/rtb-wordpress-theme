@@ -108,10 +108,11 @@ h1, h2, h3, h4 { font-family: var(--font-head); margin: 0; }
 .rtb-lang-btn small { font-size: 9px; opacity: .7; }
 .rtb-lang-btn:hover { color: #fff; }
 .rtb-lang-menu { position: absolute; top: calc(100% + 10px); right: 0; z-index: 80; background: var(--surface); border: 1px solid var(--border); border-radius: 10px; box-shadow: 0 18px 40px rgba(12,10,8,.2); padding: 6px; min-width: 150px; }
-.rtb-lang-menu button, .rtb-lang-menu a { display: block; width: 100%; text-align: left; background: none; border: 0; font-family: inherit; font-size: 13.5px; font-weight: 600; color: var(--text); padding: 9px 12px; border-radius: 7px; cursor: pointer; }
+.rtb-lang-menu button, .rtb-lang-menu a { display: flex; align-items: center; gap: 9px; width: 100%; text-align: left; background: none; border: 0; font-family: inherit; font-size: 13.5px; font-weight: 600; color: var(--text); padding: 9px 12px; border-radius: 7px; cursor: pointer; }
 .rtb-lang-menu button:hover, .rtb-lang-menu a:hover { background: var(--bg); }
 .rtb-lang-menu .is-on { color: var(--rtb-red); }
-.rtb-lang-menu .is-on::after { content: " ✓"; color: var(--rtb-green); }
+.rtb-lang-menu .is-on::after { content: "✓"; color: var(--rtb-green); margin-left: auto; }
+.rtb-lang-flag { font-size: 15px; line-height: 1; }
 
 /* Bouton thème clair/sombre */
 .rtb-theme-btn { display: inline-flex; align-items: center; justify-content: center; width: 30px; height: 30px; border-radius: 50%; border: 1px solid rgba(255,255,255,.18); background: none; color: rgba(255,255,255,.85); cursor: pointer; transition: border-color .15s, color .15s, background .15s; }
