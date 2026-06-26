@@ -27,7 +27,8 @@ add_action( 'init', static function (): void {
 		'rtb-seo/rtb-seo.php',
 		'rtb-api/rtb-api.php',
 		'rtb-i18n/rtb-i18n.php',
-		'rtb-2fa/rtb-2fa.php',
+		// rtb-2fa : activation MANUELLE volontaire (plugin d'authentification sensible
+		// — la RTB l'active depuis Extensions une fois SMTP + SMS configurés).
 		'onass-live-edit/onass-live-edit.php',
 		// Polylang retiré : remplacé par le plugin maison rtb-i18n (préfixe d'URL).
 	];
