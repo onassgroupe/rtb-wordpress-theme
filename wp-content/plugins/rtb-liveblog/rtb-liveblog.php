@@ -12,7 +12,7 @@ defined( 'ABSPATH' ) || exit;
 define( 'RTB_LIVEBLOG_FILE', __FILE__ );
 define( 'RTB_LIVEBLOG_DIR', plugin_dir_path( __FILE__ ) );
 define( 'RTB_LIVEBLOG_URL', plugin_dir_url( __FILE__ ) );
-define( 'RTB_LIVEBLOG_VER', '1.0.3' );
+define( 'RTB_LIVEBLOG_VER', '1.0.5' );
 
 spl_autoload_register( static function ( string $class ): void {
 	$prefix = 'RTB\\LiveBlog\\';

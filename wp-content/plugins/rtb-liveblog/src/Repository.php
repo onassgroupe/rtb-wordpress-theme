@@ -27,6 +27,7 @@ final class Repository {
 		} else {
 			delete_post_meta( $post_id, self::STATUS );
 		}
+		delete_transient( 'rtb_live_index' ); // la liste des directs a changé
 	}
 
 	/** @return array<int,array<string,mixed>> entrées triées (plus récente d'abord) */
@@ -77,6 +78,7 @@ final class Repository {
 	private static function touch( int $post_id ): void {
 		update_post_meta( $post_id, self::UPDATED, time() );
 		delete_transient( 'rtb_live_feed_' . $post_id );
+		delete_transient( 'rtb_live_index' );
 	}
 
 	public static function labelText( string $label ): string {
