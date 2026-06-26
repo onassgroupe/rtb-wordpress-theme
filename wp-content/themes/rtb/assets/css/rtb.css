@@ -389,6 +389,9 @@ a.rtb-ticker-item:hover b { color: #fff; }
 .rtb-videocard .rtb-vc-thumb { position: relative; border-radius: 5px; overflow: hidden; aspect-ratio: 16/9; background: #0e1410 center/cover no-repeat; }
 .rtb-vc-cat { position: absolute; top: 12px; left: 12px; background: rgba(22,19,16,.86); color: #fff; font-family: var(--font-head); font-weight: 700; font-size: 10.5px; letter-spacing: .06em; padding: 5px 9px; border-radius: 4px; }
 .rtb-vc-dur { position: absolute; bottom: 12px; right: 12px; background: rgba(22,19,16,.78); color: #fff; font-size: 11.5px; font-weight: 600; padding: 4px 9px; border-radius: 4px; }
+.rtb-vc-live { position: absolute; top: 12px; right: 12px; display: inline-flex; align-items: center; gap: 6px; background: var(--rtb-red); color: #fff; font-family: var(--font-head); font-weight: 700; font-size: 10.5px; letter-spacing: .06em; padding: 5px 9px; border-radius: 4px; }
+.rtb-vc-live .rtb-live-dot { background: #fff; }
+.rtb-livearts .rtb-sec-sub { margin: 0; color: var(--rtb-gray); font-size: 14px; }
 .rtb-videocard h3 { font-size: 18px; font-weight: 700; line-height: 1.22; letter-spacing: -.01em; margin-top: 15px; color: var(--rtb-ink); text-wrap: pretty; }
 .rtb-vc-meta { display: flex; align-items: center; gap: 9px; margin-top: 9px; font-size: 13px; color: var(--rtb-gray-2); }
 .rtb-vc-meta b { font-weight: 600; color: var(--rtb-green); }
