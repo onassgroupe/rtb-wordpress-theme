@@ -1,0 +1,63 @@
+/* RTB Live Blog — fil de direct écrit. */
+.rtb-live-post{
+  --rl-red:#E70C2F;--rl-line:rgba(0,0,0,.10);--rl-ink:#161310;--rl-soft:#5E574C;--rl-bg:#fff;--rl-rail:#faf8f4;
+  margin:0 0 26px;border:1px solid var(--rl-line);border-radius:14px;overflow:hidden;background:var(--rl-bg);
+}
+/* Desktop : 2 colonnes (rail collant + fil). */
+@media(min-width:860px){
+  .rtb-live-post{display:grid;grid-template-columns:248px 1fr}
+  .rtb-live-post-rail{border-right:1px solid var(--rl-line);border-bottom:0}
+  .rtb-live-post-rail-inner,.rtb-live-post-rail{position:relative}
+  .rtb-live-post-rail{align-self:start;position:sticky;top:16px}
+}
+
+/* ---- Rail gauche ---- */
+.rtb-live-post-rail{background:var(--rl-rail);padding:16px;border-bottom:1px solid var(--rl-line)}
+.rtb-live-post-railhead{display:flex;align-items:center;flex-wrap:wrap;gap:10px}
+.rtb-live-post-badge{display:inline-flex;align-items:center;gap:7px;background:var(--rl-red);color:#fff;
+  font-weight:800;font-size:12px;letter-spacing:.06em;padding:5px 11px;border-radius:999px;text-transform:uppercase}
+.rtb-live-post-badge--ended{background:var(--rl-soft)}
+.rtb-live-post-dot{width:8px;height:8px;border-radius:50%;background:#fff;animation:rtb-live-post-pulse 1.4s ease-in-out infinite}
+@keyframes rtb-live-post-pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.3;transform:scale(.7)}}
+.rtb-live-post-updated{width:100%;font-size:12px;color:var(--rl-soft)}
+
+.rtb-live-post-key{margin-top:16px}
+.rtb-live-post-key[hidden]{display:none}
+.rtb-live-post-key h3{margin:0 0 8px;font-size:11px;font-weight:800;letter-spacing:.09em;text-transform:uppercase;color:var(--rl-soft)}
+.rtb-live-post-keys{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:8px}
+.rtb-live-post-keys li{position:relative;padding-left:14px;line-height:1.35}
+.rtb-live-post-keys li::before{content:"";position:absolute;left:0;top:7px;width:6px;height:6px;border-radius:50%;background:var(--rl-red)}
+.rtb-live-post-keys a{font-size:13px;color:var(--rl-ink);text-decoration:none;font-weight:600}
+.rtb-live-post-keys a:hover{color:var(--rl-red);text-decoration:underline}
+
+.rtb-live-post-share{margin-top:16px;width:100%;cursor:pointer;border:1px solid var(--rl-line);background:#fff;color:var(--rl-ink);
+  font-weight:700;font-size:13px;padding:9px 12px;border-radius:999px;transition:background .15s,color .15s}
+.rtb-live-post-share:hover{background:var(--rl-red);border-color:var(--rl-red);color:#fff}
+.rtb-live-post-share--ok{background:#0B7A3B;border-color:#0B7A3B;color:#fff}
+
+/* ---- Fil ---- */
+.rtb-live-post-main{min-width:0}
+.rtb-live-post-stream{padding:6px 16px 4px}
+.rtb-live-post-entry{position:relative;padding:14px 0 16px 22px;border-bottom:1px solid var(--rl-line);scroll-margin-top:80px}
+.rtb-live-post-entry:last-child{border-bottom:0}
+.rtb-live-post-entry::before{content:"";position:absolute;left:0;top:20px;width:9px;height:9px;border-radius:50%;
+  background:var(--rl-red);box-shadow:0 0 0 4px rgba(231,12,47,.12)}
+.rtb-live-post-entry::after{content:"";position:absolute;left:4px;top:30px;bottom:-1px;width:1px;background:var(--rl-line)}
+.rtb-live-post-entry:last-child::after{display:none}
+.rtb-live-post-entry--key::before{background:#C9A227;box-shadow:0 0 0 4px rgba(201,162,39,.16)}
+.rtb-live-post-meta{display:flex;align-items:center;gap:10px;margin-bottom:5px}
+.rtb-live-post-meta time{font-weight:800;font-size:13px;color:var(--rl-ink)}
+.rtb-live-post-tag{font-size:10.5px;font-weight:800;letter-spacing:.05em;padding:2px 8px;border-radius:5px;color:#fff;background:var(--rl-soft)}
+.rtb-live-post-tag--flash,.rtb-live-post-tag--urgent{background:var(--rl-red)}
+.rtb-live-post-tag--important{background:#C9A227}
+.rtb-live-post-figure{margin:0 0 10px;border-radius:10px;overflow:hidden}
+.rtb-live-post-figure img{display:block;width:100%;height:auto}
+.rtb-live-post-body{font-size:15.5px;line-height:1.65;color:var(--rl-ink)}
+.rtb-live-post-body p{margin:0 0 .6em}
+.rtb-live-post-body p:last-child{margin:0}
+.rtb-live-post-entry--new{animation:rtb-live-post-in .5s ease both}
+@keyframes rtb-live-post-in{from{opacity:0;transform:translateY(-8px)}to{opacity:1;transform:none}}
+
+/* ---- Sombre ---- */
+[data-theme="dark"] .rtb-live-post{--rl-bg:#15110c;--rl-rail:rgba(255,255,255,.03);--rl-line:rgba(255,255,255,.12);--rl-ink:#ececec;--rl-soft:#a89f92}
+[data-theme="dark"] .rtb-live-post-share{background:rgba(255,255,255,.04);color:var(--rl-ink)}
