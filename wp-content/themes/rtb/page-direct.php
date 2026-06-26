@@ -33,6 +33,18 @@ $payload = [
 	'cats'     => [],
 	'stations' => [],
 ];
+
+// Articles en direct (live blogs ouverts) — affichés seulement s'il y en a.
+$rtb_live_posts = get_posts( [
+	'post_type'      => 'post',
+	'post_status'    => 'publish',
+	'posts_per_page' => 8,
+	'meta_key'       => '_rtb_live_status',
+	'meta_value'     => 'open',
+	'no_found_rows'  => true,
+	'orderby'        => 'modified',
+	'order'          => 'DESC',
+] );
 ?>
 <div class="rtb-page-head">
 	<div class="rtb-container">
@@ -87,6 +99,37 @@ $payload = [
 		</aside>
 	</div>
 </section>
+
+<?php if ( ! empty( $rtb_live_posts ) ) : ?>
+<section class="rtb-container rtb-section rtb-livearts">
+	<div class="rtb-sec-head">
+		<div class="rtb-eyebrow rtb-eyebrow--red"><i></i><span><?php echo esc_html( rtb_t( 'ARTICLES EN DIRECT' ) ); ?></span></div>
+		<p class="rtb-sec-sub"><?php echo esc_html( rtb_t( 'Suivez nos directs écrits, mis à jour en temps réel.' ) ); ?></p>
+	</div>
+	<div class="rtb-archive-grid">
+		<?php foreach ( $rtb_live_posts as $rtb_lp ) :
+			$rtb_lp_id    = (int) $rtb_lp->ID;
+			$rtb_lp_thumb = get_the_post_thumbnail_url( $rtb_lp_id, 'rtb-card' )
+				?: ( rtb_cdnize( (string) get_post_meta( $rtb_lp_id, 'rtb_cover_url', true ) ) ?: rtb_img( 'aune-culture.png' ) );
+			$rtb_lp_cat   = get_the_category( $rtb_lp_id );
+			$rtb_lp_cname = $rtb_lp_cat ? $rtb_lp_cat[0]->name : rtb_t( 'Actualité' );
+			$rtb_lp_count = class_exists( '\RTB\LiveBlog\Repository' ) ? count( \RTB\LiveBlog\Repository::entries( $rtb_lp_id ) ) : 0;
+			?>
+			<a class="rtb-videocard" href="<?php echo esc_url( get_permalink( $rtb_lp_id ) ); ?>">
+				<span class="rtb-vc-thumb" style="background-image:url('<?php echo esc_url( $rtb_lp_thumb ); ?>')">
+					<span class="rtb-vc-cat"><?php echo esc_html( mb_strtoupper( (string) $rtb_lp_cname, 'UTF-8' ) ); ?></span>
+					<span class="rtb-vc-live"><span class="rtb-live-dot"></span><?php echo esc_html( rtb_t( 'EN DIRECT' ) ); ?></span>
+				</span>
+				<h3><?php echo esc_html( get_the_title( $rtb_lp_id ) ); ?></h3>
+				<span class="rtb-vc-meta">
+					<b><?php echo esc_html( rtb_t( 'Rédaction RTB' ) ); ?></b><span>·</span>
+					<span><?php echo (int) $rtb_lp_count . ' ' . esc_html( rtb_t( $rtb_lp_count > 1 ? 'mises à jour' : 'mise à jour' ) ); ?></span>
+				</span>
+			</a>
+		<?php endforeach; ?>
+	</div>
+</section>
+<?php endif; ?>
 
 <?php
 get_footer();
