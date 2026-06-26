@@ -34,6 +34,12 @@ final class Rest {
 	}
 
 	public function routes(): void {
+		// Liste des articles actuellement en direct (pour l'app mobile / le hub Direct).
+		register_rest_route( 'rtb/v1', '/live', [
+			'methods'             => 'GET',
+			'permission_callback' => [ $this, 'authorize' ],
+			'callback'            => [ $this, 'index' ],
+		] );
 		register_rest_route( 'rtb/v1', '/live/(?P<id>\d+)', [
 			'methods'             => 'GET',
 			'permission_callback' => [ $this, 'authorize' ],
@@ -43,6 +49,44 @@ final class Rest {
 			],
 			'callback'            => [ $this, 'feed' ],
 		] );
+	}
+
+	/** Liste des directs ouverts (cache 5 s). */
+	public function index( \WP_REST_Request $req ): \WP_REST_Response {
+		$items = get_transient( 'rtb_live_index' );
+		if ( false === $items ) {
+			$posts = get_posts( [
+				'post_type'      => 'post',
+				'post_status'    => 'publish',
+				'posts_per_page' => 20,
+				'meta_key'       => Repository::STATUS,
+				'meta_value'     => 'open',
+				'no_found_rows'  => true,
+				'orderby'        => 'modified',
+				'order'          => 'DESC',
+			] );
+			$items = array_map( static function ( $p ) {
+				$id    = (int) $p->ID;
+				$cover = get_the_post_thumbnail_url( $id, 'large' );
+				if ( ! $cover ) {
+					$cover = (string) get_post_meta( $id, 'rtb_cover_url', true );
+				}
+				$entries = Repository::entries( $id );
+				return [
+					'id'      => $id,
+					'title'   => get_the_title( $id ),
+					'cover'   => $cover ?: '',
+					'updated' => Repository::updated( $id ),
+					'count'   => count( $entries ),
+					'last'    => $entries ? (string) $entries[0]['text'] : '',
+					'url'     => get_permalink( $id ),
+				];
+			}, $posts );
+			set_transient( 'rtb_live_index', $items, 5 );
+		}
+		$resp = new \WP_REST_Response( [ 'items' => $items, 'now' => time() ], 200 );
+		$resp->header( 'Cache-Control', 'public, max-age=5' );
+		return $resp;
 	}
 
 	public function feed( \WP_REST_Request $req ): \WP_REST_Response {

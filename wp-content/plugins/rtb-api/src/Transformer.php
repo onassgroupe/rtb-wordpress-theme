@@ -21,6 +21,7 @@ final class Transformer {
 			'category'     => $cats ? [ 'id' => $cats[0]->term_id, 'name' => $cats[0]->name, 'slug' => $cats[0]->slug ] : null,
 			'cover'        => self::cover( $id ),
 			'has_document' => (bool) get_post_meta( $id, '_rtb_doc_url', true ),
+			'live'         => 'open' === get_post_meta( $id, '_rtb_live_status', true ),
 			'url'          => get_permalink( $id ),
 		];
 	}
