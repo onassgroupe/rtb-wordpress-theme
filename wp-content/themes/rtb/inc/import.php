@@ -12,7 +12,13 @@
 defined( 'ABSPATH' ) || exit;
 
 const RTB_SYNC_HOOK = 'rtb_sync_rtbbf';
-const RTB_SYNC_ENDPOINT = 'https://www.rtb.bf/wp-json/wp/v2/posts';
+/**
+ * URL de l'API REST source pour l'import (ex. https://exemple.bf/wp-json/wp/v2/posts).
+ * Configurée dans Outils → Sync RTB et stockée en base — JAMAIS versionnée dans le dépôt.
+ */
+function rtb_sync_endpoint(): string {
+	return trim( (string) get_option( 'rtb_sync_endpoint', '' ) );
+}
 
 /** Existe déjà ? (id source rtb.bf, sinon titre exact). */
 function rtb_sync_exists( int $src_id, string $title ): int {
@@ -210,14 +216,18 @@ function rtb_format_pdf_text( string $txt ): string {
  * 8 International, 22 Culture, 14 Santé, 16 Sports, 4 Communiqués, 150 Chroniques gouv., 25 Éducation, 28 Environnement.
  */
 function rtb_sync_sources( int $limit = 40 ): array {
+	$ep = rtb_sync_endpoint();
+	if ( '' === $ep ) {
+		return array(); // source non configurée → aucun import
+	}
 	$eds = '149,11,15,24,8,22,14,16,4,150,25,28';
 	return array(
-		array( 'Derniers contenus (JT, magazines…)', add_query_arg( array( 'per_page' => $limit, '_embed' => 1 ), RTB_SYNC_ENDPOINT ) ),
+		array( 'Derniers contenus (JT, magazines…)', add_query_arg( array( 'per_page' => $limit, '_embed' => 1 ), $ep ) ),
 		// Conseil des ministres (149) à part : sinon noyé par les catégories à fort débit.
-		array( 'Conseil des ministres · page 1', add_query_arg( array( 'per_page' => 100, '_embed' => 1, 'categories' => '149', 'page' => 1 ), RTB_SYNC_ENDPOINT ) ),
-		array( 'Conseil des ministres · page 2', add_query_arg( array( 'per_page' => 100, '_embed' => 1, 'categories' => '149', 'page' => 2 ), RTB_SYNC_ENDPOINT ) ),
-		array( 'Articles éditoriaux · page 1', add_query_arg( array( 'per_page' => 100, '_embed' => 1, 'categories' => $eds, 'page' => 1 ), RTB_SYNC_ENDPOINT ) ),
-		array( 'Articles éditoriaux · page 2', add_query_arg( array( 'per_page' => 100, '_embed' => 1, 'categories' => $eds, 'page' => 2 ), RTB_SYNC_ENDPOINT ) ),
+		array( 'Conseil des ministres · page 1', add_query_arg( array( 'per_page' => 100, '_embed' => 1, 'categories' => '149', 'page' => 1 ), $ep ) ),
+		array( 'Conseil des ministres · page 2', add_query_arg( array( 'per_page' => 100, '_embed' => 1, 'categories' => '149', 'page' => 2 ), $ep ) ),
+		array( 'Articles éditoriaux · page 1', add_query_arg( array( 'per_page' => 100, '_embed' => 1, 'categories' => $eds, 'page' => 1 ), $ep ) ),
+		array( 'Articles éditoriaux · page 2', add_query_arg( array( 'per_page' => 100, '_embed' => 1, 'categories' => $eds, 'page' => 2 ), $ep ) ),
 	);
 }
 
@@ -420,10 +430,38 @@ add_action( 'admin_menu', function () {
 	);
 } );
 
+/* Enregistre l'URL de la source d'import (option en base, hors dépôt). */
+add_action( 'admin_post_rtb_sync_save_url', function () {
+	if ( ! current_user_can( 'manage_options' ) || ! check_admin_referer( 'rtb_sync_url' ) ) {
+		wp_die( 'Action non autorisée.' );
+	}
+	update_option( 'rtb_sync_endpoint', esc_url_raw( wp_unslash( $_POST['rtb_sync_endpoint'] ?? '' ) ) );
+	wp_safe_redirect( add_query_arg( [ 'page' => 'rtb-sync', 'urlsaved' => 1 ], admin_url( 'tools.php' ) ) );
+	exit;
+} );
+
 function rtb_sync_admin_page() {
 	$last = get_option( 'rtb_last_sync' );
-	echo '<div class="wrap"><h1>Synchronisation du contenu rtb.bf</h1>';
-	echo '<p>Importe les derniers JT, émissions et articles depuis rtb.bf. Tout est rangé en base (dédoublonné) puis affiché automatiquement sur le site.</p>';
+	echo '<div class="wrap"><h1>Synchronisation du contenu</h1>';
+	echo '<p>Importe les derniers JT, émissions et articles depuis l\'API REST source. Tout est rangé en base (dédoublonné) puis affiché automatiquement sur le site.</p>';
+
+	// Source d'import (option en base, jamais versionnée dans le dépôt).
+	$ep   = rtb_sync_endpoint();
+	$psave = esc_url( admin_url( 'admin-post.php' ) );
+	$nf2  = wp_nonce_field( 'rtb_sync_url', '_wpnonce', true, false );
+	if ( isset( $_GET['urlsaved'] ) ) {
+		echo '<div class="notice notice-success is-dismissible"><p>Source d\'import enregistrée.</p></div>';
+	}
+	if ( '' === $ep ) {
+		echo '<div class="notice notice-warning"><p><strong>Source non configurée.</strong> Renseignez l\'URL de l\'API REST ci-dessous pour activer la synchronisation.</p></div>';
+	}
+	echo '<form method="post" action="' . $psave . '" style="margin:14px 0 22px;max-width:640px">'
+		. '<input type="hidden" name="action" value="rtb_sync_save_url">' . $nf2
+		. '<label for="rtb_sync_endpoint"><strong>URL de l\'API REST source</strong></label><br>'
+		. '<input type="url" id="rtb_sync_endpoint" name="rtb_sync_endpoint" class="regular-text" style="width:100%;max-width:560px" value="' . esc_attr( $ep ) . '" placeholder="https://exemple.bf/wp-json/wp/v2/posts">'
+		. '<p class="description">Endpoint WordPress « posts ». Stocké en base, non inclus dans le code source public.</p>'
+		. '<p><button type="submit" class="button">Enregistrer la source</button></p>'
+		. '</form>';
 	if ( is_array( $last ) && ! empty( $last['time'] ) ) {
 		$r = $last['result'] ?? [];
 		printf(
