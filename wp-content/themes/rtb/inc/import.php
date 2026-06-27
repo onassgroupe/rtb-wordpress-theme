@@ -231,17 +231,31 @@ function rtb_sync_sources( int $limit = 40 ): array {
 	);
 }
 
-/** Importe une seule source (URL). @return array compteurs */
+/** Importe une seule source (URL). @return array compteurs (+ 'msg' explicite si erreur) */
 function rtb_import_source( string $url ): array {
-	$out = array( 'articles' => 0, 'emissions' => 0, 'skipped' => 0, 'errors' => 0 );
+	$out = array( 'articles' => 0, 'emissions' => 0, 'skipped' => 0, 'errors' => 0, 'msg' => '' );
 	$resp = wp_remote_get( $url, array( 'timeout' => 60 ) );
-	if ( is_wp_error( $resp ) || 200 !== wp_remote_retrieve_response_code( $resp ) ) {
+	if ( is_wp_error( $resp ) ) {
 		$out['errors'] = 1;
+		$out['msg']    = 'Connexion impossible : ' . $resp->get_error_message();
 		return $out;
 	}
+	$code  = (int) wp_remote_retrieve_response_code( $resp );
 	$items = json_decode( wp_remote_retrieve_body( $resp ) );
+	// Pagination dépassée (catégorie avec moins de pages) → ce n'est pas une erreur, juste vide.
+	if ( 400 === $code && is_object( $items ) && isset( $items->code ) && 'rest_post_invalid_page_number' === $items->code ) {
+		return $out;
+	}
+	if ( 200 !== $code ) {
+		$out['errors'] = 1;
+		$rc            = ( is_object( $items ) && isset( $items->code ) ) ? ' (' . $items->code . ')' : '';
+		$out['msg']    = 'HTTP ' . $code . $rc
+			. ( 404 === $code ? " — API REST introuvable. Vérifiez l'URL de la source (essayez la forme ?rest_route=/wp/v2/posts)." : '' );
+		return $out;
+	}
 	if ( ! is_array( $items ) ) {
 		$out['errors'] = 1;
+		$out['msg']    = 'Réponse inattendue (le JSON renvoyé n\'est pas une liste d\'articles).';
 		return $out;
 	}
 
@@ -361,11 +375,14 @@ function rtb_import_source( string $url ): array {
 
 /** Import complet (toutes les sources). Idempotent. */
 function rtb_import_from_rtbbf( int $limit = 40 ): array {
-	$out = array( 'articles' => 0, 'emissions' => 0, 'skipped' => 0, 'errors' => 0 );
+	$out  = array( 'articles' => 0, 'emissions' => 0, 'skipped' => 0, 'errors' => 0 );
+	$msgs = array();
 	foreach ( rtb_sync_sources( $limit ) as $src ) {
 		$r = rtb_import_source( $src[1] );
-		foreach ( array_keys( $out ) as $k ) { $out[ $k ] += $r[ $k ]; }
+		foreach ( array( 'articles', 'emissions', 'skipped', 'errors' ) as $k ) { $out[ $k ] += (int) ( $r[ $k ] ?? 0 ); }
+		if ( ! empty( $r['msg'] ) ) { $msgs[] = $src[0] . ' : ' . $r['msg']; }
 	}
+	$out['messages'] = $msgs;
 	update_option( 'rtb_last_sync', array( 'time' => time(), 'result' => $out ) );
 	if ( function_exists( 'rtb_cache_clear' ) ) { rtb_cache_clear(); }
 	return $out;
@@ -470,6 +487,13 @@ function rtb_sync_admin_page() {
 			(int) ( $r['articles'] ?? 0 ), (int) ( $r['emissions'] ?? 0 ),
 			(int) ( $r['skipped'] ?? 0 ), (int) ( $r['errors'] ?? 0 )
 		);
+		if ( ! empty( $r['messages'] ) && is_array( $r['messages'] ) ) {
+			echo '<div class="notice notice-error inline" style="max-width:640px"><p><strong>Détail des erreurs :</strong></p><ul style="list-style:disc;margin-left:20px">';
+			foreach ( $r['messages'] as $m ) {
+				echo '<li>' . esc_html( (string) $m ) . '</li>';
+			}
+			echo '</ul></div>';
+		}
 	}
 	$ajax  = esc_url( admin_url( 'admin-ajax.php' ) );
 	$nonce = esc_js( wp_create_nonce( 'rtb_sync_ajax' ) );
@@ -504,6 +528,7 @@ function rtb_sync_admin_page() {
 					if(!j||!j.success){st.textContent='Erreur de synchronisation.';btn.disabled=false;return;}
 					var d=j.data,li=document.createElement('li');
 					li.textContent=d.label+' — +'+d.result.articles+' articles, +'+d.result.emissions+' émissions ('+d.result.skipped+' déjà là)';
+					if(d.result.msg){ li.style.color='#b32d2e'; li.textContent+=' ⚠ '+d.result.msg; }
 					log.appendChild(li);
 					bar.style.width=Math.round((d.step+1)/d.steps*100)+'%';
 					if(d.done){st.textContent='Terminé ✅ — '+d.total.articles+' articles, '+d.total.emissions+' émissions ('+d.total.skipped+' déjà présents).';btn.disabled=false;btn.innerHTML='&#x21BB; Re-synchroniser';}
